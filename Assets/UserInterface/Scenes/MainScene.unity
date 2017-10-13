@@ -108,40 +108,6 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &70724328
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 70724329}
-  m_Layer: 5
-  m_Name: Menu
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &70724329
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 70724328}
-  m_LocalRotation: {x: -0, y: -0, z: -0.0013810878, w: 0.99999905}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2097520806}
-  m_Father: {fileID: 1316310693}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.158}
-  m_AnchorMin: {x: 0, y: 0.07811686}
-  m_AnchorMax: {x: 1, y: 0.34500003}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0}
 --- !u!1 &77383720
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,10 +2874,9 @@ RectTransform:
   m_Children:
   - {fileID: 1908475341}
   - {fileID: 230056704}
-  - {fileID: 70724329}
+  - {fileID: 2024893566}
   - {fileID: 671346099}
   - {fileID: 960206453}
-  - {fileID: 2024893566}
   m_Father: {fileID: 949947620}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3948,7 +3913,7 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 1690120331}
   m_OnClick:
     m_PersistentCalls:
@@ -4825,7 +4790,7 @@ MonoBehaviour:
   panelFacebook: {fileID: 1956596357}
   animDialogFacebook: {fileID: 960206456}
   btnPlay: {fileID: 2097520807}
-  panelDialogMessage: {fileID: 1648544776094584, guid: 56c2a5e16f409244a9ce9f2306f7122a,
+  panelDialogMessage: {fileID: 1873179064494094, guid: 56c2a5e16f409244a9ce9f2306f7122a,
     type: 2}
   btnShareFacebook: {fileID: 318779768}
   btnInviteFacebook: {fileID: 1335038196}
@@ -4974,8 +4939,9 @@ RectTransform:
   m_Children:
   - {fileID: 1511837680}
   - {fileID: 1398050026}
+  - {fileID: 2097520806}
   m_Father: {fileID: 1316310693}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.07811686}
   m_AnchorMax: {x: 1, y: 0.34500003}
@@ -5150,17 +5116,17 @@ RectTransform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2097520805}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.0013810878, w: 0.99999905}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 414382384}
-  m_Father: {fileID: 70724329}
-  m_RootOrder: 0
+  m_Father: {fileID: 2024893566}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -2, y: -43.6}
+  m_AnchoredPosition: {x: -0.7032262, y: -43.596287}
   m_SizeDelta: {x: 609.5, y: 282.7}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &2097520807
