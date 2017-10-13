@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 8ebc267108a34974ca677515fdf1ada4
+timeCreated: 1502830460
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: CCWiccanSpecialInt
+  fontNames:
+  - CCWiccanSpecialInt
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: d91a95b8b53c44a8896329b30e942c6c, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
