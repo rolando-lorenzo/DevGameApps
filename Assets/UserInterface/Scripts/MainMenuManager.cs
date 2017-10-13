@@ -26,18 +26,17 @@ public class MainMenuManager : MonoBehaviour {
     //DilogBox
 	public GUIAnim dialogBoxSettingAnim;
     //Button Actions
-    public Button buttonPlay;
     public Button buttonSetting;
     public Button buttonCloseDialog;
 	public Button buttonStore;
 	public Button buttonFacebook;
 	public Button buttonListScore;
 
-	private GameObject panelSetting;
-	private GameObject panelConditions;
-	private GameObject buttonConditions;
-	private GameObject textConditions;
-	private GameObject btnCloseConditions;
+	public GameObject panelSetting;
+    public GameObject panelConditions;
+    public GameObject buttonConditions;
+    public GameObject textConditions;
+    public GameObject btnCloseConditions;
 
     #endregion
 
@@ -47,12 +46,6 @@ public class MainMenuManager : MonoBehaviour {
     #region MonoBehaviour overrides
     void Awake()
     {
-        panelSetting = GameObject.Find("PanelSetting");
-        panelConditions = GameObject.Find("PanelConditions");
-        buttonConditions = GameObject.Find("ButtonConditions");
-        textConditions = GameObject.Find("TextConditions");
-        btnCloseConditions = GameObject.Find("BtnCloseConditions");
-
         if (enabled)
         {
             // Set GUIAnimSystemFREE.Instance.m_AutoAnimation to false in Awake() will let you control all GUI Animator elements in the scene via scripts.
@@ -64,6 +57,7 @@ public class MainMenuManager : MonoBehaviour {
     {
         //conditions
         panelConditions.SetActive(false);
+        panelSetting.SetActive(false);
 
         Button btnconditions = buttonConditions.GetComponent<Button>();
         btnconditions.onClick.AddListener(ViewConditions);
@@ -73,9 +67,6 @@ public class MainMenuManager : MonoBehaviour {
 
         textConditions.GetComponent<Text>().text = conditionstext;
         //end conditions
-
-        Button btnplay = buttonPlay.GetComponent<Button>();
-        btnplay.onClick.AddListener(GoWorldScene);
 
         Button btnsetting = buttonSetting.GetComponent<Button>();
         btnsetting.onClick.AddListener(OpenDialogBoxSetting);
@@ -125,19 +116,14 @@ public class MainMenuManager : MonoBehaviour {
 
     }
 
-
-    void GoWorldScene()
-    {
-        SceneManager.LoadScene("WorldScene");
-    }
-
 	void GoStoreScene(){
 		SceneManager.LoadScene("StoreScene");
 	}
 
-    void OpenDialogBoxSetting()
+    public void OpenDialogBoxSetting()
     {
         Debug.Log("Modal Box Setting Open!");
+        panelSetting.SetActive(true);
         dialogBoxSettingAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
     }
 
@@ -145,6 +131,8 @@ public class MainMenuManager : MonoBehaviour {
     {
         Debug.Log("Modal Box Setting Close!");
         dialogBoxSettingAnim.MoveOut(GUIAnimSystem.eGUIMove.SelfAndChildren);
+        panelSetting.SetActive(false);
+        panelConditions.SetActive(false);
     }
 
     private void ViewConditions()

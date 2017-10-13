@@ -7,12 +7,23 @@ using UnityEngine.Purchasing;
 public class IAPManager : MonoBehaviour, IStoreListener {
 
 	private static IAPManager _instance;
-	private Rect windowRect = new Rect ((Screen.width - 300)/2, (Screen.height - 200)/2, 300, 200);
-	private bool dialogShow = false;
-	private string dialogMensage;
-	private bool dialogBtnOk = false;
 
-	public static IAPManager Instance
+    public delegate void EventIAPMessageProgress(string messageResult, bool typeResult);
+    public event EventIAPMessageProgress OnIAPMessageProgress;
+
+    public delegate void EventIAPInitialized(bool stateIAP);
+    public event EventIAPInitialized OnIAPInitialized;
+
+    private ProductItem productItemBuy { get; set; }
+
+    private static IStoreController storeController;
+    private static IExtensionProvider storeExtensionProvider;
+
+    public static string kProductIDConsumable = "consumable";
+    public static string kProductIDNonConsumable = "nonconsumable";
+    public static string kProductIDSubscription = "subscription";
+
+    public static IAPManager Instance
 	{
 		get {
 			if (_instance == null) {
@@ -23,17 +34,6 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			return _instance;
 		}
 	}
-
-	private static IStoreController m_StoreController;         
-	private static IExtensionProvider m_StoreExtensionProvider; 
-
-	public static string PRODUCT_HUELLAS200 = "huellas200";
-	public static string PRODUCT_HUELLAS500 = "huellas500";
-	public static string PRODUCT_HUELLAS1000 = "huellas1000";
-
-	public static string kProductIDConsumable =    "consumable";   
-	public static string kProductIDNonConsumable = "nonconsumable";
-	public static string kProductIDSubscription =  "subscription"; 
 
 	// Apple App Store-specific product identifier for the subscription product.
 	private static string kProductNameAppleSubscription =  "com.unity3d.subscription.new";
@@ -50,30 +50,34 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 	/*void Start()
 	{
 		
-		if (m_StoreController == null)
+		if (storeController == null)
 		{
 			// Begin to configure our connection to Purchasing
 			InitializePurchasing();
 		}
 	}*/
 
-	public void InitializePurchasing() 
+	public void InitializePurchasing( Dictionary<string, ProductItem> listItemProducts) 
 	{
 		Debug.Log( "[IAPManager] Initing Unity IAP" );
 		// If we have already connected to Purchasing ...
 		if (IsInitialized())
 		{
-			// ... we are done here.
+            // ... we are done here.
+            if (OnIAPInitialized != null)
+                OnIAPInitialized(true);
 			return;
 		}
 		Debug.Log( "[IAPManager] Inicializando IAP..." );
 		// Create a builder, first passing in a suite of Unity provided stores.
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-
-		builder.AddProduct(PRODUCT_HUELLAS200, ProductType.Consumable);
-		builder.AddProduct(PRODUCT_HUELLAS500, ProductType.Consumable);
-		builder.AddProduct(PRODUCT_HUELLAS1000, ProductType.Consumable);
+        foreach(var item in listItemProducts)
+        {
+            ProductItem aux = item.Value;
+            builder.AddProduct(aux.idProductItem, ProductType.Consumable);
+        }
+		
 		// Continue adding the non-consumable product.
 		builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
 		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -94,33 +98,23 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
 	private bool IsInitialized()
 	{
-		return m_StoreController != null && m_StoreExtensionProvider != null;
+		return storeController != null && storeExtensionProvider != null;
 	}
 
-	public void Comprar_200Huellas()
-	{
-		BuyProductID(PRODUCT_HUELLAS200);		
-	}
+    public void BuyObject (ProductItem ProductItemObject)
+    {
+        productItemBuy = ProductItemObject;
+        BuyProductID(ProductItemObject);
+    }
 
-	public void Comprar_500Huellas()
-	{
-		BuyProductID(PRODUCT_HUELLAS500);		
-	}
-
-
-	public void Comprar_1000Huellas()
-	{
-		BuyProductID(PRODUCT_HUELLAS1000);		
-	}
-
-	private void BuyProductID(string productId)
+	private void BuyProductID(ProductItem productItem)
 	{
 		// If Purchasing has been initialized ...
 		if (IsInitialized())
 		{
 			// ... look up the Product reference with the general product identifier and the Purchasing 
 			// system's products collection.
-			Product product = m_StoreController.products.WithID(productId);
+			Product product = storeController.products.WithID(id: productItem.idProductItem);
 
 			// If the look up found a product for this device's store and that product is ready to be sold ... 
 			if (product != null && product.availableToPurchase)
@@ -128,24 +122,24 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 				Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
 				// ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
 				// asynchronously.
-				m_StoreController.InitiatePurchase(product);
+				storeController.InitiatePurchase(product);
 			}
 			// Otherwise ...
 			else
 			{
-				// ... report the product look-up failure situation  
-				Debug.Log("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase");
-				this.MostrarDialogo("BuyProductID: FAIL. Not purchasing product, either is not found or is not available for purchase",true);
+                // ... report the product look-up failure situation  
+                if (OnIAPMessageProgress != null)
+                    OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", false);
 			}
 		}
 		// Otherwise ...
 		else
 		{
-			// ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
-			// retrying initiailization.
-			Debug.Log("BuyProductID FAIL. Not initialized.");
-			this.MostrarDialogo("BuyProductID FAIL. Not initialized.",true);
-		}
+            // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
+            // retrying initiailization.
+            if (OnIAPMessageProgress != null)
+                OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", false);
+        }
 	}
 
 
@@ -156,10 +150,10 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		// If Purchasing has not yet been set up ...
 		if (!IsInitialized())
 		{
-			// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
-			Debug.Log("RestorePurchases FAIL. Not initialized.");
-			this.MostrarDialogo("RestorePurchases FAIL. Not initialized.",true);
-			return;
+            // ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
+            if (OnIAPInitialized != null)
+                OnIAPInitialized(true);
+            return;
 		}
 
 		// If we are running on an Apple device ... 
@@ -170,14 +164,14 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			Debug.Log("RestorePurchases started ...");
 
 			// Fetch the Apple store-specific subsystem.
-			var apple = m_StoreExtensionProvider.GetExtension<IAppleExtensions>();
+			var apple = storeExtensionProvider.GetExtension<IAppleExtensions>();
 			// Begin the asynchronous process of restoring purchases. Expect a confirmation response in 
 			// the Action<bool> below, and ProcessPurchase if there are previously purchased products to restore.
 			apple.RestoreTransactions((result) => {
 				// The first phase of restoration. If no more responses are received on ProcessPurchase then 
 				// no purchases are available to be restored.
 				Debug.Log("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore.");
-				this.MostrarDialogo("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore." + Application.platform,true);
+				//this.MostrarDialogo("RestorePurchases continuing: " + result + ". If no further messages, no purchases available to restore." + Application.platform,true);
 			});
 		}
 		// Otherwise ...
@@ -185,7 +179,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		{
 			// We are not running on an Apple device. No work is necessary to restore purchases.
 			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
-			this.MostrarDialogo("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform,true);
+			//this.MostrarDialogo("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform,true);
 		}
 	}
 
@@ -200,48 +194,41 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		Debug.Log("OnInitialized: PASS");
 
 		// Overall Purchasing system, configured with products for this application.
-		m_StoreController = controller;
+		storeController = controller;
 		// Store specific subsystem, for accessing device-specific store features.
-		m_StoreExtensionProvider = extensions;
-	}
+		storeExtensionProvider = extensions;
+
+        if (OnIAPInitialized != null)
+            OnIAPInitialized(true);
+    }
 
 
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
-		this.MostrarDialogo("OnInitializeFailed InitializationFailureReason:" + error,true);
-	}
+        if (OnIAPInitialized != null)
+            OnIAPInitialized(true);
+    }
 
 
-	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs args) 
+	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs result) 
 	{
-		if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_HUELLAS200, StringComparison.Ordinal))
+		if (String.Equals(result.purchasedProduct.definition.id, productItemBuy.idProductItem, StringComparison.Ordinal))
 		{
-			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			//Se incremnmetan las huellas +200 en el juego
-			this.MostrarDialogo("Has comprado 200 huellas, Felicidades !!",true);
-			Debug.Log ("Pago exitoso!");
-		}
-		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_HUELLAS500, StringComparison.Ordinal))
-		{
-			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			//Se incremnmetan las huellas +500 en el juego
-			this.MostrarDialogo("Has comprado 500 huellas, Felicidades !!",true);
-			Debug.Log ("Pago exitoso!");
-		}
-		else if (String.Equals(args.purchasedProduct.definition.id, PRODUCT_HUELLAS1000, StringComparison.Ordinal))
-		{
-			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", args.purchasedProduct.definition.id));
-			//Se incremnmetan las huellas +500 en el juego
-			this.MostrarDialogo("Has comprado 1000 huellas, Felicidades !!",true);
-			Debug.Log ("Pago exitoso!");
-		}
+			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", result.purchasedProduct.definition.id));
+            //Se incremnmetan las huellas +200 en el juego
+
+            string msj = "Has comprado "+productItemBuy.nameProduct+" ,Felicidades";
+            if (OnIAPMessageProgress != null)
+                OnIAPMessageProgress(msj, true);
+        }
 		else 
 		{
-			Debug.Log(string.Format("ProcessPurchase: FAIL. Producto no reconocido: '{0}'", args.purchasedProduct.definition.id));
-			this.MostrarDialogo(string.Format("ProcessPurchase: FAIL. Producto no reconocido: '{0}'", args.purchasedProduct.definition.id),true);
-		}
+            string msj = "No se logró final la compra de "+productItemBuy.nameProduct+" en la tienda";
+            if (OnIAPMessageProgress != null)
+                OnIAPMessageProgress(msj, true);
+        }
 
 		// Return a flag indicating whether this product has completely been received, or if the application needs 
 		// to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
@@ -252,32 +239,12 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
-		// this reason with the user to guide their troubleshooting actions.
-		Debug.Log(string.Format("OnPurchaseFailed: FALLO. Producto: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason));
-		this.MostrarDialogo(string.Format("OnPurchaseFailed: FALLO. Producto: '{0}', PurchaseFailureReason: {1}", product.definition.storeSpecificId, failureReason),true);
-	}
-
-	void OnGUI () 
-	{
-		if(dialogShow)
-			windowRect = GUI.Window (0, windowRect, DialogWindow, dialogMensage);
-	}
-
-	void DialogWindow (int windowID)
-	{
-		if(GUI.Button(new Rect(5,100, windowRect.width - 10, 20), "Aceptar"))
-		{
-			dialogShow = false;
-		}
-	}
-
-	public void MostrarDialogo(string mensaje, bool btnOk)
-	{
-		dialogMensage = mensaje;
-		dialogBtnOk = btnOk;
-		dialogShow = true;
-	}
+        // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
+        // this reason with the user to guide their troubleshooting actions.
+        string msj = "No se logró final la compra de " + productItemBuy.nameProduct + " en la tienda";
+        if (OnIAPMessageProgress != null)
+            OnIAPMessageProgress(msj, true);
+    }
 
 
 }
