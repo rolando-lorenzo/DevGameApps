@@ -39,13 +39,21 @@ public class LevelsManager : MonoBehaviour {
 
 	#region Class accesors
 	public string currentWorld { set; get; }
+
 	#endregion
 
 	#region MonoBehaviour overrides
 	void Awake () {
-		currentWorld = PlayerPrefs.GetString ("nameWorld", "Circus");
+        PlayConstant constant = new PlayConstant();
+		currentWorld = PlayerPrefs.GetString (constant.worldName, "Circus");
 
-		switch (currentWorld) {
+        char[] split = { '/', '-' };
+        string progrs = PlayerPrefs.GetString("progressLevels");
+        Debug.Log(progrs);
+        string[] progresslevels = PlayerPrefs.GetString("progressLevels").Split(split);
+
+
+        switch (currentWorld) {
 			case "Circus":
 				currentPanel = panelWorldUSA;
 				break;
@@ -59,7 +67,6 @@ public class LevelsManager : MonoBehaviour {
 				currentPanel = panelWorldChina;
 				break;
 		}
-		Debug.Log ("currentWorld: " + currentWorld);
 
 		currentPanel.SetActive (true);
 		btnsLevels = currentPanel.GetComponentsInChildren<LevelItem> ();
@@ -96,12 +103,15 @@ public class LevelsManager : MonoBehaviour {
 		foreach (LevelItem level in btnsLevels) {
 			foreach (World world in worlds) {
 				if (string.Equals (world.nameWorld, currentWorld)) {
-					foreach (Level lb in world.levels) {
-						if (lb.idLevel == level.id) {
+                   // Debug.Log(world.nameWorld);
+                    foreach (Level lb in world.levels) {
+                        if (lb.idLevel == level.id) {
+                            //Debug.Log("idLevel: "+lb.idLevel);
 							level.btnGoLevel.image.overrideSprite = lb.imgLevel;
 							level.imgLockLevel.sprite = lb.imgLockLevel;
 							level.nameLevel.text = lb.nameLevel;
 							level.nameScene = lb.nameScene;
+                            
 						}
 					}
 				}

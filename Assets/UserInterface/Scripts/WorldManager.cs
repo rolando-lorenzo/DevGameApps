@@ -7,33 +7,34 @@ using System;
 
 public class WorldManager : MonoBehaviour {
 
-	#region Class members
-	public GUIAnim imgWorld;
-	public GUIAnim btnBulletCircus;
-	public GUIAnim btnBulletTrain;
-	public GUIAnim btnBulletZoo;
-	public GUIAnim btnBulletMansion;
+    #region Class members
+    public GUIAnim imgWorld;
+    public GUIAnim btnBulletCircus;
+    public GUIAnim btnBulletTrain;
+    public GUIAnim btnBulletZoo;
+    public GUIAnim btnBulletMansion;
 
-	//Buttons of conform Scene
-	public GUIAnim btnBack;
-	public GUIAnim btnGoIn;
-	public GUIAnim btnNameWorld;
+    //Buttons of conform Scene
+    public GUIAnim btnBack;
+    public GUIAnim btnGoIn;
+    public GUIAnim btnNameWorld;
     public GUIAnim nameSingGUIAnim;
 
 
-	//Button Actions
-	public Button buttonBack;
-	public GameObject buttonGoIn;
+    //Button Actions
+    public Button buttonBack;
+    public GameObject buttonGoIn;
 
-	public GameObject buttonGoLevelCircus;
+    public GameObject buttonGoLevelCircus;
     public GameObject buttonGoLevelTrain;
     public GameObject buttonGoLevelZoo;
     public GameObject buttonGoLevelMansion;
 
-	public GameObject nameWorld;
+    public GameObject nameWorld;
 
-	//variables
-	private string nameworldtext { get; set; }
+    //variables
+    private string nameworldtext { get; set; }
+    private string progressLevels { get; set; }
 	#endregion
 
 	#region Class accesors
@@ -45,6 +46,8 @@ public class WorldManager : MonoBehaviour {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
         nameworldtext = "Circus";
+        PlayConstant constant = new PlayConstant();
+        progressLevels = PlayerPrefs.GetString(constant.gameProgressLevel, "Circus-1/Train-1/Zoo-1/Mansion-1");
     }
 
 	void Start () {
@@ -132,6 +135,7 @@ public class WorldManager : MonoBehaviour {
             PlayConstant constant = new PlayConstant();
             string nameWorld = constant.worldName;
 			PlayerPrefs.SetString (nameWorld, nameworldtext);
+            PlayerPrefs.SetString(constant.gameProgressLevel, progressLevels);
 			//string namescene = "LevelScene" + this.nameworld;
 			string namescene = "LevelScene";
             PlayerPrefs.Save();
