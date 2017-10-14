@@ -5,5 +5,6 @@ using UnityEngine;
 public class PlayConstant{
 
     public string gameMusic = "GameMusic";
+    public string worldName = "NameWorld";
 
 }

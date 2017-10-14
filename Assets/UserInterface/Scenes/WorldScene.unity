@@ -522,6 +522,7 @@ GameObject:
   - component: {fileID: 505627042}
   - component: {fileID: 505627044}
   - component: {fileID: 505627043}
+  - component: {fileID: 505627045}
   m_Layer: 5
   m_Name: SelectWorldImage
   m_TagString: Untagged
@@ -581,6 +582,195 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 505627041}
+--- !u!114 &505627045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 505627041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229ea52475db9014eb6ac6c457dffd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraBottomEdge: 0
+  m_CameraLeftEdge: 0
+  m_CameraRightEdge: 0
+  m_CameraTopEdge: 0
+  m_CanvasWorldBottomCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldBottomLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldBottomRight: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleRight: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopRight: {x: 0, y: 0, z: 0}
+  m_FadeIn:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    Fade: 0
+    FadeChildren: 0
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_FadeLoop:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    FadeChildren: 0
+    IsOverriding: 0
+    IsOverridingDelayTimeCount: 0
+    m_FadeLast: 0
+    Max: 1
+    Min: 0
+    Sound:
+      m_AudioClip: {fileID: 0}
+      m_AudioSource: {fileID: 0}
+      m_Loop: 0
+    Time: 1
+  m_FadeOriginal: 0
+  m_FadeOriginalTextOutline: 0
+  m_FadeOriginalTextShadow: 0
+  m_FadeOut:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    Fade: 0
+    FadeChildren: 0
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_FadeVariable: 0
+  m_MoveIn:
+    Animating: 0
+    Began: 0
+    BeginPos: {x: 0, y: 0, z: 0}
+    Delay: 1
+    Done: 0
+    EaseType: 10
+    Enable: 1
+    EndPos: {x: 0, y: 0, z: 0}
+    MoveFrom: 7
+    Position: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1.5
+  m_MoveOriginal: {x: 0, y: 0, z: 0}
+  m_MoveOut:
+    Animating: 0
+    Began: 0
+    BeginPos: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    EndPos: {x: 0, y: 0, z: 0}
+    MoveTo: 2
+    Position: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_MoveVariable: 0
+  m_RotationIn:
+    Animating: 0
+    Began: 0
+    BeginRotation: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 27
+    Enable: 0
+    EndRotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_RotationOriginal: {x: 0, y: 0, z: 0, w: 0}
+  m_RotationOut:
+    Animating: 0
+    Began: 0
+    BeginRotation: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    EndRotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_RotationVariable: 0
+  m_ScaleIn:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 27
+    Enable: 0
+    ScaleBegin: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_ScaleLoop:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    IsOverriding: 0
+    IsOverridingDelayTimeCount: 0
+    m_ScaleLast: {x: 0, y: 0, z: 0}
+    Max: {x: 1.05, y: 1.05, z: 1.05}
+    Min: {x: 1, y: 1, z: 1}
+    Sound:
+      m_AudioClip: {fileID: 0}
+      m_AudioSource: {fileID: 0}
+      m_Loop: 0
+    Time: 1
+  m_ScaleOriginal: {x: 0, y: 0, z: 0}
+  m_ScaleOut:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    ScaleBegin: {x: 1, y: 1, z: 1}
+    ScaleEnd: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_ScaleVariable: 0
+  m_TotalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1 &543380228
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,10 +1037,10 @@ MonoBehaviour:
     Animating: 0
     Began: 0
     BeginPos: {x: 0, y: 0, z: 0}
-    Delay: 0
+    Delay: 1.5
     Done: 0
     EaseType: 27
-    Enable: 0
+    Enable: 1
     EndPos: {x: 0, y: 0, z: 0}
     MoveFrom: 2
     Position: {x: 0, y: 0, z: 0}
@@ -1279,7 +1469,7 @@ MonoBehaviour:
   m_FadeIn:
     Animating: 0
     Began: 0
-    Delay: 3.6
+    Delay: 3.4
     Done: 0
     EaseType: 16
     Enable: 1
@@ -1330,7 +1520,7 @@ MonoBehaviour:
     Animating: 0
     Began: 0
     BeginPos: {x: 0, y: 0, z: 0}
-    Delay: 3.6
+    Delay: 3.4
     Done: 0
     EaseType: 27
     Enable: 1
@@ -2192,6 +2382,7 @@ GameObject:
   - component: {fileID: 1498562400}
   - component: {fileID: 1498562402}
   - component: {fileID: 1498562401}
+  - component: {fileID: 1498562403}
   m_Layer: 5
   m_Name: ImageTextWorld
   m_TagString: Untagged
@@ -2251,6 +2442,195 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1498562399}
+--- !u!114 &1498562403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1498562399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229ea52475db9014eb6ac6c457dffd2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CameraBottomEdge: 0
+  m_CameraLeftEdge: 0
+  m_CameraRightEdge: 0
+  m_CameraTopEdge: 0
+  m_CanvasWorldBottomCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldBottomLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldBottomRight: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldMiddleRight: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopCenter: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopLeft: {x: 0, y: 0, z: 0}
+  m_CanvasWorldTopRight: {x: 0, y: 0, z: 0}
+  m_FadeIn:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    Fade: 0
+    FadeChildren: 0
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_FadeLoop:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    FadeChildren: 0
+    IsOverriding: 0
+    IsOverridingDelayTimeCount: 0
+    m_FadeLast: 0
+    Max: 1
+    Min: 0
+    Sound:
+      m_AudioClip: {fileID: 0}
+      m_AudioSource: {fileID: 0}
+      m_Loop: 0
+    Time: 1
+  m_FadeOriginal: 0
+  m_FadeOriginalTextOutline: 0
+  m_FadeOriginalTextShadow: 0
+  m_FadeOut:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    Fade: 0
+    FadeChildren: 0
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_FadeVariable: 0
+  m_MoveIn:
+    Animating: 0
+    Began: 0
+    BeginPos: {x: 0, y: 0, z: 0}
+    Delay: 1
+    Done: 0
+    EaseType: 13
+    Enable: 1
+    EndPos: {x: 0, y: 0, z: 0}
+    MoveFrom: 12
+    Position: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1.5
+  m_MoveOriginal: {x: 0, y: 0, z: 0}
+  m_MoveOut:
+    Animating: 0
+    Began: 0
+    BeginPos: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    EndPos: {x: 0, y: 0, z: 0}
+    MoveTo: 2
+    Position: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_MoveVariable: 0
+  m_RotationIn:
+    Animating: 0
+    Began: 0
+    BeginRotation: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 27
+    Enable: 0
+    EndRotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_RotationOriginal: {x: 0, y: 0, z: 0, w: 0}
+  m_RotationOut:
+    Animating: 0
+    Began: 0
+    BeginRotation: {x: 0, y: 0, z: 0}
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    EndRotation: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_RotationVariable: 0
+  m_ScaleIn:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 27
+    Enable: 0
+    ScaleBegin: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_ScaleLoop:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 21
+    Enable: 0
+    IsOverriding: 0
+    IsOverridingDelayTimeCount: 0
+    m_ScaleLast: {x: 0, y: 0, z: 0}
+    Max: {x: 1.05, y: 1.05, z: 1.05}
+    Min: {x: 1, y: 1, z: 1}
+    Sound:
+      m_AudioClip: {fileID: 0}
+      m_AudioSource: {fileID: 0}
+      m_Loop: 0
+    Time: 1
+  m_ScaleOriginal: {x: 0, y: 0, z: 0}
+  m_ScaleOut:
+    Animating: 0
+    Began: 0
+    Delay: 0
+    Done: 0
+    EaseType: 26
+    Enable: 0
+    ScaleBegin: {x: 1, y: 1, z: 1}
+    ScaleEnd: {x: 0, y: 0, z: 0}
+    Sounds:
+      m_AfterDelay: {fileID: 0}
+      m_Begin: {fileID: 0}
+      m_End: {fileID: 0}
+    Time: 1
+  m_ScaleVariable: 0
+  m_TotalBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!1 &1698260257
 GameObject:
   m_ObjectHideFlags: 0
@@ -2298,8 +2678,15 @@ MonoBehaviour:
   btnBulletMansion: {fileID: 1793830618}
   btnBack: {fileID: 1368656457}
   btnGoIn: {fileID: 780672804}
-  btnNameWorld: {fileID: 0}
+  btnNameWorld: {fileID: 505627045}
+  nameSingGUIAnim: {fileID: 1498562403}
   buttonBack: {fileID: 1368656454}
+  buttonGoIn: {fileID: 780672799}
+  buttonGoLevelCircus: {fileID: 1792585571}
+  buttonGoLevelTrain: {fileID: 1146820563}
+  buttonGoLevelZoo: {fileID: 1892317023}
+  buttonGoLevelMansion: {fileID: 1793830613}
+  nameWorld: {fileID: 359750024}
 --- !u!1 &1702328972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2500,7 +2887,7 @@ MonoBehaviour:
   m_FadeIn:
     Animating: 0
     Began: 0
-    Delay: 3.3
+    Delay: 2.8
     Done: 0
     EaseType: 16
     Enable: 1
@@ -2551,7 +2938,7 @@ MonoBehaviour:
     Animating: 0
     Began: 0
     BeginPos: {x: 0, y: 0, z: 0}
-    Delay: 3.3
+    Delay: 2.8
     Done: 0
     EaseType: 27
     Enable: 1
@@ -2800,7 +3187,7 @@ MonoBehaviour:
   m_FadeIn:
     Animating: 0
     Began: 0
-    Delay: 3
+    Delay: 2
     Done: 0
     EaseType: 16
     Enable: 1
@@ -2851,7 +3238,7 @@ MonoBehaviour:
     Animating: 0
     Began: 0
     BeginPos: {x: 0, y: 0, z: 0}
-    Delay: 3
+    Delay: 2
     Done: 0
     EaseType: 27
     Enable: 1
@@ -3174,7 +3561,7 @@ MonoBehaviour:
   m_FadeIn:
     Animating: 0
     Began: 0
-    Delay: 3.9
+    Delay: 3.1
     Done: 0
     EaseType: 16
     Enable: 1
@@ -3225,7 +3612,7 @@ MonoBehaviour:
     Animating: 0
     Began: 0
     BeginPos: {x: 0, y: 0, z: 0}
-    Delay: 3.9
+    Delay: 3.1
     Done: 0
     EaseType: 27
     Enable: 1

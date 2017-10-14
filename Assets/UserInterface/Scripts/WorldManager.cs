@@ -18,18 +18,19 @@ public class WorldManager : MonoBehaviour {
 	public GUIAnim btnBack;
 	public GUIAnim btnGoIn;
 	public GUIAnim btnNameWorld;
+    public GUIAnim nameSingGUIAnim;
 
 
 	//Button Actions
 	public Button buttonBack;
-	private GameObject buttonGoIn;
+	public GameObject buttonGoIn;
 
-	private GameObject buttonGoLevelCircus;
-	private GameObject buttonGoLevelTrain;
-	private GameObject buttonGoLevelZoo;
-	private GameObject buttonGoLevelMansion;
+	public GameObject buttonGoLevelCircus;
+    public GameObject buttonGoLevelTrain;
+    public GameObject buttonGoLevelZoo;
+    public GameObject buttonGoLevelMansion;
 
-	private GameObject nameWorld;
+	public GameObject nameWorld;
 
 	//variables
 	private string nameworldtext { get; set; }
@@ -43,15 +44,8 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
-
-		//find button by name of the button
-		buttonGoLevelCircus = GameObject.Find ("ButtonBulletCircus");
-		buttonGoLevelTrain = GameObject.Find ("ButtonBulletTrain");
-		buttonGoLevelZoo = GameObject.Find ("ButtonBulletZoo");
-		buttonGoLevelMansion = GameObject.Find ("ButtonBulletMansion");
-		buttonGoIn = GameObject.Find ("ButtonGoIn");
-		nameWorld = GameObject.Find ("TextWorld");
-	}
+        nameworldtext = "Circus";
+    }
 
 	void Start () {
 		//Button of Back
@@ -79,7 +73,8 @@ public class WorldManager : MonoBehaviour {
 		imgWorld.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
 		btnBack.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
 		btnGoIn.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
-		//btnNameWorld.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+		btnNameWorld.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+        nameSingGUIAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
 		StartCoroutine (MoveInBulletsWorld ());
 	}
 
@@ -117,27 +112,29 @@ public class WorldManager : MonoBehaviour {
 		switch (world) {
 			case 1:
 				//name the world in Xml
-				this.nameworldtext = "Circus";
+				nameworldtext = "Circus";
 				break;
 			case 2:
-				this.nameworldtext = "Train";
+				nameworldtext = "Train";
 				break;
 			case 3:
-				this.nameworldtext = "Zoo";
+				nameworldtext = "Zoo";
 				break;
 			case 4:
-				this.nameworldtext = "Mansion";
+				nameworldtext = "Mansion";
 				break;
 		}
-		nameworld.text = this.nameworldtext;
+		nameworld.text = nameworldtext;
 	}
 
 	void GoLevelScene () {
-		if (!String.IsNullOrEmpty (this.nameworldtext)) {
-			Debug.Log ("Go Level Scene!");
-			PlayerPrefs.SetString ("nameWorld", this.nameworldtext);
+		if (!String.IsNullOrEmpty (nameworldtext)) {
+            PlayConstant constant = new PlayConstant();
+            string nameWorld = constant.worldName;
+			PlayerPrefs.SetString (nameWorld, nameworldtext);
 			//string namescene = "LevelScene" + this.nameworld;
 			string namescene = "LevelScene";
+            PlayerPrefs.Save();
 			SceneManager.LoadScene (sceneName: namescene);
 		}
 		Debug.Log ("Dont select Level!");
