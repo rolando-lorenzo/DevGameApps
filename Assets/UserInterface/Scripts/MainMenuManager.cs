@@ -38,12 +38,23 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject textConditions;
     public GameObject btnCloseConditions;
 
+    public ToggleController toggleMusic;
+    public ToggleController toggleFx;
+    public GameObject musicSoundManager;
+    private bool stateMusic { get; set; }
+
     #endregion
 
     #region Class accesors
     #endregion
 
     #region MonoBehaviour overrides
+    private void OnEnable()
+    {
+        toggleMusic.OnToggleState += handlerToggleStateMusic;
+        toggleFx.OnToggleState += handlerToggleStateFx;
+    }
+
     void Awake()
     {
         if (enabled)
@@ -79,11 +90,21 @@ public class MainMenuManager : MonoBehaviour {
 
 		logoGameAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         StartCoroutine(MoveInButtonsMenu());
+
+        PlayConstant constant = new PlayConstant();
+        int auxStateMusic = PlayerPrefs.GetInt(key: constant.gameMusic, defaultValue: 1);
+        GenerateStateSoundManger(auxStateMusic);
     }
 
     void Update()
     {
+        
+    }
 
+    private void OnDisable()
+    {
+        toggleMusic.OnToggleState -= handlerToggleStateMusic;
+        toggleFx.OnToggleState -= handlerToggleStateFx;
     }
     #endregion
 
@@ -146,6 +167,54 @@ public class MainMenuManager : MonoBehaviour {
         panelSetting.SetActive(true);
         panelConditions.SetActive(false);
         
+    }
+
+    private void GenerateStateSoundManger(int state)
+    {
+        if(state == 1)
+        {
+            stateMusic = true;
+        }
+        else
+        {
+            stateMusic = false;
+        }
+        AudioSource music = musicSoundManager.GetComponent<AudioSource>();
+        music.mute = !stateMusic;
+        toggleMusic.startToggleState(stateMusic);
+    }
+
+    private void handlerToggleStateMusic(bool stateMsc)
+    {
+        Debug.Log("Music: " + stateMusic);
+        stateMusic = stateMsc;
+        PlayConstant constant = new PlayConstant();
+        SavePlayerPrefs(constant.gameMusic, stateMsc);
+
+        AudioSource music = musicSoundManager.GetComponent<AudioSource>();
+        music.mute = !stateMusic;
+    }
+
+    private void SavePlayerPrefs(string constant, bool stateValue)
+    {
+        int auxStateValue = 0;
+        if (stateValue)
+        {
+            auxStateValue = 1;
+        }
+        else
+        {
+            auxStateValue = 0;
+        }
+
+
+        PlayerPrefs.SetInt(constant, auxStateValue);
+        PlayerPrefs.Save();
+    }
+
+    private void handlerToggleStateFx(bool stateFx)
+    {
+        Debug.Log("FX: " + stateFx);
     }
     #endregion
 
