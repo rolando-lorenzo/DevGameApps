@@ -21,12 +21,12 @@ public class FacebookDelegate : MonoBehaviour {
     public delegate void EventMessageFacebookProcess(string message, bool status);
     public event EventMessageFacebookProcess OnMessageFacebookProgress;
 
-    public delegate void EventInviteFacebook(string message, int paws);
-    public event EventInviteFacebook OnInviteFacebook;
+    public delegate void EventPawsFacebookReward(int paws);
+    public event EventPawsFacebookReward OnPawsFacebookReward;
 
     private string urlPictureProfile { get; set; }
     private string appLinkURL { get; set; }
-    private int numberInvite { get; set; }
+    private bool loginFacebook { get; set; }
     #endregion
 
     #region Class accesors
@@ -51,6 +51,20 @@ public class FacebookDelegate : MonoBehaviour {
     {
         DontDestroyOnLoad(this.gameObject);
         _instance = this;
+    }
+
+    private void Start()
+    {
+        PlayConstant constant = new PlayConstant();
+        int loginAux = PlayerPrefs.GetInt(constant.facebookLogin, 0);
+        if (loginAux == 1)
+        {
+            loginFacebook = true;
+        }
+        else
+        {
+            loginFacebook = false;
+        }
     }
     #endregion
 
@@ -126,8 +140,18 @@ public class FacebookDelegate : MonoBehaviour {
             {
                 if (OnLoginFacebookStatus != null)
                     OnLoginFacebookStatus(FB.IsLoggedIn);
-                
+
+                if (loginFacebook == false)
+                {
+                    if (OnPawsFacebookReward != null) { 
+                        OnPawsFacebookReward(50);
+                    }
+                    PlayConstant constant = new PlayConstant();
+                    PlayerPrefs.SetInt(constant.facebookLogin, 1);
+                }
+
                 GetProfileFacebook();
+
             }
             else
             {
@@ -234,6 +258,8 @@ public class FacebookDelegate : MonoBehaviour {
         {
             if (OnMessageFacebookProgress != null)
                 OnMessageFacebookProgress("Se compartió exitosamente en Facebook.", true);
+            if (OnPawsFacebookReward != null)
+                OnPawsFacebookReward(50);
         }
     }
 
@@ -263,19 +289,17 @@ public class FacebookDelegate : MonoBehaviour {
         if (result.Cancelled)
         {
             Debug.Log("Invite cancel");
-            numberInvite = 0;
         }
         else if (!string.IsNullOrEmpty(result.Error))
         {
-            numberInvite = 0;
-            if (OnInviteFacebook != null)
-                OnInviteFacebook("Se genero un error al invitar a tus amigos en Facebook", numberInvite);
+            if (OnMessageFacebookProgress != null)
+                OnMessageFacebookProgress("Se genero un error al invitar a tus amigos en Facebook", false);
         }
         else
         {
             //Debug.Log(result.RawResult);
             var responseObject = Facebook.MiniJSON.Json.Deserialize(result.RawResult) as Dictionary<string, object>;
-            if (responseObject.ContainsKey("request"))
+            /*if (responseObject.ContainsKey("request"))
             {
                 string request = responseObject["request"].ToString();
                 PlayerPrefs.SetString("invitekey", request);
@@ -284,16 +308,28 @@ public class FacebookDelegate : MonoBehaviour {
             else
             {
                 numberInvite = 0;
-            }
+            }*/
 
             if (responseObject.ContainsKey("to"))
             {
                 string[] tokens = responseObject["to"].ToString().Split(',');
-                numberInvite = tokens.Length;
+                if (tokens.Length >= 5)
+                {
+                    if (OnMessageFacebookProgress != null)
+                        OnMessageFacebookProgress("Acaba de invitar a más de 5 personas, es acreedor a una recompensa.", true);
+                    if (OnPawsFacebookReward != null)
+                        OnPawsFacebookReward(100);
+                }
+                else
+                {
+                    if (OnMessageFacebookProgress != null)
+                        OnMessageFacebookProgress("Es necesario invitar a 5 personas para recibir una recompensa.", false);
+                }
             }
             else
             {
-                numberInvite = 0;
+                if (OnMessageFacebookProgress != null)
+                    OnMessageFacebookProgress("Se genero un error al invitar a tus amigos en Facebook", false);
             }
 
 

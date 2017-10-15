@@ -362,7 +362,12 @@ Prefab:
         type: 3}
     - target: {fileID: 1865800848620406, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114511138464399130, guid: 3c0305752220b4e939a6e842ec9aeb65,
+        type: 2}
+      propertyPath: m_MoveIn.Enable
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
@@ -1540,11 +1545,11 @@ Prefab:
     - target: {fileID: 114459710462352046, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1865800848620406, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114034507482613860, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
@@ -4027,11 +4032,11 @@ Prefab:
     - target: {fileID: 114459710462352046, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1865800848620406, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114034507482613860, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
@@ -7772,7 +7777,7 @@ MonoBehaviour:
     - idLevel: 5
       imgLevel: {fileID: 21300000, guid: 478f59244e8d4874da1f947d234d38c1, type: 3}
       nameLevel: Animales
-      imgLockLevel: {fileID: 21300000, guid: 7c7342198911041109785795a3eee959, type: 3}
+      imgLockLevel: {fileID: 21300000, guid: ee6cc178c723e134fb7eebdf86a877a4, type: 3}
       nameScene: Level5-W1
       isLocked: 0
   - id: 3
@@ -8455,12 +8460,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1865800848620406, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114459710462352046, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114459710462352046, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
@@ -9841,7 +9846,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1865800848620406, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3c0305752220b4e939a6e842ec9aeb65, type: 2}

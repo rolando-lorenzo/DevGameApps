@@ -39,6 +39,7 @@ public class ManagerFacebook : MonoBehaviour {
         FacebookDelegate.Instance.OnMessageFacebookProgress += HandleMessegeFacebookProgress;
         FacebookDelegate.Instance.OnProfileUsernameFacebook += HandleProfileUsernameFacebook;
         FacebookDelegate.Instance.OnProfilePictureFacebook += HandleProfilePictureFacebook;
+        FacebookDelegate.Instance.OnPawsFacebookReward += HandheldPawsFacebookReward;
     }
 
     private void Awake()
@@ -114,6 +115,12 @@ public class ManagerFacebook : MonoBehaviour {
         dialogaux.transform.SetParent(mainCointener, false);
         dialog.OpenDialogmessage();
         Debug.Log(message  + "-"+ status);
+    }
+
+    private void HandheldPawsFacebookReward(int paws)
+    {
+        //get rewards in number of paws
+        Debug.Log("Num paws:" + paws);
     }
 
     private void closeFadePanelFacebook()

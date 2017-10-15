@@ -6,6 +6,7 @@ public class PlayConstant{
 
     public string gameMusic = "GameMusic";
     public string worldName = "NameWorld";
-    public string gameProgressLevel = "GameProgressLevels";
+    public string gameProgressLevel = "ProgressLevels";
+    public string facebookLogin = "FacebookLogin";
 
 }

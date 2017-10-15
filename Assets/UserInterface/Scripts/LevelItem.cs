@@ -11,7 +11,7 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	public int id;
 	public Button btnGoLevel;
 	public Text nameLevel;
-	public Image imgLockLevel;
+	public GameObject imgLockLevel;
 	public string nameScene;
 	private RectTransform rectTranform;
 	#endregion
@@ -39,7 +39,8 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	#region Interface implementation
 	public void GoToLevel(string level){
 		Debug.Log ("Cargando escena..."+level);
-		SceneManager.LoadScene (level);
+        //SceneManager.LoadScene (level);
+        SceneManager.LoadScene("GameSceneTest");
 	}
 
 

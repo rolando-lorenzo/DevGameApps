@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 [System.Serializable]
 public class Level {
@@ -38,20 +39,27 @@ public class LevelsManager : MonoBehaviour {
 
 
 	#region Class accesors
-	public string currentWorld { set; get; }
+	private string currentWorld { set; get; }
+    private int maxLevels { set; get; }
 
-	#endregion
+    #endregion
 
-	#region MonoBehaviour overrides
-	void Awake () {
+    #region MonoBehaviour overrides
+    void Awake () {
         PlayConstant constant = new PlayConstant();
 		currentWorld = PlayerPrefs.GetString (constant.worldName, "Circus");
 
         char[] split = { '/', '-' };
-        string progrs = PlayerPrefs.GetString("progressLevels");
-        Debug.Log(progrs);
-        string[] progresslevels = PlayerPrefs.GetString("progressLevels").Split(split);
+        string progrs = PlayerPrefs.GetString(constant.gameProgressLevel);
+        string[] progresslevels = PlayerPrefs.GetString(constant.gameProgressLevel).Split(split);
 
+        for (int i = 0; i < progresslevels.Length; i++)
+        {
+            if (progresslevels[i] == currentWorld)
+            {
+                maxLevels = Int32.Parse(progresslevels[i + 1]);
+            }
+        }
 
         switch (currentWorld) {
 			case "Circus":
@@ -108,10 +116,18 @@ public class LevelsManager : MonoBehaviour {
                         if (lb.idLevel == level.id) {
                             //Debug.Log("idLevel: "+lb.idLevel);
 							level.btnGoLevel.image.overrideSprite = lb.imgLevel;
-							level.imgLockLevel.sprite = lb.imgLockLevel;
+							level.imgLockLevel.GetComponent<Image>().sprite = lb.imgLockLevel;
 							level.nameLevel.text = lb.nameLevel;
 							level.nameScene = lb.nameScene;
-                            
+                            if (maxLevels >= level.id)
+                            {
+                                level.imgLockLevel.SetActive(false);
+                                level.btnGoLevel.interactable = true;
+                            }
+                            else
+                            {
+                                level.btnGoLevel.interactable = false;
+                            }
 						}
 					}
 				}
