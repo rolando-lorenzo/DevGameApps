@@ -8,6 +8,21 @@ public class AdsManagement : MonoBehaviour {
     private string gameIdApple = "1564713";
     //elif UNITY_ANDROID
     private string gameIdAndroid = "1564712";
+
+    private string gameIdGlobal { get; set; }
+
+    public delegate void EventInitializeAds(bool stateAds);
+    public event EventInitializeAds OnInitializeAds;
+
+    public delegate void EventCoinLive(int lives);
+    public event EventCoinLive OnCoinLive;
+
+    public delegate void EventMessageAds(string messageAds, bool typeAds);
+    public event EventMessageAds OnMessageAds;
+
+    public delegate void EventNewLevelUnlocked(int newLevel);
+    public event EventNewLevelUnlocked OnNewLevelUnlocked;
+
     public bool InitializeAds { get; set; }
     public string CoinLive { get; set; }
 
@@ -26,6 +41,14 @@ public class AdsManagement : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        if (Application.platform == RuntimePlatform.Android)
+            gameIdGlobal = gameIdAndroid;
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+            gameIdGlobal = gameIdApple;
+    }
+
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -37,38 +60,40 @@ public class AdsManagement : MonoBehaviour {
         if (Advertisement.isSupported)
         {
             Advertisement.Initialize(gameIdAndroid, true);
+            if (OnInitializeAds != null)
+                OnInitializeAds(true);
+
             InitializeAds = true;
         }
         else
         {
+            if (OnInitializeAds != null)
+                OnInitializeAds(false);
             InitializeAds = false;
         }
-
-        if (Advertisement.isSupported)
-        {
-            Advertisement.Initialize(gameIdApple, true);
-            InitializeAds = true;
-        }
-        else
-        {
-            InitializeAds = false;
-        }
-
-        Debug.Log(InitializeAds);
     } 
 
     public void ShowVideo()
     {
-        if (Advertisement.IsReady("rewardedVideo"))
+        if (InitializeAds == true)
         {
-            ShowOptions options = new ShowOptions();
-            options.resultCallback = HandleShowResult;
-            Advertisement.Show("rewardedVideo", options);
+            if (Advertisement.IsReady("rewardedVideo"))
+            {
+                ShowOptions options = new ShowOptions();
+                options.resultCallback = HandleShowResult;
+                Advertisement.Show("rewardedVideo", options);
+            }
+            else
+            {
+                if (OnMessageAds != null)
+                    OnMessageAds("No se pudi cargar el video", false);
+            }
         }
         else
         {
-            Debug.Log("Dont load Video");
-        }    
+            if (OnInitializeAds != null)
+                OnInitializeAds(false);
+        }
     }
 
     private void HandleShowResult(ShowResult result)
@@ -78,16 +103,68 @@ public class AdsManagement : MonoBehaviour {
         {
             case ShowResult.Finished:
                 Debug.Log("Video completed - Offer a reward to the player");
-                CoinLive = "1";
+                if (OnCoinLive != null)
+                    OnCoinLive(1);
                 break;
             case ShowResult.Skipped:
                 Debug.LogWarning("Video was skipped - Do NOT reward the player");
-                CoinLive = "0";
+                if (OnCoinLive != null)
+                    OnCoinLive(0);
                 break;
             case ShowResult.Failed:
-                Debug.LogError("Video failed to show");
-                CoinLive = "0";
+                if (OnCoinLive != null)
+                    OnCoinLive(0);
                 break;
         }
+    }
+
+    public void CompleteLevel(string nameWorld, int nameLevel)
+    {
+        char[] split = { '/', '-' };
+        PlayConstant constant = new PlayConstant();
+        string[] progresslevels = PlayerPrefs.GetString(constant.gameProgressLevel).Split(split);
+
+        for (int i = 0; i < progresslevels.Length; i++)
+        {
+
+            //Debug.Log(levelname);
+            if (progresslevels[i] == nameWorld)
+            {
+                if (nameLevel + 1 <= 5)
+                {
+                    int newlevel = nameLevel + 1;
+                    progresslevels[i + 1] = "" + newlevel;
+                }
+                else
+                {
+                    progresslevels[i + 1] = "5";
+                }
+
+            }
+            //Debug.Log(progresslevels[i]);
+        }
+
+        int levelunlock = nameLevel + 1;
+        if (OnNewLevelUnlocked != null)
+            OnNewLevelUnlocked(levelunlock);
+
+        CreateAndSaveLevel(progresslevels);
+    }
+
+    private void CreateAndSaveLevel(string[] progresslevels)
+    {
+        string cadena = "";
+        for (int i = 0; i < progresslevels.Length; i += 2)
+        {
+            if ((i + 1) < progresslevels.Length)
+            {
+                cadena += progresslevels[i] + "-" + progresslevels[i + 1] + "/";
+            }
+
+        }
+        Debug.Log(cadena);
+        PlayConstant constant = new PlayConstant();
+        PlayerPrefs.SetString(constant.gameProgressLevel, cadena);
+        PlayerPrefs.Save();
     }
 }

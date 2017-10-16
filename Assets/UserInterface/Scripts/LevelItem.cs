@@ -24,7 +24,7 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	void Awake () {
 		rectTranform = GetComponent<RectTransform> ();
 		btnGoLevel = GetComponent<Button> ();
-		btnGoLevel.onClick.AddListener (() => GoToLevel(nameScene));
+		btnGoLevel.onClick.AddListener (() => GoToLevel(nameScene, id));
 	}
 	#endregion
 
@@ -37,9 +37,12 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 
 
 	#region Interface implementation
-	public void GoToLevel(string level){
+	public void GoToLevel(string level, int id){
 		Debug.Log ("Cargando escena..."+level);
         //SceneManager.LoadScene (level);
+        PlayConstant constant = new PlayConstant();
+        PlayerPrefs.SetInt(constant.levelWorld, id);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("GameSceneTest");
 	}
 
