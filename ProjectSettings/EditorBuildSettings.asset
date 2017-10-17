@@ -8,26 +8,26 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UserInterface/Scenes/MainScene.unity
     guid: b89f868f0c411bd48a8be74e2f6eec5e
-  - enabled: 1
-    path: Assets/Scenes/World 1/Level1-W1.unity
+  - enabled: 0
+    path: 
     guid: b3656d8b9b23e27458b3838fad5dda96
-  - enabled: 1
-    path: Assets/Scenes/World 1/Level2-W1.unity
+  - enabled: 0
+    path: 
     guid: 57554c324382e4992a6dc792bfa83d59
-  - enabled: 1
-    path: Assets/Scenes/World 1/Level3-W1.unity
+  - enabled: 0
+    path: 
     guid: 7950ffa1bcdb8406d813ff7e747f453c
-  - enabled: 1
-    path: Assets/Scenes/World 2/Level1-W2.unity
+  - enabled: 0
+    path: 
     guid: ef2df336398f747268e64acdd758e724
-  - enabled: 1
-    path: Assets/Scenes/World 2/Level2-W2.unity
+  - enabled: 0
+    path: 
     guid: d98241af1704349179e340b6618d2338
-  - enabled: 1
-    path: Assets/Scenes/World 2/Level3-W2.unity
+  - enabled: 0
+    path: 
     guid: 126cbb9a5dcf543dabfbfbcc58797dae
-  - enabled: 1
-    path: Assets/Scenes/World 2/Level4-W2.unity
+  - enabled: 0
+    path: 
     guid: bd0d76bdaf7f142f3b9531a018443fc6
   - enabled: 1
     path: Assets/UserInterface/Scenes/WorldScene.unity
@@ -38,3 +38,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/UserInterface/Scenes/LevelScene.unity
     guid: 4792a9f2669e8f541a3936fa3b0ddf9a
+  - enabled: 1
+    path: Assets/UserInterface/Scenes/GameSceneTest.unity
+    guid: 26963167647dde34987b2b771895bcd4
