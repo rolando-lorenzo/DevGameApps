@@ -99,8 +99,8 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se genero un error interno al tratar de inicializar Facebook.", false);
+            if (OnMessageFacebookProgress != null)//Se genero un error interno al tratar de inicializar Facebook.
+                OnMessageFacebookProgress("An internal error is generated when trying to initialize Facebook.", false);
         }
     }
 
@@ -130,8 +130,8 @@ public class FacebookDelegate : MonoBehaviour {
     {
         if (result.Error != null)
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Surgió un error al tratar de iniciar sesión en Facebook.", false);
+            if (OnMessageFacebookProgress != null)//Surgió un error al tratar de iniciar sesión en Facebook.
+                OnMessageFacebookProgress("There was an error trying to log in to Facebook.", false);
         }
         else
         {
@@ -155,8 +155,8 @@ public class FacebookDelegate : MonoBehaviour {
             }
             else
             {
-                if (OnMessageFacebookProgress != null)
-                    OnMessageFacebookProgress("Surgió un error al tratar de iniciar sesión en Facebook.", false);
+                if (OnMessageFacebookProgress != null)//Surgió un error al tratar de iniciar sesión en Facebook.
+                    OnMessageFacebookProgress("There was an error trying to log in to Facebook.", false);
             }
 
         }
@@ -178,8 +178,8 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("No se pudo obtener el nombre del usuario.", false);
+            if (OnMessageFacebookProgress != null)//No se pudo obtener el nombre del usuario de su cuenta de Facebook.
+                OnMessageFacebookProgress("The user name of your Facebook account could not be obtained.", false);
         }
     }
 
@@ -237,8 +237,8 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se requiere que se inicie sesión en Facebook.", false);
+            if (OnMessageFacebookProgress != null)//Se requiere que se inicie sesión en Facebook.
+                OnMessageFacebookProgress("You are required to log in to Facebook.", false);
         }
        
     }
@@ -251,13 +251,13 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else if (!string.IsNullOrEmpty(result.Error))
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se produjo un error al tartar de compartir en Facebook.", false);
+            if (OnMessageFacebookProgress != null)//Se produjo un error al tartar de compartir en Facebook.
+                OnMessageFacebookProgress("There was an error while trying to share on Facebook.", false);
         }
         else if (!string.IsNullOrEmpty(result.RawResult))
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se compartió exitosamente en Facebook.", true);
+            if (OnMessageFacebookProgress != null)//Se compartió exitosamente en Facebook.
+                OnMessageFacebookProgress("It was successfully shared on Facebook.", true);
             if (OnPawsFacebookReward != null)
                 OnPawsFacebookReward(50);
         }
@@ -278,8 +278,8 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se requiere que se inicie sesión en Facebook.", false);
+            if (OnMessageFacebookProgress != null)//Se requiere que se inicie sesión en Facebook.
+                OnMessageFacebookProgress("You are required to log in to Facebook.", false);
         }
         
     }
@@ -292,8 +292,8 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else if (!string.IsNullOrEmpty(result.Error))
         {
-            if (OnMessageFacebookProgress != null)
-                OnMessageFacebookProgress("Se genero un error al invitar a tus amigos en Facebook", false);
+            if (OnMessageFacebookProgress != null)//Se genero un error al invitar a tus amigos en Facebook
+                OnMessageFacebookProgress("An error occurred while inviting your friends on Facebook.", false);
         }
         else
         {
@@ -315,21 +315,21 @@ public class FacebookDelegate : MonoBehaviour {
                 string[] tokens = responseObject["to"].ToString().Split(',');
                 if (tokens.Length >= 5)
                 {
-                    if (OnMessageFacebookProgress != null)
-                        OnMessageFacebookProgress("Acaba de invitar a más de 5 personas, es acreedor a una recompensa.", true);
+                    if (OnMessageFacebookProgress != null)//Acaba de invitar a más de 5 personas, es acreedor a una recompensa.
+                        OnMessageFacebookProgress("Just invited more than 5 people, is entitled to a reward.", true);
                     if (OnPawsFacebookReward != null)
                         OnPawsFacebookReward(100);
                 }
                 else
                 {
-                    if (OnMessageFacebookProgress != null)
-                        OnMessageFacebookProgress("Es necesario invitar a 5 personas para recibir una recompensa.", false);
+                    if (OnMessageFacebookProgress != null)//Es necesario invitar a 5 personas para recibir una recompensa.
+                        OnMessageFacebookProgress("It is necessary to invite 5 people to receive a reward.", false);
                 }
             }
             else
             {
-                if (OnMessageFacebookProgress != null)
-                    OnMessageFacebookProgress("Se genero un error al invitar a tus amigos en Facebook", false);
+                if (OnMessageFacebookProgress != null)//Se generó un error al invitar a tus amigos en Facebook
+                    OnMessageFacebookProgress("An error occurred while inviting your friends on Facebook", false);
             }
 
 

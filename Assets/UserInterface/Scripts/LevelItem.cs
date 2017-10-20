@@ -42,7 +42,6 @@ public class LevelItem : MonoBehaviour, ILevelButton {
         //SceneManager.LoadScene (level);
         PlayConstant constant = new PlayConstant();
         PlayerPrefs.SetInt(constant.levelWorld, id);
-        PlayerPrefs.Save();
         SceneManager.LoadScene("GameSceneTest");
 	}
 

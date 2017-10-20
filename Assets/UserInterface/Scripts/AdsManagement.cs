@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Advertisements;
 
 public class AdsManagement : MonoBehaviour {
@@ -51,7 +52,7 @@ public class AdsManagement : MonoBehaviour {
 
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
         _instance = this;
     }
 
@@ -85,8 +86,8 @@ public class AdsManagement : MonoBehaviour {
             }
             else
             {
-                if (OnMessageAds != null)
-                    OnMessageAds("No se pudi cargar el video", false);
+                if (OnMessageAds != null)//No se puede cargar el vídeo.
+                    OnMessageAds("Unable to load video", false);
             }
         }
         else
@@ -124,16 +125,22 @@ public class AdsManagement : MonoBehaviour {
         PlayConstant constant = new PlayConstant();
         string[] progresslevels = PlayerPrefs.GetString(constant.gameProgressLevel).Split(split);
 
+        int maxlevel = 0;
+
         for (int i = 0; i < progresslevels.Length; i++)
         {
 
             //Debug.Log(levelname);
             if (progresslevels[i] == nameWorld)
             {
+                maxlevel = Int32.Parse(progresslevels[i + 1]);
                 if (nameLevel + 1 <= 5)
                 {
                     int newlevel = nameLevel + 1;
-                    progresslevels[i + 1] = "" + newlevel;
+                    if (newlevel >= maxlevel)
+                    {
+                        progresslevels[i + 1] = "" + newlevel;
+                    }                   
                 }
                 else
                 {
@@ -165,6 +172,5 @@ public class AdsManagement : MonoBehaviour {
         Debug.Log(cadena);
         PlayConstant constant = new PlayConstant();
         PlayerPrefs.SetString(constant.gameProgressLevel, cadena);
-        PlayerPrefs.Save();
     }
 }

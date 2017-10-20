@@ -507,7 +507,7 @@ MonoBehaviour:
   buttonCompleteLevel: {fileID: 1448768730}
   buttonBack: {fileID: 1368656454}
   nameWorldLevel: {fileID: 1885493664}
-  textNewLevel: {fileID: 0}
+  textNewLevel: {fileID: 475290000}
 --- !u!4 &730820908
 Transform:
   m_ObjectHideFlags: 0
