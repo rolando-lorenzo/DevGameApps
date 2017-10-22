@@ -26,6 +26,7 @@ public class MainMenuManager : MonoBehaviour {
     //DilogBox
 	public GUIAnim dialogBoxSettingAnim;
     //Button Actions
+	public Button buttonPlay;
     public Button buttonSetting;
     public Button buttonCloseDialog;
 	public Button buttonStore;
@@ -87,6 +88,9 @@ public class MainMenuManager : MonoBehaviour {
 
         Button btnclosedialog = buttonCloseDialog.GetComponent<Button>();
         btnclosedialog.onClick.AddListener(CloseDialogBoxSetting);
+
+		Button btnplay = buttonPlay.GetComponent<Button>();
+		btnplay.onClick.AddListener(GoWorldScene);
 
 		logoGameAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         StartCoroutine(MoveInButtonsMenu());
@@ -216,6 +220,12 @@ public class MainMenuManager : MonoBehaviour {
     {
         Debug.Log("FX: " + stateFx);
     }
+
+	void GoWorldScene()
+	{
+		SceneManager.LoadScene("WorldScene");
+	}
+
     #endregion
 
     #region Interface implementation

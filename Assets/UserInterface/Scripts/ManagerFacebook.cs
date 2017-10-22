@@ -17,8 +17,6 @@ public class ManagerFacebook : MonoBehaviour {
     public GameObject panelFacebook;
     public GUIAnim animDialogFacebook;
 
-    public Button btnPlay;
-    private bool flagFacebook = false;
     public GameObject panelDialogMessage;
 
     public Button btnShareFacebook;
@@ -60,7 +58,6 @@ public class ManagerFacebook : MonoBehaviour {
         btnShareScoreScreenFacebook.onClick.AddListener(ShareScoreScreenFacebook);
         btnInviteFacebook.onClick.AddListener(InviteFacebook);
 
-        btnPlay.onClick.AddListener(GoWorldScene);
         panelFacebook.SetActive(false);
     }
 
@@ -73,14 +70,11 @@ public class ManagerFacebook : MonoBehaviour {
     }
     #endregion
 
-    #region Super class overrides
-
-    #endregion
+    
 
     #region Class implementation
     private void StarLoginFacebook()
     {
-        flagFacebook = true;
         FacebookDelegate.Instance.LoginUserFacebook();
     }
 
@@ -89,7 +83,6 @@ public class ManagerFacebook : MonoBehaviour {
         Debug.Log("start Here Facebook");
         if (statusLogin)
         {
-            flagFacebook = true;
             panelFacebook.SetActive(true);
             animDialogFacebook.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         }
@@ -126,17 +119,9 @@ public class ManagerFacebook : MonoBehaviour {
     private void closeFadePanelFacebook()
     {
         panelFacebook.SetActive(false);
-        flagFacebook = false;
     }
 
-    private void GoWorldScene()
-    {
-        if (flagFacebook == false)
-        {
-            SceneManager.LoadScene("WorldScene");
-        }
-
-    }
+ 
 
     private void InviteFacebook()
     {
