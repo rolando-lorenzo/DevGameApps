@@ -26,7 +26,7 @@ public class FacebookDelegate : MonoBehaviour {
 
     private string urlPictureProfile { get; set; }
     private string appLinkURL { get; set; }
-    private bool loginFacebook { get; set; }
+    public bool loginFacebook { get; set; }
     #endregion
 
     #region Class accesors
@@ -119,11 +119,21 @@ public class FacebookDelegate : MonoBehaviour {
 
     public void LoginUserFacebook()
     {
-        List<string> permissions = new List<string>();
-        permissions.Add("public_profile");
-        permissions.Add("user_friends");
-        permissions.Add("email");
-        FB.LogInWithReadPermissions(permissions, CallBackLoginFacebook);
+        if (FB.IsLoggedIn) {
+
+            if (OnLoginFacebookStatus != null)
+                OnLoginFacebookStatus(FB.IsLoggedIn);
+            GetProfileFacebook();
+        }
+        else
+        {
+            List<string> permissions = new List<string>();
+            permissions.Add("public_profile");
+            permissions.Add("user_friends");
+            permissions.Add("email");
+            FB.LogInWithReadPermissions(permissions, CallBackLoginFacebook);
+
+        }       
     }
 
     private void CallBackLoginFacebook(ILoginResult result)
@@ -133,6 +143,10 @@ public class FacebookDelegate : MonoBehaviour {
             if (OnMessageFacebookProgress != null)//Surgió un error al tratar de iniciar sesión en Facebook.
                 OnMessageFacebookProgress("There was an error trying to log in to Facebook.", false);
         }
+        else if (result.Cancelled)
+        {
+            Debug.Log("Cancel Login Facebook!");
+        }
         else
         {
             //verify login user in facebook and get data as username and profile image
@@ -141,15 +155,10 @@ public class FacebookDelegate : MonoBehaviour {
                 if (OnLoginFacebookStatus != null)
                     OnLoginFacebookStatus(FB.IsLoggedIn);
 
-                if (loginFacebook == false)
-                {
-                    if (OnPawsFacebookReward != null) { 
-                        OnPawsFacebookReward(50);
-                    }
-                    PlayConstant constant = new PlayConstant();
-                    PlayerPrefs.SetInt(constant.facebookLogin, 1);
+                if (OnPawsFacebookReward != null) { 
+                   OnPawsFacebookReward(50);
                 }
-
+                
                 GetProfileFacebook();
 
             }

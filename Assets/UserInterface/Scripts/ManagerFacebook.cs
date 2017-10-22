@@ -14,7 +14,6 @@ public class ManagerFacebook : MonoBehaviour {
     public Text textUserName;
 
     public Button btnCloseDialog;
-    public GameObject panelFacebook;
     public GUIAnim animDialogFacebook;
 
     public GameObject panelDialogMessage;
@@ -58,7 +57,6 @@ public class ManagerFacebook : MonoBehaviour {
         btnShareScoreScreenFacebook.onClick.AddListener(ShareScoreScreenFacebook);
         btnInviteFacebook.onClick.AddListener(InviteFacebook);
 
-        panelFacebook.SetActive(false);
     }
 
     private void OnDisable()
@@ -83,7 +81,6 @@ public class ManagerFacebook : MonoBehaviour {
         Debug.Log("start Here Facebook");
         if (statusLogin)
         {
-            panelFacebook.SetActive(true);
             animDialogFacebook.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         }
     }
@@ -118,7 +115,7 @@ public class ManagerFacebook : MonoBehaviour {
 
     private void closeFadePanelFacebook()
     {
-        panelFacebook.SetActive(false);
+        animDialogFacebook.MoveOut(GUIAnimSystem.eGUIMove.SelfAndChildren);
     }
 
  
