@@ -38,10 +38,21 @@ public class FacebookDelegate : MonoBehaviour {
             {
                 GameObject fbm = new GameObject("FacebookDelegate");
                 fbm.AddComponent<FacebookDelegate>();
+                Debug.Log("YA SUSANA no mames");
             }
 
             return _instance;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Debug.Log("YA SUSANA");
+    }
+
+    private void OnApplicationQuit()
+    {
+        Debug.Log("YA SUSANA.... matame ya diosito....");
     }
 
     #endregion
@@ -265,6 +276,7 @@ public class FacebookDelegate : MonoBehaviour {
         }
         else if (!string.IsNullOrEmpty(result.RawResult))
         {
+            Debug.Log("No bueno");
             if (OnMessageFacebookProgress != null)//Se compartió exitosamente en Facebook.
                 OnMessageFacebookProgress("It was successfully shared on Facebook.", true);
             if (OnPawsFacebookReward != null)

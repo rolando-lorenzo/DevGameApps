@@ -55,10 +55,10 @@ public class PrefabsPanelDialogMessage : MonoBehaviour {
     private IEnumerator InactivePanel()
     {
         Debug.Log("Desactivando StorePopup..");
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(2.0f);
         if (panelPrefabsDialog != null)
         {
-            panelPrefabsDialog.SetActive(false);
+            GameObject.DestroyObject(panelPrefabsDialog);
         }
     }
     #endregion

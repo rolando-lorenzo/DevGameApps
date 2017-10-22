@@ -65,10 +65,9 @@ public class ManagerFacebook : MonoBehaviour {
         FacebookDelegate.Instance.OnMessageFacebookProgress -= HandleMessegeFacebookProgress;
         FacebookDelegate.Instance.OnProfileUsernameFacebook -= HandleProfileUsernameFacebook;
         FacebookDelegate.Instance.OnProfilePictureFacebook -= HandleProfilePictureFacebook;
+        FacebookDelegate.Instance.OnPawsFacebookReward -= HandheldPawsFacebookReward;
     }
     #endregion
-
-    
 
     #region Class implementation
     private void StarLoginFacebook()
