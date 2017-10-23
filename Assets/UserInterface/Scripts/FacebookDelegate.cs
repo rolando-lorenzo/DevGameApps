@@ -38,23 +38,11 @@ public class FacebookDelegate : MonoBehaviour {
             {
                 GameObject fbm = new GameObject("FacebookDelegate");
                 fbm.AddComponent<FacebookDelegate>();
-                Debug.Log("YA SUSANA no mames");
             }
 
             return _instance;
         }
     }
-
-    private void OnDestroy()
-    {
-        Debug.Log("YA SUSANA");
-    }
-
-    private void OnApplicationQuit()
-    {
-        Debug.Log("YA SUSANA.... matame ya diosito....");
-    }
-
     #endregion
 
     #region MonoBehaviour overrides
