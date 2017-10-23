@@ -22,7 +22,6 @@ public class ManagerGameSceneTest : MonoBehaviour {
     private string nameWorld { get; set; }
     private int nameLevel { get; set; }
     private int maxLevel { get; set; }
-    private bool initializeAds { get; set; }
     #endregion
 
     #region Class accesors
@@ -31,10 +30,9 @@ public class ManagerGameSceneTest : MonoBehaviour {
     #region MonoBehaviour overrides
     private void OnEnable()
     {
-        AdsManagement.Instance.OnCoinLive += HandleCoinLive;
-        AdsManagement.Instance.OnInitializeAds += HandleInitializeAds;
-        AdsManagement.Instance.OnMessageAds += HandleMessageAds;
-        AdsManagement.Instance.OnNewLevelUnlocked += HandleNewLevelUnlocek;
+        AdsManagement.OnCoinLive += HandleCoinLive;
+        AdsManagement.OnMessageAds += HandleMessageAds;
+        AdsManagement.OnNewLevelUnlocked += HandleNewLevelUnlocek;
     }
 
     private void Awake()
@@ -72,10 +70,9 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void OnDisable()
     {
-        AdsManagement.Instance.OnCoinLive -= HandleCoinLive;
-        AdsManagement.Instance.OnInitializeAds -= HandleInitializeAds;
-        AdsManagement.Instance.OnMessageAds -= HandleMessageAds;
-        AdsManagement.Instance.OnNewLevelUnlocked -= HandleNewLevelUnlocek;
+        AdsManagement.OnCoinLive -= HandleCoinLive;
+        AdsManagement.OnMessageAds -= HandleMessageAds;
+        AdsManagement.OnNewLevelUnlocked -= HandleNewLevelUnlocek;
     }
     #endregion
 
@@ -130,7 +127,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void StartAdsViewVideo()
     {
-        if (initializeAds)
+        if (AdsManagement.Instance.InitializeAds)
             AdsManagement.Instance.ShowVideo();
     }
 
@@ -142,14 +139,9 @@ public class ManagerGameSceneTest : MonoBehaviour {
             textNewLevel.text = "No se desbloqueo el siguiente Nivel: ";
     }
 
-    private void HandleMessageAds(string messageAds, bool typeAds)
+    private void HandleMessageAds(string messageAds, bool isError)
     {
-        throw new NotImplementedException();
-    }
-
-    private void HandleInitializeAds(bool stateAds)
-    {
-        initializeAds = stateAds;
+        Debug.Log(messageAds);
     }
 
     private void HandleCoinLive(int lives)

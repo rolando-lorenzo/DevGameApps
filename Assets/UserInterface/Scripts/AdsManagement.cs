@@ -12,20 +12,16 @@ public class AdsManagement : MonoBehaviour {
 
     private string gameIdGlobal { get; set; }
 
-    public delegate void EventInitializeAds(bool stateAds);
-    public event EventInitializeAds OnInitializeAds;
-
     public delegate void EventCoinLive(int lives);
-    public event EventCoinLive OnCoinLive;
+    public static event EventCoinLive OnCoinLive;
 
     public delegate void EventMessageAds(string messageAds, bool typeAds);
-    public event EventMessageAds OnMessageAds;
+    public static event EventMessageAds OnMessageAds;
 
     public delegate void EventNewLevelUnlocked(int newLevel);
-    public event EventNewLevelUnlocked OnNewLevelUnlocked;
+    public static event EventNewLevelUnlocked OnNewLevelUnlocked;
 
     public bool InitializeAds { get; set; }
-    public string CoinLive { get; set; }
 
     public static AdsManagement Instance
     {
@@ -33,7 +29,7 @@ public class AdsManagement : MonoBehaviour {
         {
             if(_instance == null)
             {
-                GameObject gameObject = new GameObject("AdsManage");
+                GameObject gameObject = new GameObject("ManageAds");
                 gameObject.AddComponent<AdsManagement>();
             }
 
@@ -42,7 +38,7 @@ public class AdsManagement : MonoBehaviour {
         }
     }
 
-    private void Start()
+    void Start()
     {
         if (Application.platform == RuntimePlatform.Android)
             gameIdGlobal = gameIdAndroid;
@@ -50,7 +46,7 @@ public class AdsManagement : MonoBehaviour {
             gameIdGlobal = gameIdApple;
     }
 
-    private void Awake()
+    void Awake()
     {
         //DontDestroyOnLoad(this.gameObject);
         _instance = this;
@@ -61,15 +57,10 @@ public class AdsManagement : MonoBehaviour {
         if (Advertisement.isSupported)
         {
             Advertisement.Initialize(gameIdAndroid, true);
-            if (OnInitializeAds != null)
-                OnInitializeAds(true);
-
             InitializeAds = true;
         }
         else
         {
-            if (OnInitializeAds != null)
-                OnInitializeAds(false);
             InitializeAds = false;
         }
     } 
@@ -92,8 +83,7 @@ public class AdsManagement : MonoBehaviour {
         }
         else
         {
-            if (OnInitializeAds != null)
-                OnInitializeAds(false);
+            InitializeAds = false;
         }
     }
 
@@ -117,6 +107,10 @@ public class AdsManagement : MonoBehaviour {
                     OnCoinLive(0);
                 break;
         }
+
+        Debug.Log(OnMessageAds);
+        if (OnMessageAds != null)//No se puede cargar el vídeo.
+            OnMessageAds("Mata a SUSANA diosito video", true);
     }
 
     public void CompleteLevel(string nameWorld, int nameLevel)
