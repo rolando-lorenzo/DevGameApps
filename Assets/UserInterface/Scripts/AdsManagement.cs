@@ -107,17 +107,12 @@ public class AdsManagement : MonoBehaviour {
                     OnCoinLive(0);
                 break;
         }
-
-        Debug.Log(OnMessageAds);
-        if (OnMessageAds != null)//No se puede cargar el vídeo.
-            OnMessageAds("Mata a SUSANA diosito video", true);
     }
 
     public void CompleteLevel(string nameWorld, int nameLevel)
     {
         char[] split = { '/', '-' };
-        PlayConstant constant = new PlayConstant();
-        string[] progresslevels = PlayerPrefs.GetString(constant.gameProgressLevel).Split(split);
+        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel).Split(split);
 
         int maxlevel = 0;
 
@@ -163,8 +158,6 @@ public class AdsManagement : MonoBehaviour {
             }
 
         }
-        Debug.Log(cadena);
-        PlayConstant constant = new PlayConstant();
-        PlayerPrefs.SetString(constant.gameProgressLevel, cadena);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.gameProgressLevel, cadena);
     }
 }

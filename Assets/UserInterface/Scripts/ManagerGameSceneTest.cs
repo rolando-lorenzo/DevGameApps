@@ -40,13 +40,14 @@ public class ManagerGameSceneTest : MonoBehaviour {
         AdsManagement.Instance.InitAds();
 
         PlayConstant constant = new PlayConstant();
-        coinLive = PlayerPrefs.GetInt(constant.coinLive, 3);
+        //coinLive = PlayerPrefs.GetInt(constant.coinLive, 3);
+		coinLive = GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints);
 
         coinOrLive.text = "" + coinLive;
         VerifyCoin();
 
-        nameWorld = PlayerPrefs.GetString(constant.worldName, "Mexico");
-        nameLevel = PlayerPrefs.GetInt(constant.levelWorld, 1);
+        nameWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.worldName);
+        nameLevel = GameItemsManager.GetValueById(GameItemsManager.Item.levelWorld);
 
         nameWorldLevel.text = nameWorld + " " + nameLevel;         
     }
@@ -65,6 +66,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void Update()
     {
+		Debug.Log (GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints));
         VerifyCoin();
     }
 
@@ -110,18 +112,14 @@ public class ManagerGameSceneTest : MonoBehaviour {
         {
             coinLive = 0;
         }
-        PlayConstant constant = new PlayConstant();
-        PlayerPrefs.SetInt(constant.coinLive, coinLive);
-        PlayerPrefs.Save();
+		GameItemsManager.subtractValueById (GameItemsManager.Item.numPawprints,1);
         coinOrLive.text = "" + coinLive;
     }
 
     private void AddLiveAction()
     {
         coinLive += 1;
-        PlayConstant constant = new PlayConstant();
-        PlayerPrefs.SetInt(constant.coinLive, coinLive);
-        PlayerPrefs.Save();
+		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,1);
         coinOrLive.text = "" + coinLive;
     }
 
@@ -147,9 +145,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
     private void HandleCoinLive(int lives)
     {
         coinLive += lives;
-        PlayConstant constant = new PlayConstant();
-        PlayerPrefs.SetInt(constant.coinLive, coinLive);
-        PlayerPrefs.Save();
+		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,lives);
         coinOrLive.text = "" + coinLive;
     }
 

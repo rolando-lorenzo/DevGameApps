@@ -23,17 +23,14 @@ public class WorldManager : MonoBehaviour {
 
     //Button Actions
     public Button buttonBack;
-    public GameObject buttonGoIn;
 
     public GameObject buttonGoLevelCircus;
     public GameObject buttonGoLevelTrain;
     public GameObject buttonGoLevelZoo;
     public GameObject buttonGoLevelMansion;
 
-    public GameObject nameWorld;
-
     //variables
-    private string nameworldtext { get; set; }
+    private string nameWorldText { get; set; }
     private string progressLevels { get; set; }
 	#endregion
 
@@ -45,9 +42,8 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
-        nameworldtext = "Circus";
-        PlayConstant constant = new PlayConstant();
-        progressLevels = PlayerPrefs.GetString(constant.gameProgressLevel, "Circus-1/Train-1/Zoo-1/Mansion-1");
+
+        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel, "Circus-1/Train-1/Zoo-1/Mansion-1");
     }
 
 	void Start () {
@@ -55,22 +51,18 @@ public class WorldManager : MonoBehaviour {
 		Button btnback = buttonBack.GetComponent<Button> ();
 		btnback.onClick.AddListener (GoMainScene);
 
-		//Button of Go In
-		Button btngoin = buttonGoIn.GetComponent<Button> ();
-		btngoin.onClick.AddListener (GoLevelScene);
-
-		//Buttons Of levels
+		//Buttons Of Go in levels
 		Button btnlevelusa = buttonGoLevelCircus.GetComponent<Button> ();
-		btnlevelusa.onClick.AddListener (() => ChangeNameWorld (1));
+		btnlevelusa.onClick.AddListener (() => GoLevelScene(1));
 
 		Button btnlevelmex = buttonGoLevelTrain.GetComponent<Button> ();
-		btnlevelmex.onClick.AddListener (() => ChangeNameWorld (2));
+		btnlevelmex.onClick.AddListener (() => GoLevelScene(2));
 
 		Button btnlevelafr = buttonGoLevelZoo.GetComponent<Button> ();
-		btnlevelafr.onClick.AddListener (() => ChangeNameWorld (3));
+		btnlevelafr.onClick.AddListener (() => GoLevelScene(3));
 
 		Button btnlevelch = buttonGoLevelMansion.GetComponent<Button> ();
-		btnlevelch.onClick.AddListener (() => ChangeNameWorld (4));
+		btnlevelch.onClick.AddListener (() => GoLevelScene(4));
 
 
 		imgWorld.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
@@ -110,40 +102,29 @@ public class WorldManager : MonoBehaviour {
 		SceneManager.LoadScene ("MainScene");
 	}
 
-	private void ChangeNameWorld (int world) {
-		Text nameworld = nameWorld.GetComponent<Text> ();
+	private void GoLevelScene(int world) {
 		switch (world) {
 			case 1:
 				//name the world in Xml
-				nameworldtext = "Circus";
+				nameWorldText = "Circus";
 				break;
 			case 2:
-				nameworldtext = "Train";
+				nameWorldText = "Train";
 				break;
 			case 3:
-				nameworldtext = "Zoo";
+				nameWorldText = "Zoo";
 				break;
 			case 4:
-				nameworldtext = "Mansion";
+				nameWorldText = "Mansion";
 				break;
 		}
-		nameworld.text = nameworldtext;
-	}
 
-	void GoLevelScene () {
-		if (!String.IsNullOrEmpty (nameworldtext)) {
-            PlayConstant constant = new PlayConstant();
-            string nameWorld = constant.worldName;
-			PlayerPrefs.SetString (nameWorld, nameworldtext);
-            PlayerPrefs.SetString(constant.gameProgressLevel, progressLevels);
-			//string namescene = "LevelScene" + this.nameworld;
-			string namescene = "LevelScene";
-            PlayerPrefs.Save();
-			SceneManager.LoadScene (sceneName: namescene);
-		}
-		Debug.Log ("Dont select Level!");
-
-	}
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.worldName, nameWorldText);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.gameProgressLevel, progressLevels);
+        //string namescene = "LevelScene" + this.nameworld;
+        string nameScene = "LevelScene";
+        SceneManager.LoadScene(sceneName: nameScene);
+    }
 
 	#endregion
 

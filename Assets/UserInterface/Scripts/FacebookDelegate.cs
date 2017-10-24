@@ -52,19 +52,6 @@ public class FacebookDelegate : MonoBehaviour {
         _instance = this;
     }
 
-    private void Start()
-    {
-        PlayConstant constant = new PlayConstant();
-        int loginAux = PlayerPrefs.GetInt(constant.facebookLogin, 0);
-        if (loginAux == 1)
-        {
-            loginFacebook = true;
-        }
-        else
-        {
-            loginFacebook = false;
-        }
-    }
     #endregion
 
     #region Super class overrides

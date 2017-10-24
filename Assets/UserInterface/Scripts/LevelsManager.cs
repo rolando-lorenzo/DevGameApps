@@ -46,12 +46,10 @@ public class LevelsManager : MonoBehaviour {
 
     #region MonoBehaviour overrides
     void Awake () {
-        PlayConstant constant = new PlayConstant();
-		currentWorld = PlayerPrefs.GetString (constant.worldName, "Circus");
+        currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.worldName);
 
         char[] split = { '/', '-' };
-        string progrs = PlayerPrefs.GetString(constant.gameProgressLevel);
-        string[] progresslevels = PlayerPrefs.GetString(constant.gameProgressLevel).Split(split);
+        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel).Split(split);
 
         for (int i = 0; i < progresslevels.Length; i++)
         {
