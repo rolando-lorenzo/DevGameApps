@@ -11,17 +11,26 @@ public class StoreUpgradeProgress : MonoBehaviour {
 	public Image statusEmpty;
 	public Image statusFill;
 	public Image[] imgsProgress;
+	public delegate void UpgradeProgressChangeAction (int currentValue);
+	public event UpgradeProgressChangeAction OnUpgradeProgressChange;
 	#endregion
 
 	#region Class accesors
 	public int currentProgress{ set; get;}
 	public string idUpgrade{ set; get;}
+	public int limitOfUpgrades { set; get;}
 	#endregion
 
 	#region MonoBehaviour overrides
 	void Start(){
+		
 		currentProgress = PlayerPrefs.GetInt ("StoreUpgrade"+idUpgrade,0); //limit 5
+		if(currentProgress > limitOfUpgrades){
+			currentProgress = limitOfUpgrades;
+		}
 		ChangeImgsColor ();
+		if (OnUpgradeProgressChange != null)
+			OnUpgradeProgressChange (currentProgress);
 	}
 	#endregion
 
@@ -30,14 +39,17 @@ public class StoreUpgradeProgress : MonoBehaviour {
 
 		bool wasIncremented = false;
 		++currentProgress;
-		if (currentProgress <= imgsProgress.Length) {
+		if (currentProgress <= limitOfUpgrades) {
 			ChangeImgsColor ();
 			wasIncremented = true;
 		} else {
-			currentProgress = 5;
+			currentProgress = limitOfUpgrades;
 		}
-		Debug.Log("Set Current: StoreUpgrade"+idUpgrade+ " "+ currentProgress);
 		PlayerPrefs.SetInt ("StoreUpgrade"+idUpgrade,currentProgress);
+
+		if (OnUpgradeProgressChange != null)
+			OnUpgradeProgressChange (currentProgress);
+
 		return wasIncremented;
 	}
 

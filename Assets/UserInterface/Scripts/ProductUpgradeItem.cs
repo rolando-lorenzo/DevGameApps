@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class ProductUpgradeItem : ProductItem {
 
 	#region Class members
+
 	public GameObject progressBar;
 	private StoreUpgradeProgress storeUpProg;
 	public delegate void ProductItemPurchasedAction (ProductUpgradeItem productItemPurchased);
 	public event ProductItemPurchasedAction OnProductUpgradeItemPurchased;
 	public delegate void ProductItemBuyLimitAction (string msg);
 	public event ProductItemBuyLimitAction OnProductUpgradeBuyLimitMax;
+
+
+	public List<string> levelsUpgradesIdGooglePlay { get; set; }
 	#endregion
 
 	#region MonoBehaviour overrides
@@ -21,13 +25,22 @@ public class ProductUpgradeItem : ProductItem {
 		storeUpProg = progressBar.GetComponent<StoreUpgradeProgress> ();
 		btnBuy.onClick.AddListener (() => BuyProductItem(this));
 	}
+
+	void OnEnable(){
+		storeUpProg.OnUpgradeProgressChange += HandleUpgradeprogressChange;
+	}
+
+	void OnDisable(){
+		storeUpProg.OnUpgradeProgressChange -= HandleUpgradeprogressChange;
+	}
 	#endregion
 
 
 	#region Class implementation
 	public void BuyProductItem(ProductUpgradeItem pItem){
 		if (pItem.storeUpProg.IncrementProgress ()) {
-			Debug.Log ("Comprando item Upgrade..." + pItem.idProductItem + " " + pItem.nameProduct.text);
+			Debug.Log ("Current idInGooglePlay... " + levelsUpgradesIdGooglePlay [(pItem.storeUpProg.currentProgress-1)]);
+			pItem.idStoreGooglePlay = levelsUpgradesIdGooglePlay [(pItem.storeUpProg.currentProgress-1)];
 			if (OnProductUpgradeItemPurchased != null) {
 				OnProductUpgradeItemPurchased (pItem);
 			}
@@ -40,10 +53,17 @@ public class ProductUpgradeItem : ProductItem {
 		}
 
 	}
-
+		
+	private void HandleUpgradeprogressChange(int value){
+		float val = valCurrency*(value+1);
+		priceProduct.text = MenuUtils.FormatPriceProducts (val);
+	}
 
 	public void SetChildId(string id){
 		storeUpProg.idUpgrade = id;
+		if (levelsUpgradesIdGooglePlay != null && levelsUpgradesIdGooglePlay.Count > 0) {
+			storeUpProg.limitOfUpgrades = levelsUpgradesIdGooglePlay.Count;
+		}
 	}
 	#endregion
 

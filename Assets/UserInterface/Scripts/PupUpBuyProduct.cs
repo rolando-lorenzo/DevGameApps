@@ -51,9 +51,10 @@ public class PupUpBuyProduct : MonoBehaviour {
 	private IEnumerator InactivePopup()
 	{
 		Debug.Log("Desactivando StorePopup..");
-		yield return new WaitForSeconds(1.0f);
+		yield return new WaitForSeconds(2.0f);
 		if (popupSelfBuy != null) {
 			popupSelfBuy.SetActive (false);
+			GameObject.Destroy (popupSelfBuy);
 		}
 	}
 	#endregion

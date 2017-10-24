@@ -631,16 +631,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32180ccaa28248d489939e230efa920, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idUpgrade: 1
   upgradeProgress: {fileID: 1720611814088474}
   statusEmpty: {fileID: 0}
   statusFill: {fileID: 0}
   imgsProgress:
   - {fileID: 114157157940810446}
   - {fileID: 114549310048274876}
-  - {fileID: 114349745142558292}
-  - {fileID: 114085328156362952}
-  - {fileID: 114957568706222018}
+  - {fileID: 114549310048274876}
+  - {fileID: 114549310048274876}
+  - {fileID: 114549310048274876}
 --- !u!114 &114899759583268462
 MonoBehaviour:
   m_ObjectHideFlags: 1

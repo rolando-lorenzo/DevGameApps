@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ProductItem : MonoBehaviour {
+public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 
 	#region Class members
 	public string idProductItem;
@@ -21,7 +21,11 @@ public abstract class ProductItem : MonoBehaviour {
 	#endregion
 
 	#region Class accesors
+	public float valCurrency{ get; set;}
 	public bool isOpen { get; set; }
+	public int costInHuellas{ get; set; }
+	public string idStoreGooglePlay{ get; set;}
+	public bool isAvailableInStore{ get; set;}
 	#endregion
 
 	#region MonoBehaviour overrides
@@ -61,6 +65,11 @@ public abstract class ProductItem : MonoBehaviour {
 		Tween.FloatTween (gameObject, "ScaleButton", 0, 1, slideTime, (tween) => {
 			rectTranform.sizeDelta = new Vector2 (rectTranform.sizeDelta.x, Mathf.Lerp (maxY, minY, tween.Progress));
 		});
+	}
+
+	public override string ToString()
+	{
+		return base.ToString() + ": Item: " + idProductItem.ToString() +" Name: "+nameProduct.text +" Price: "+priceProduct.text;
 	}
 	#endregion
 

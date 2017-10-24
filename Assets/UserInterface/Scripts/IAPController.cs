@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class IAPController : MonoBehaviour {
 
-    private void OnEnable()
-    {
-        //sucribe to event    
-    }
-
-    void Awake()
+	void Awake()
 	{
-        Dictionary<string, ProductItem> dictionaryProducts = new Dictionary<string, ProductItem>();
-		IAPManager.Instance.InitializePurchasing (dictionaryProducts);
+//		IAPManager.Instance.InitializePurchasing ();
+	}
+
+	public void Comprar_200Huellas()
+	{
+		//IAPManager.Instance.Comprar_200Huellas ();		
+	}
+
+	public void Comprar_500Huellas()
+	{
+		//IAPManager.Instance.Comprar_500Huellas ();
+	}
+
+	public void Comprar_1000Huellas()
+	{
+		//IAPManager.Instance.Comprar_1000Huellas ();
 	}
 }
 	

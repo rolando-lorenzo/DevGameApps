@@ -8,13 +8,25 @@ public class ProductPowerupItem : ProductItem {
 	#region Class members
 	public delegate void ProductItemPurchasedAction (ProductPowerupItem productItemPurchased);
 	public event ProductItemPurchasedAction OnProductPowerUpItemPurchased;
+	private SpinnerStorePowerups spinnerPowerUp;
+	public int numProductsToBuy { get; set;}
 	#endregion
 
 
 	#region MonoBehaviour overrides
 	void Awake () {
+		numProductsToBuy = 1;
 		base.InitComponets ();
+		spinnerPowerUp = GetComponentInChildren<SpinnerStorePowerups> ();
 		btnBuy.onClick.AddListener (() => BuyProductItem(this));
+	}
+
+	void OnEnable(){
+		spinnerPowerUp.OnSpinnerPowerupChange += HandleChangeSpinnerValue;
+	}
+
+	void OnDisable(){
+		spinnerPowerUp.OnSpinnerPowerupChange -= HandleChangeSpinnerValue;
 	}
 	#endregion
 
@@ -26,5 +38,12 @@ public class ProductPowerupItem : ProductItem {
 			OnProductPowerUpItemPurchased (pItem);
 
 	}
+
+	private void HandleChangeSpinnerValue(int value){
+		numProductsToBuy = value;
+		value *= (int)valCurrency;
+		priceProduct.text = MenuUtils.FormatPawprintsProducts (value);
+	}
+		
 	#endregion
 }
