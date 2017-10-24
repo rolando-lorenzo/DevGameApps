@@ -39,8 +39,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject textConditions;
     public GameObject btnCloseConditions;
 
-    public ToggleController toggleMusic;
-    public ToggleController toggleFx;
+    //Sound Manager
     public GameObject musicSoundManager;
     private bool stateMusic { get; set; }
 
@@ -50,11 +49,6 @@ public class MainMenuManager : MonoBehaviour {
     #endregion
 
     #region MonoBehaviour overrides
-    private void OnEnable()
-    {
-        toggleMusic.OnToggleState += handlerToggleStateMusic;
-        toggleFx.OnToggleState += handlerToggleStateFx;
-    }
 
     void Awake()
     {
@@ -103,12 +97,6 @@ public class MainMenuManager : MonoBehaviour {
     void Update()
     {
         
-    }
-
-    private void OnDisable()
-    {
-        toggleMusic.OnToggleState -= handlerToggleStateMusic;
-        toggleFx.OnToggleState -= handlerToggleStateFx;
     }
     #endregion
 
@@ -185,7 +173,7 @@ public class MainMenuManager : MonoBehaviour {
         }
         AudioSource music = musicSoundManager.GetComponent<AudioSource>();
         music.mute = !stateMusic;
-        toggleMusic.startToggleState(stateMusic);
+        //toggleMusic.startToggleState(stateMusic);
     }
 
     private void handlerToggleStateMusic(bool stateMsc)
