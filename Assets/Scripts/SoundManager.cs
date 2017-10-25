@@ -34,10 +34,13 @@ public class SoundManager: MonoBehaviour {
 
     private void Start()
     {
-        musicSource.volume = PlayerPrefs.GetFloat("volumeLevelMusic");
-        fxSource.volume = PlayerPrefs.GetFloat("fxLevelVolume");
+        musicSource.volume = PlayerPrefs.GetFloat("volumeLevelMusic",1);
+        fxSource.volume = PlayerPrefs.GetFloat("fxLevelVolume",1);
         musicSource.mute = ExtensionMethods.GetBool("MusicState");
         fxSource.mute = ExtensionMethods.GetBool("FXState");
+
+        Debug.Log(ExtensionMethods.GetBool("MusicState"));
+        Debug.Log(ExtensionMethods.GetBool("FXState"));
     }
 
     #endregion

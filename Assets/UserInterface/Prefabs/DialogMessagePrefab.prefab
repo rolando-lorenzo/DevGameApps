@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 224296104083445234}
   - component: {fileID: 114858037039751404}
   m_Layer: 5
-  m_Name: DialogMessagePrefab 1
+  m_Name: DialogMessagePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
