@@ -1,6 +1,11 @@
 fileFormatVersion: 2
-guid: f5976e4157e3a544f8288115538be7d2
-timeCreated: 1504116751
+<<<<<<< HEAD:BJWTGame/Assets/Services/Scripts/IAPManager.cs.meta
+guid: 80c4e1157a36e634cb5226a6a3f0001d
+timeCreated: 1508170250
+=======
+guid: 5e0e21ce1f3476a4a87e5f763c600fbb
+timeCreated: 1508170165
+>>>>>>> 4b9e7a19885ec178f1c6cc64ca449fce591c8ef1:BJWTGame/Assets/Services/Scripts/IAPManager.cs.meta
 licenseType: Pro
 MonoImporter:
   serializedVersion: 2

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class ManagerFacebook : MonoBehaviour {
 
-    private static ManagerFacebook _instance;
+    
     #region Class members
     public Button btnStartFacebook;
     public Image imageProfilePicture;
@@ -21,8 +21,15 @@ public class ManagerFacebook : MonoBehaviour {
     public Button btnShareFacebook;
     public Button btnInviteFacebook;
     public Button btnShareScoreScreenFacebook;
+	public Button btnSignOut;
+
+	public Sprite imgDialogMessageINFO;
+	public Sprite imgDialogMessageWARN;
+	public Sprite imgDialogMessageERR;
 
     public Transform mainCointener;
+
+	private static ManagerFacebook _instance;
     #endregion
 
     #region Class accesors
@@ -57,6 +64,9 @@ public class ManagerFacebook : MonoBehaviour {
         btnShareScoreScreenFacebook.onClick.AddListener(ShareScoreScreenFacebook);
         btnInviteFacebook.onClick.AddListener(InviteFacebook);
 
+		btnSignOut.onClick.AddListener (SignOut);
+
+
     }
 
     private void OnDisable()
@@ -65,9 +75,11 @@ public class ManagerFacebook : MonoBehaviour {
         FacebookDelegate.Instance.OnMessageFacebookProgress -= HandleMessegeFacebookProgress;
         FacebookDelegate.Instance.OnProfileUsernameFacebook -= HandleProfileUsernameFacebook;
         FacebookDelegate.Instance.OnProfilePictureFacebook -= HandleProfilePictureFacebook;
-        FacebookDelegate.Instance.OnPawsFacebookReward -= HandheldPawsFacebookReward;
+		FacebookDelegate.Instance.OnPawsFacebookReward -= HandheldPawsFacebookReward;
     }
     #endregion
+
+    
 
     #region Class implementation
     private void StarLoginFacebook()
@@ -95,22 +107,21 @@ public class ManagerFacebook : MonoBehaviour {
         textUserName.text = name;
     }
 
-    private void HandleMessegeFacebookProgress(string message, bool status)
+    private void HandleMessegeFacebookProgress(string message, bool isError)
     {
-        GameObject dialogaux = Instantiate(panelDialogMessage) as GameObject;
-        PrefabsPanelDialogMessage dialog =  dialogaux.GetComponent<PrefabsPanelDialogMessage>();
-        dialog.txtTitle.text = "Facebook";
-        dialog.txtMessage.text = message;
-        dialogaux.transform.SetParent(mainCointener, false);
-        dialog.OpenDialogmessage();
-        Debug.Log(message  + "-"+ status);
+		if (isError) {
+			BuildDialogMessage ("Facebook", message, DialogMessage.typeMessage.ERROR);
+		} else {
+			BuildDialogMessage ("Facebook",message,DialogMessage.typeMessage.INFO);
+		}
     }
 
     private void HandheldPawsFacebookReward(int paws)
     {
+		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,paws);
         //get rewards in number of paws
-        Debug.Log("Num paws:" + paws);
-    }
+        Debug.Log("Num huellas de regalo:" + paws);
+	}
 
     private void closeFadePanelFacebook()
     {
@@ -134,6 +145,36 @@ public class ManagerFacebook : MonoBehaviour {
         FacebookDelegate.Instance.ShareFacebook();
     }
 
+	private void SignOut(){
+		FacebookDelegate.Instance.LogOut ();
+		closeFadePanelFacebook ();
+	}
+
+	/// <summary>
+	/// Builds the dialog message.
+	/// </summary>
+	/// <param name="title">Title.</param>
+	/// <param name="msg">Message.</param>
+	/// <param name="type">Type.(ERROR, INFO, WARN)</param>
+	private void BuildDialogMessage(string title, string msg, DialogMessage.typeMessage type){
+		GameObject mostrarMsg = Instantiate (panelDialogMessage) as GameObject;
+		DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage> ();
+		popupMsg.txtMessage.text= msg;
+		popupMsg.txtTitle.text = title;
+		switch (type) {
+		case DialogMessage.typeMessage.ERROR:
+			popupMsg.imgStatus.overrideSprite = imgDialogMessageERR;
+			break;
+		case DialogMessage.typeMessage.INFO:
+			popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
+			break;
+		case DialogMessage.typeMessage.WARNING:
+			popupMsg.imgStatus.overrideSprite = imgDialogMessageWARN;
+			break;
+		}
+		mostrarMsg.transform.SetParent (mainCointener,false);
+		popupMsg.OpenDialogmessage();
+	}
     #endregion
 
     #region Interface implementation

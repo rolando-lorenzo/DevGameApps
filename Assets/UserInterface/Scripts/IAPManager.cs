@@ -8,22 +8,25 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
 	private static IAPManager _instance;
 
-    public delegate void EventIAPMessageProgress(string messageResult, bool typeResult);
-    public event EventIAPMessageProgress OnIAPMessageProgress;
+	public delegate void EventIAPMessageProgress(string messageResult, bool isError);
+	public event EventIAPMessageProgress OnIAPMessageProgress;
 
-    public delegate void EventIAPInitialized(bool stateIAP);
-    public event EventIAPInitialized OnIAPInitialized;
+	public delegate void EventIAPInitialized(bool isError);
+	public event EventIAPInitialized OnIAPInitialized;
 
-    private ProductItem productItemBuy { get; set; }
+	public delegate void EventIAPSuccessPurchased(string messageResult, IStorePurchase item);
+	public event EventIAPSuccessPurchased OnIAPSuccessPurchasedInStore;
 
-    private static IStoreController storeController;
-    private static IExtensionProvider storeExtensionProvider;
+	private IStorePurchase productItemBuy { get; set; }
 
-    public static string kProductIDConsumable = "consumable";
-    public static string kProductIDNonConsumable = "nonconsumable";
-    public static string kProductIDSubscription = "subscription";
+	private static IStoreController storeController;
+	private static IExtensionProvider storeExtensionProvider;
 
-    public static IAPManager Instance
+	public static string kProductIDConsumable = "consumable";
+	public static string kProductIDNonConsumable = "nonconsumable";
+	public static string kProductIDSubscription = "subscription";
+
+	public static IAPManager Instance
 	{
 		get {
 			if (_instance == null) {
@@ -47,37 +50,53 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		_instance = this;
 	}
 
-	/*void Start()
-	{
-		
-		if (storeController == null)
-		{
-			// Begin to configure our connection to Purchasing
-			InitializePurchasing();
-		}
-	}*/
-
-	public void InitializePurchasing( Dictionary<string, ProductItem> listItemProducts) 
+	public void InitializePurchasing( List<IStorePurchase> listItemProducts) 
 	{
 		Debug.Log( "[IAPManager] Initing Unity IAP" );
 		// If we have already connected to Purchasing ...
 		if (IsInitialized())
 		{
-            // ... we are done here.
-            if (OnIAPInitialized != null)
-                OnIAPInitialized(true);
+			// ... we are done here.
+			if (OnIAPInitialized != null)
+				OnIAPInitialized(false);
 			return;
 		}
 		Debug.Log( "[IAPManager] Inicializando IAP..." );
 		// Create a builder, first passing in a suite of Unity provided stores.
 		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
-        foreach(var item in listItemProducts)
-        {
-            ProductItem aux = item.Value;
-            builder.AddProduct(aux.idProductItem, ProductType.Consumable);
-        }
-		
+
+
+		foreach(IStorePurchase item in listItemProducts)
+		{
+			if (item is ProductItem) {
+				ProductItem currentProduct = ((ProductItem)item);
+
+
+				if (currentProduct is ProductUpgradeItem) { //If is Upgrade
+					ProductUpgradeItem currentUp = ((ProductUpgradeItem)currentProduct);
+					if (currentUp.levelsUpgradesIdGooglePlay != null 
+						&& currentUp.levelsUpgradesIdGooglePlay.Count > 0) {
+						foreach (string lvs in currentUp.levelsUpgradesIdGooglePlay) {
+							Debug.Log ("Agregando item(ProductUpgradeItem) para el store: " + lvs);
+							builder.AddProduct (lvs, ProductType.Consumable);
+						}
+					}
+				} else { //If is PowerUp or Package
+					Debug.Log ("Agregando item(ProductItem) para el store: "+currentProduct.idStoreGooglePlay);
+					builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+				}
+
+
+			}
+
+			if (item is CharacterItem) {
+				CharacterItem currentProduct = ((CharacterItem)item);
+				Debug.Log ("Agregando item(CharacterItem) para el store: "+currentProduct.idStoreGooglePlay);
+				builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+			}
+		}
+
 		// Continue adding the non-consumable product.
 		builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
 		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
@@ -101,20 +120,30 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		return storeController != null && storeExtensionProvider != null;
 	}
 
-    public void BuyObject (ProductItem ProductItemObject)
-    {
-        productItemBuy = ProductItemObject;
-        BuyProductID(ProductItemObject);
-    }
+	public void BuyInStore (IStorePurchase productItemObject)
+	{
+		productItemBuy = productItemObject;
+		BuyProductID(productItemObject);
+	}
 
-	private void BuyProductID(ProductItem productItem)
+	private void BuyProductID(IStorePurchase productItem)
 	{
 		// If Purchasing has been initialized ...
 		if (IsInitialized())
 		{
 			// ... look up the Product reference with the general product identifier and the Purchasing 
 			// system's products collection.
-			Product product = storeController.products.WithID(id: productItem.idProductItem);
+			Product product = null;
+			if (productItem is ProductItem) {
+				ProductItem currentProduct = ((ProductItem)productItem);
+				product = storeController.products.WithID (id: currentProduct.idStoreGooglePlay);
+			} else if (productItem is CharacterItem) {
+				CharacterItem currentCharacter = ((CharacterItem)productItem);
+				product = storeController.products.WithID (id: currentCharacter.idStoreGooglePlay);
+			} else {
+				if (OnIAPMessageProgress != null)
+					OnIAPMessageProgress("Tipo de objeto no disponible en tienda.", true);
+			}
 
 			// If the look up found a product for this device's store and that product is ready to be sold ... 
 			if (product != null && product.availableToPurchase)
@@ -127,19 +156,19 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			// Otherwise ...
 			else
 			{
-                // ... report the product look-up failure situation  
-                if (OnIAPMessageProgress != null)
-                    OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", false);
+				// ... report the product look-up failure situation  
+				if (OnIAPMessageProgress != null)
+					OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", true);
 			}
 		}
 		// Otherwise ...
 		else
 		{
-            // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
-            // retrying initiailization.
-            if (OnIAPMessageProgress != null)
-                OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", false);
-        }
+			// ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
+			// retrying initiailization.
+			if (OnIAPMessageProgress != null)
+				OnIAPMessageProgress("Errro con el servidor al inicializar la api de IAP.", true);
+		}
 	}
 
 
@@ -150,10 +179,10 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		// If Purchasing has not yet been set up ...
 		if (!IsInitialized())
 		{
-            // ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
-            if (OnIAPInitialized != null)
-                OnIAPInitialized(true);
-            return;
+			// ... report the situation and stop restoring. Consider either waiting longer, or retrying initialization.
+			if (OnIAPInitialized != null)
+				OnIAPInitialized(false);
+			return;
 		}
 
 		// If we are running on an Apple device ... 
@@ -180,6 +209,8 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			// We are not running on an Apple device. No work is necessary to restore purchases.
 			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 			//this.MostrarDialogo("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform,true);
+			if (OnIAPMessageProgress != null)
+				OnIAPMessageProgress("IAP No soportado para esta plataforma.", true);
 		}
 	}
 
@@ -198,37 +229,48 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		// Store specific subsystem, for accessing device-specific store features.
 		storeExtensionProvider = extensions;
 
-        if (OnIAPInitialized != null)
-            OnIAPInitialized(true);
-    }
+		if (OnIAPInitialized != null)
+			OnIAPInitialized(false);
+	}
 
 
 	public void OnInitializeFailed(InitializationFailureReason error)
 	{
 		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
-        if (OnIAPInitialized != null)
-            OnIAPInitialized(true);
-    }
+		string msg = "Ocurrio un error con el servidor al inicializar api de IAP: "+ error;
+		if (OnIAPMessageProgress != null)
+			OnIAPMessageProgress(msg, true);
+	}
 
 
 	public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs result) 
 	{
-		if (String.Equals(result.purchasedProduct.definition.id, productItemBuy.idProductItem, StringComparison.Ordinal))
+		if (String.Equals(result.purchasedProduct.definition.id, productItemBuy.idStoreGooglePlay, StringComparison.Ordinal))
 		{
 			Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", result.purchasedProduct.definition.id));
-            //Se incremnmetan las huellas +200 en el juego
 
-            string msj = "Has comprado "+productItemBuy.nameProduct+" ,Felicidades";
-            if (OnIAPMessageProgress != null)
-                OnIAPMessageProgress(msj, true);
-        }
+			string nameItemPurchased = "";
+			if (productItemBuy is ProductItem) {
+				ProductItem currentProduct = ((ProductItem)productItemBuy);
+				nameItemPurchased = currentProduct.nameProduct.text;
+			} 
+
+			if (productItemBuy is CharacterItem) {
+				CharacterItem currentCharacter = ((CharacterItem)productItemBuy);
+				nameItemPurchased = currentCharacter.nameCharacter.text;
+			}
+
+			string msj = "Compra exitosa !! Has adquirido "+nameItemPurchased+". Felicidades !!";
+			if (OnIAPSuccessPurchasedInStore != null)
+				OnIAPSuccessPurchasedInStore(msj, productItemBuy);
+		}
 		else 
 		{
-            string msj = "No se logró final la compra de "+productItemBuy.nameProduct+" en la tienda";
-            if (OnIAPMessageProgress != null)
-                OnIAPMessageProgress(msj, true);
-        }
+			string msj = "[ProcessPurchase] Ocurrio un error al intentar comprar en la tienda.";
+			if (OnIAPMessageProgress != null)
+				OnIAPMessageProgress(msj, true);
+		}
 
 		// Return a flag indicating whether this product has completely been received, or if the application needs 
 		// to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
@@ -239,12 +281,12 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-        // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
-        // this reason with the user to guide their troubleshooting actions.
-        string msj = "No se logró final la compra de " + productItemBuy.nameProduct + " en la tienda";
-        if (OnIAPMessageProgress != null)
-            OnIAPMessageProgress(msj, true);
-    }
+		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
+		// this reason with the user to guide their troubleshooting actions.
+		string msj = "[PurchaseFailed] Ocurrio un error al intentar comprar en la tienda.";
+		if (OnIAPMessageProgress != null)
+			OnIAPMessageProgress(msj, true);
+	}
 
 
 }

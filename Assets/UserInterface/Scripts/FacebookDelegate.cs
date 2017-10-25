@@ -346,6 +346,11 @@ public class FacebookDelegate : MonoBehaviour {
         string message = "I love this game!";
         MobileNativeShare.ShareScreenshot(namePicture, message);
     }
+
+    public void LogOut()
+    {
+        FB.LogOut();
+    }
     #endregion
 
     #region Interface implementation
