@@ -12,13 +12,18 @@ public class SoundManager: MonoBehaviour {
 	public AudioSource fxSource, musicSource;
     public float volumeLevelMusic, volumeLevelSound;
     public float fadeTime;
+    //variables PlaysPref
+    private string stateMusic = "MusicState";
+    private string volMusic = "volumeLevelMusic";
+    private string stateFx = "FXState";
+    private string volFx = "fxLevelVolume";
     #endregion
 
     #region Class accesors
     #endregion
 
     #region MonoBehaviour overrides
-	private void Awake()
+    private void Awake()
 	{
         if (ins == null)
         {
@@ -34,13 +39,10 @@ public class SoundManager: MonoBehaviour {
 
     private void Start()
     {
-        musicSource.volume = PlayerPrefs.GetFloat("volumeLevelMusic",1);
-        fxSource.volume = PlayerPrefs.GetFloat("fxLevelVolume",1);
-        musicSource.mute = ExtensionMethods.GetBool("MusicState");
-        fxSource.mute = ExtensionMethods.GetBool("FXState");
-
-        Debug.Log(ExtensionMethods.GetBool("MusicState"));
-        Debug.Log(ExtensionMethods.GetBool("FXState"));
+        musicSource.volume = PlayerPrefs.GetFloat(volMusic,1);
+        fxSource.volume = PlayerPrefs.GetFloat(volFx,1);
+        musicSource.mute = ExtensionMethods.GetBool(stateMusic);
+        fxSource.mute = ExtensionMethods.GetBool(stateFx);
     }
 
     #endregion
@@ -88,35 +90,35 @@ public class SoundManager: MonoBehaviour {
     public void SetMusicVolume(float volume)
     {
         musicSource.volume = volume;
-        PlayerPrefs.SetFloat("volumeLevelMusic", volume);
+        PlayerPrefs.SetFloat(volMusic, volume);
     }
 
     public void SetFXVolume(float volume)
     {
         fxSource.volume = volume;
-        PlayerPrefs.SetFloat("volumeLevelFX", volume);
+        PlayerPrefs.SetFloat(volFx, volume);
     }
 
     public float GetMusicSaveVolume()
     {
-        return PlayerPrefs.GetFloat("volumeLevelMusic", 1);
+        return PlayerPrefs.GetFloat(volMusic, 1);
     }
 
     public float GetFXSaveVolume()
     {
-        return PlayerPrefs.GetFloat("volumeLevelFX", 1);
+        return PlayerPrefs.GetFloat(volFx, 1);
     }
 
     public void SetMusicState(bool state)
     {
         musicSource.mute = state;
-        ExtensionMethods.SetBool("MusicState", state);
+        ExtensionMethods.SetBool(stateMusic, state);
     }
 
     public void SetFXState(bool state)
     {
         fxSource.mute = state;
-        ExtensionMethods.SetBool("FXState", state);
+        ExtensionMethods.SetBool(stateFx, state);
     }
     #endregion
 
