@@ -18,9 +18,6 @@ public class AdsManagement : MonoBehaviour {
     public delegate void EventMessageAds(string messageAds, bool typeAds);
     public static event EventMessageAds OnMessageAds;
 
-    public delegate void EventNewLevelUnlocked(int newLevel);
-    public static event EventNewLevelUnlocked OnNewLevelUnlocked;
-
     public bool InitializeAds { get; set; }
 
     public static AdsManagement Instance
@@ -107,57 +104,5 @@ public class AdsManagement : MonoBehaviour {
                     OnCoinLive(0);
                 break;
         }
-    }
-
-    public void CompleteLevel(string nameWorld, int nameLevel)
-    {
-        char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel).Split(split);
-
-        int maxlevel = 0;
-
-        for (int i = 0; i < progresslevels.Length; i++)
-        {
-
-            //Debug.Log(levelname);
-            if (progresslevels[i] == nameWorld)
-            {
-                maxlevel = Int32.Parse(progresslevels[i + 1]);
-                if (nameLevel + 1 <= 5)
-                {
-                    int newlevel = nameLevel + 1;
-                    if (newlevel >= maxlevel)
-                    {
-                        progresslevels[i + 1] = "" + newlevel;
-                    }                   
-                }
-                else
-                {
-                    progresslevels[i + 1] = "5";
-                }
-
-            }
-            //Debug.Log(progresslevels[i]);
-        }
-
-        int levelunlock = nameLevel + 1;
-        if (OnNewLevelUnlocked != null)
-            OnNewLevelUnlocked(levelunlock);
-
-        CreateAndSaveLevel(progresslevels);
-    }
-
-    private void CreateAndSaveLevel(string[] progresslevels)
-    {
-        string cadena = "";
-        for (int i = 0; i < progresslevels.Length; i += 2)
-        {
-            if ((i + 1) < progresslevels.Length)
-            {
-                cadena += progresslevels[i] + "-" + progresslevels[i + 1] + "/";
-            }
-
-        }
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.gameProgressLevel, cadena);
     }
 }

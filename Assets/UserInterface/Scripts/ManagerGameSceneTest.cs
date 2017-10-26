@@ -32,14 +32,13 @@ public class ManagerGameSceneTest : MonoBehaviour {
     {
         AdsManagement.OnCoinLive += HandleCoinLive;
         AdsManagement.OnMessageAds += HandleMessageAds;
-        AdsManagement.OnNewLevelUnlocked += HandleNewLevelUnlocek;
     }
 
     private void Awake()
     {
         AdsManagement.Instance.InitAds();
 
-        PlayConstant constant = new PlayConstant();
+        //PlayConstant constant = new PlayConstant();
         //coinLive = PlayerPrefs.GetInt(constant.coinLive, 3);
 		coinLive = GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints);
 
@@ -74,7 +73,6 @@ public class ManagerGameSceneTest : MonoBehaviour {
     {
         AdsManagement.OnCoinLive -= HandleCoinLive;
         AdsManagement.OnMessageAds -= HandleMessageAds;
-        AdsManagement.OnNewLevelUnlocked -= HandleNewLevelUnlocek;
     }
     #endregion
 
@@ -96,7 +94,8 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void CompleteLevel()
     {
-        AdsManagement.Instance.CompleteLevel(nameWorld, nameLevel);
+        MenuUtils.CompleteLevel(nameWorld, nameLevel);
+        NewLevelUnlocek(MenuUtils.newLevel);
     }
 
 
@@ -129,7 +128,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
             AdsManagement.Instance.ShowVideo();
     }
 
-    private void HandleNewLevelUnlocek(int newLevel)
+    private void NewLevelUnlocek(int newLevel)
     {
         if(newLevel>0)
             textNewLevel.text = "Desbloqueo el Nivel: " + newLevel;
