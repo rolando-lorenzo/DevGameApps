@@ -43,7 +43,6 @@ public class CharacterStore{
 	public string descriptionCharacter;
 	public string idInStoreGooglePlay;
 	public bool isAvailableInStore;
-    public List<string> defaultLenguage;
 }
 
 public class StoreManager : MonoBehaviour {
@@ -263,12 +262,32 @@ public class StoreManager : MonoBehaviour {
 	/// Populates the characters panel.
 	/// </summary>
 	public void PopulateCharacters(){
-		foreach (CharacterStore character in characters) {
+        LanguagesManager managerGlobal = LanguagesManager.Load();
+        string deviceLanguage = Application.systemLanguage.ToString();
+
+        if (managerGlobal.VerifyLanguage(deviceLanguage))
+        {
+            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
+            managerGlobal.SetLanguage(languageEnum);
+        }
+        else
+        {
+            managerGlobal.SetLanguage(Language.Default);
+        }
+        foreach (CharacterStore character in characters) {
 			foreach (CharacterItem characterTemplate in charactersTemplate) {
 				if(character.idCharacter == characterTemplate.idCharacter){
-					characterTemplate.nameCharacter.text = character.nameCharacter;
+
+                    string nameCharacter = managerGlobal.GetString(character.nameCharacter);
+
+                    characterTemplate.nameCharacter.text = nameCharacter;
 					characterTemplate.btnBuyProduct.image.overrideSprite = character.imgBuyCharacter;
-					characterTemplate.descCharacter = character.descriptionCharacter;
+
+                    string descriptionCharacter = managerGlobal.GetString(character.descriptionCharacter);
+                    string btnText = managerGlobal.GetString("btnglobal");
+
+                    characterTemplate.descCharacter = descriptionCharacter;
+                    characterTemplate.btnBuyProduct.GetComponentInChildren<Text>().text = btnText;
 					characterTemplate.idStoreGooglePlay = character.idInStoreGooglePlay;
 					characterTemplate.isAvailableInStore = character.isAvailableInStore;
 					Image currentImg = characterTemplate.character.GetComponent<Image> ();

@@ -1562,43 +1562,38 @@ MonoBehaviour:
   - idCharacter: 0
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
-    nameCharacter: Jaguar Mexicano
-    descriptionCharacter: Jaguar Mex es un felino muy peligroso
+    nameCharacter: ctr01
+    descriptionCharacter: ctr01desc
     idInStoreGooglePlay: personajeJaguarMexicano
     isAvailableInStore: 0
-    defaultLenguage: []
   - idCharacter: 1
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
-    nameCharacter: Pantera
-    descriptionCharacter: Con Pantera felino triunfas siempre
+    nameCharacter: ctr02
+    descriptionCharacter: ctr02desc
     idInStoreGooglePlay: personajePantera
     isAvailableInStore: 1
-    defaultLenguage: []
   - idCharacter: 2
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
-    nameCharacter: Tigre Sable
-    descriptionCharacter: Tigre Sable es mas lento y mala onda
+    nameCharacter: ctr05
+    descriptionCharacter: ctr05desc
     idInStoreGooglePlay: personajeTigreSable
     isAvailableInStore: 0
-    defaultLenguage: []
   - idCharacter: 3
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
-    nameCharacter: Puma
-    descriptionCharacter: Puma es tu mejor opcion por que nunca se cansa.
+    nameCharacter: ctr03
+    descriptionCharacter: ctr03desc
     idInStoreGooglePlay: personajePuma
     isAvailableInStore: 1
-    defaultLenguage: []
   - idCharacter: 4
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
-    nameCharacter: Gato Montes
-    descriptionCharacter: Gato Montes es tu mejor opcion por que nunca se cansa.
+    nameCharacter: ctr04
+    descriptionCharacter: ctr04desc
     idInStoreGooglePlay: personajeGatoMontes
     isAvailableInStore: 0
-    defaultLenguage: []
 --- !u!1 &710777844
 GameObject:
   m_ObjectHideFlags: 0

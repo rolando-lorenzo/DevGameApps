@@ -78,7 +78,7 @@ public class SystemEditor: EditorWindow{
 
             managerindex--;
             if (managerindex < 0)
-                managerindex = 0;
+                managerindex = managerGlobal.Translations.Count-1;
         }
         if (GUILayout.Button("Next"))
         {
@@ -86,7 +86,7 @@ public class SystemEditor: EditorWindow{
 
             managerindex++;
             if (managerindex >= managerGlobal.Translations.Count)
-                managerindex = managerGlobal.Translations.Count - 1;
+                managerindex = 0;
         }
         EditorGUILayout.EndHorizontal();
     }

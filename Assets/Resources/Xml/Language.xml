@@ -212,5 +212,105 @@
       <Mandarin />
       <German />
     </Translation>
+    <Translation key="ctr01">
+      <Default>Mexican Jaguar</Default>
+      <English>Mexican Jaguar</English>
+      <Spanish>Jaguar Mexicano</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr01desc">
+      <Default>Jaguar Méx. is a very dangerous feline.</Default>
+      <English>Jaguar Méx. is a very dangerous feline.</English>
+      <Spanish>Jaguar Méx. es un felino muy peligroso.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr02">
+      <Default>Panther</Default>
+      <English>Panther</English>
+      <Spanish>Pantera</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr02desc">
+      <Default>With Feline Panther you always triumph.</Default>
+      <English>With Feline Panther you always triumph.</English>
+      <Spanish>Con Pantera felino triunfas siempre.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr03">
+      <Default>Cougar </Default>
+      <English>Cougar </English>
+      <Spanish>Puma</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr03desc">
+      <Default>Puma is your best choice because you never get tired.</Default>
+      <English>Puma is your best choice because you never get tired.</English>
+      <Spanish>Puma es tu mejor opcion por que nunca se cansa.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr04">
+      <Default>Wildcat </Default>
+      <English>Wildcat </English>
+      <Spanish>Gato Montes</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr04desc">
+      <Default>Gato Montes is your best choice because you never get tired.</Default>
+      <English>Gato Montes is your best choice because you never get tired.</English>
+      <Spanish>Gato Montes es tu mejor opcion por que nunca se cansa.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr05">
+      <Default>Tiger Sable</Default>
+      <English>Tiger Sable</English>
+      <Spanish>Tigre Sable</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ctr05desc">
+      <Default>Tiger Sable is slower and bad vibe.</Default>
+      <English>Tiger Sable is slower and bad vibe.</English>
+      <Spanish>Tigre Sable es mas lento y mala onda.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
   </Translations>
 </LanguagesManager>
