@@ -906,7 +906,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5.1000004, y: 0}
+  m_AnchoredPosition: {x: -5.1, y: 0}
   m_SizeDelta: {x: 10.2, y: 63.4}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &420099484
@@ -1451,83 +1451,83 @@ MonoBehaviour:
   containerPowerUps: {fileID: 2096010898}
   containerUpgrades: {fileID: 820919827}
   popupBuy: {fileID: 1000995072970542, guid: c40dbaa27168343c0aad47c69c6d228b, type: 2}
-  dialogMessage: {fileID: 1242504538257936, guid: 383afa9cdcfc1ff47815c5495ebaa107,
+  dialogMessage: {fileID: 1363506852510352, guid: d73ec5760c2dc314888d4ae0a15e42d7,
     type: 2}
-  imgDialogMessageINFO: {fileID: 21300000, guid: ea12512506de08747a752e3290142446,
+  imgDialogMessageINFO: {fileID: 21300004, guid: ea0917b62ac36d44fb6717b02381c235,
     type: 3}
-  imgDialogMessageWARN: {fileID: 21300002, guid: ea12512506de08747a752e3290142446,
+  imgDialogMessageWARN: {fileID: 21300002, guid: ea0917b62ac36d44fb6717b02381c235,
     type: 3}
-  imgDialogMessageERR: {fileID: 21300004, guid: ea12512506de08747a752e3290142446,
+  imgDialogMessageERR: {fileID: 21300000, guid: ea0917b62ac36d44fb6717b02381c235,
     type: 3}
   mainContainer: {fileID: 830340004}
   packagesStore:
   - idProduct: Pck1
     imgProducto: {fileID: 21300000, guid: 54edf29dbe4294a4b8477368690468b8, type: 3}
-    nameProduct: Paquete1
+    nameProduct: pack01
     priceProduct: 1
-    descProduct: 200 huellas + 2 multiplicadores + 2 chuletas.
-    btnBuyText: Buy
+    descProduct: pack01desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: huellas200
     isAvailableInStore: 1
   - idProduct: Pck2
     imgProducto: {fileID: 21300000, guid: 478f59244e8d4874da1f947d234d38c1, type: 3}
-    nameProduct: Paquete 2
+    nameProduct: pack02
     priceProduct: 3
-    descProduct: 500 huellas + 5 multiplicadores + 3 chuletas + 2 magnetos.
-    btnBuyText: Buy
+    descProduct: pack02desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: huellas500
     isAvailableInStore: 1
   - idProduct: Pck3
     imgProducto: {fileID: 21300000, guid: 478f59244e8d4874da1f947d234d38c1, type: 3}
-    nameProduct: Paquete 3
+    nameProduct: pack03
     priceProduct: 5
-    descProduct: 1000 huellas + 10 multiplicadores + 5 chuletas + 5 magnetos.
-    btnBuyText: Buy
+    descProduct: pack03desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: huellas1000
     isAvailableInStore: 1
   - idProduct: Pck4
     imgProducto: {fileID: 21300000, guid: 6c19208ba55aa37499774e2c8f34cdb6, type: 3}
-    nameProduct: Paquete 4
+    nameProduct: pack04
     priceProduct: 10
-    descProduct: 15,000 huellas + 10 multiplicadores + 10 chuletas + 10 magnetos.
-    btnBuyText: Buy
+    descProduct: pack04desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: huellas15000
     isAvailableInStore: 1
   powerUpsStore:
   - idProduct: Pup1
     imgProducto: {fileID: 21300004, guid: 55b93665cf981462891b1a9afbb46fae, type: 3}
-    nameProduct: Magneto
+    nameProduct: pup01
     priceProduct: 5
-    descProduct: Con esto te haras Magneto de los XMen
-    btnBuyText: Comprar
+    descProduct: pup01desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 0
     costInHuellas: 5
   - idProduct: Pup2
     imgProducto: {fileID: 21300004, guid: 55b93665cf981462891b1a9afbb46fae, type: 3}
-    nameProduct: Multiplicador
+    nameProduct: pup02
     priceProduct: 1
-    descProduct: Con esto te haras omnipresente
-    btnBuyText: Comprar
+    descProduct: pup02desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 0
     costInHuellas: 10
   - idProduct: Pup3
     imgProducto: {fileID: 21300004, guid: 55b93665cf981462891b1a9afbb46fae, type: 3}
-    nameProduct: Chuleta
+    nameProduct: pup03
     priceProduct: 3
-    descProduct: Con esto te haras super fuerte
-    btnBuyText: Comprar
+    descProduct: pup03desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 0
     costInHuellas: 20
   upgradesStore:
   - idProduct: Upg1
     imgProducto: {fileID: 21300000, guid: 6c19208ba55aa37499774e2c8f34cdb6, type: 3}
-    nameProduct: Chuleta
+    nameProduct: upg01
     priceProduct: 0.5
-    descProduct: Este es el upgrade de felinos
-    btnBuyText: Buy
+    descProduct: upg01desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 1
     costInHuellas: 5
@@ -1536,10 +1536,10 @@ MonoBehaviour:
     - chuletaUpgrade2
   - idProduct: Upg2
     imgProducto: {fileID: 21300000, guid: 54edf29dbe4294a4b8477368690468b8, type: 3}
-    nameProduct: Magneto
+    nameProduct: upg02
     priceProduct: 0.5
-    descProduct: Este es el upgrade de huellas
-    btnBuyText: Buy
+    descProduct: upg02desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 1
     costInHuellas: 15
@@ -1548,10 +1548,10 @@ MonoBehaviour:
     - magnetoUpgrade2
   - idProduct: Upg3
     imgProducto: {fileID: 21300000, guid: 2ae3660a54fa3754594bdd89b807ea5d, type: 3}
-    nameProduct: Multiplicador
+    nameProduct: upg03
     priceProduct: 0.5
-    descProduct: Este es el upgrade de huellas
-    btnBuyText: Buy
+    descProduct: upg03desc
+    btnBuyText: btnglobal
     idInStoreGooglePlay: 
     isAvailableInStore: 1
     costInHuellas: 25
@@ -1566,6 +1566,7 @@ MonoBehaviour:
     descriptionCharacter: Jaguar Mex es un felino muy peligroso
     idInStoreGooglePlay: personajeJaguarMexicano
     isAvailableInStore: 0
+    defaultLenguage: []
   - idCharacter: 1
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
@@ -1573,6 +1574,7 @@ MonoBehaviour:
     descriptionCharacter: Con Pantera felino triunfas siempre
     idInStoreGooglePlay: personajePantera
     isAvailableInStore: 1
+    defaultLenguage: []
   - idCharacter: 2
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
@@ -1580,6 +1582,7 @@ MonoBehaviour:
     descriptionCharacter: Tigre Sable es mas lento y mala onda
     idInStoreGooglePlay: personajeTigreSable
     isAvailableInStore: 0
+    defaultLenguage: []
   - idCharacter: 3
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
@@ -1587,6 +1590,7 @@ MonoBehaviour:
     descriptionCharacter: Puma es tu mejor opcion por que nunca se cansa.
     idInStoreGooglePlay: personajePuma
     isAvailableInStore: 1
+    defaultLenguage: []
   - idCharacter: 4
     imgCharacter: {fileID: 21300000, guid: 477ce674af28d4ca0adf2b699c71385f, type: 3}
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
@@ -1594,6 +1598,7 @@ MonoBehaviour:
     descriptionCharacter: Gato Montes es tu mejor opcion por que nunca se cansa.
     idInStoreGooglePlay: personajeGatoMontes
     isAvailableInStore: 0
+    defaultLenguage: []
 --- !u!1 &710777844
 GameObject:
   m_ObjectHideFlags: 0

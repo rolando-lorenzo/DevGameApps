@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<LanguagesManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <CurrentLanguage>English</CurrentLanguage>
+  <Translations>
+    <Translation key="pack01">
+      <Default>Package 1 </Default>
+      <English>Package 1 </English>
+      <Spanish>Paquete 1</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack01desc">
+      <Default>200 tracks + 2 multipliers + 2 chops.</Default>
+      <English>200 tracks + 2 multipliers + 2 chops.</English>
+      <Spanish>200 huellas + 2 multiplicadores + 2 chuletas.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="btnglobal">
+      <Default>Buy</Default>
+      <English>Buy</English>
+      <Spanish>Comprar</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack02">
+      <Default>Package 2</Default>
+      <English>Package 2</English>
+      <Spanish>Paquete 2</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack02desc">
+      <Default>500 tracks + 5 multipliers + 3 chops + 2 magnets.</Default>
+      <English>500 tracks + 5 multipliers + 3 chops + 2 magnets.</English>
+      <Spanish>500 huellas + 5 multiplicadores + 3 chuletas + 2 magnetos.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack03">
+      <Default>Package 3</Default>
+      <English>Package 3</English>
+      <Spanish>Paquete 3</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack03desc">
+      <Default>1000 footprints + 10 multipliers + 5 chops + 5 magnets.</Default>
+      <English>1000 footprints + 10 multipliers + 5 chops + 5 magnets.</English>
+      <Spanish>1000 huellas + 10 multiplicadores + 5 chuletas + 5 magnetos.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack04">
+      <Default>Package 4</Default>
+      <English>Package 4</English>
+      <Spanish>Paquete 4</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pack04desc">
+      <Default>15,000 prints + 10 multipliers + 10 chops + 10 magnets.</Default>
+      <English>15,000 prints + 10 multipliers + 10 chops + 10 magnets.</English>
+      <Spanish>15,000 huellas + 10 multiplicadores + 10 chuletas + 10 magnetos.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup01">
+      <Default>Magneto</Default>
+      <English>Magneto</English>
+      <Spanish>Magneto</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup01desc">
+      <Default>With this you will become Magneto of the X-Men.</Default>
+      <English>With this you will become Magneto of the X-Men.</English>
+      <Spanish>Con esto te haras Magneto de los X-Men.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup02">
+      <Default>Multiplier</Default>
+      <English>Multiplier</English>
+      <Spanish>Multiplicador</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup02desc">
+      <Default>With this you will become omnipresent.</Default>
+      <English>With this you will become omnipresent.</English>
+      <Spanish>Con esto te haras omnipresente.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup03">
+      <Default>Chop</Default>
+      <English>Chop</English>
+      <Spanish>Chuleta</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="pup03desc">
+      <Default>With this you will become super strong.</Default>
+      <English>With this you will become super strong.</English>
+      <Spanish>Con esto te haras super fuerte.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg01">
+      <Default>Chop</Default>
+      <English>Chop</English>
+      <Spanish>Chuleta</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg01desc">
+      <Default>This is the feline upgrade.</Default>
+      <English>This is the feline upgrade.</English>
+      <Spanish>Este es el upgrade de felinos.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg02">
+      <Default>Magneto</Default>
+      <English>Magneto</English>
+      <Spanish>Magneto</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg02desc">
+      <Default>This is the footprint upgrade.</Default>
+      <English>This is the footprint upgrade.</English>
+      <Spanish>Este es el upgrade de huellas.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg03">
+      <Default>Multiplier</Default>
+      <English>Multiplier</English>
+      <Spanish>Multiplicador</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="upg03desc">
+      <Default>This is the fingerprint upgrade.</Default>
+      <English>This is the fingerprint upgrade.</English>
+      <Spanish>Este es el upgrade de huellas.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+  </Translations>
+</LanguagesManager>

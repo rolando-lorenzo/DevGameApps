@@ -43,6 +43,7 @@ public class CharacterStore{
 	public string descriptionCharacter;
 	public string idInStoreGooglePlay;
 	public bool isAvailableInStore;
+    public List<string> defaultLenguage;
 }
 
 public class StoreManager : MonoBehaviour {
@@ -90,6 +91,11 @@ public class StoreManager : MonoBehaviour {
 
 	private const int CHARACTER_LOCK = 1;
 	private const int CHARACTER_UNLOCK = 2;
+    /// <summary>
+    /// manager of languages
+    /// </summary>
+    /// 
+
 	#endregion
 
 	#region Class accesors
@@ -98,8 +104,8 @@ public class StoreManager : MonoBehaviour {
 	#region MonoBehaviour overrides
 	void OnEnable()
 	{
-		//Eventos internos
-		infiniteScrollCharacters = charactersPanel.GetComponentInChildren<InfiniteScroll> ();
+        //Eventos internos
+        infiniteScrollCharacters = charactersPanel.GetComponentInChildren<InfiniteScroll> ();
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
@@ -159,8 +165,7 @@ public class StoreManager : MonoBehaviour {
 	}
 
 	void Start(){
-		
-		ShowELementsInScreen ();
+        ShowELementsInScreen ();
 		StartCoroutine (AnimPanelsPackages ());
 	}
 
@@ -206,19 +211,40 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulatePackages(List<PackagesStore> products){
-		
-		foreach(var product in products){
+		LanguagesManager managerGlobal= LanguagesManager.Load();
+        string deviceLanguage = Application.systemLanguage.ToString();
+
+        if (managerGlobal.VerifyLanguage(deviceLanguage))
+        {
+            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
+            managerGlobal.SetLanguage(languageEnum);
+        }
+        else
+        {
+            managerGlobal.SetLanguage(Language.Default);
+        }
+
+        foreach (var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductPackage) as GameObject;
 			ProductItem ProductItem = nuevoProducto.GetComponent<ProductItem> ();
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-			ProductItem.nameProduct.text = product.nameProduct;
+
+            String nameProduct = managerGlobal.GetString(product.nameProduct);
+
+			ProductItem.nameProduct.text = nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPriceProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-			ProductItem.descProduct.text = product.descProduct;
+
+            String descProduct = managerGlobal.GetString(product.descProduct);
+
+			ProductItem.descProduct.text = descProduct;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
-			ProductItem.btnBuy.GetComponentInChildren<Text> ().text = product.btnBuyText;
+
+            String btnBuyText = managerGlobal.GetString(product.btnBuyText);
+
+            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
 			nuevoProducto.transform.SetParent (containerPaquetes,false);
 
 			if (product.isAvailableInStore) {
@@ -268,20 +294,40 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulatePowerUps(List<PowerUpsStore> products){
-		
-		foreach(var product in products){
+        LanguagesManager managerGlobal = LanguagesManager.Load();
+        string deviceLanguage = Application.systemLanguage.ToString();
+
+        if (managerGlobal.VerifyLanguage(deviceLanguage))
+        {
+            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
+            managerGlobal.SetLanguage(languageEnum);
+        }
+        else
+        {
+            managerGlobal.SetLanguage(Language.Default);
+        }
+        foreach (var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductPowerup) as GameObject;
 			ProductItem ProductItem = nuevoProducto.GetComponent<ProductItem> ();
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-			ProductItem.nameProduct.text = product.nameProduct;
+
+            String nameProduct = managerGlobal.GetString(product.nameProduct);
+
+            ProductItem.nameProduct.text = nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPawprintsProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-			ProductItem.descProduct.text = product.descProduct;
+
+            String descProduct = managerGlobal.GetString(product.descProduct);
+
+            ProductItem.descProduct.text = descProduct;
 			ProductItem.costInHuellas = product.costInHuellas;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
-			ProductItem.btnBuy.GetComponentInChildren<Text> ().text = product.btnBuyText;
+
+            String btnBuyText = managerGlobal.GetString(product.btnBuyText);
+
+            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
 			nuevoProducto.transform.SetParent (containerPowerUps,false);
 			if(product.isAvailableInStore){
 				// it could be purchased only in Online Store
@@ -299,22 +345,43 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulateUpgrades(List<UpgradesStore> products){
+        LanguagesManager managerGlobal = LanguagesManager.Load();
+        string deviceLanguage = Application.systemLanguage.ToString();
 
-		foreach(var product in products){
+        if (managerGlobal.VerifyLanguage(deviceLanguage))
+        {
+            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
+            managerGlobal.SetLanguage(languageEnum);
+        }
+        else
+        {
+            managerGlobal.SetLanguage(Language.Default);
+        }
+
+        foreach (var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductUpgrade) as GameObject;
 			ProductUpgradeItem ProductItem = nuevoProducto.GetComponent<ProductUpgradeItem> ();
 
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-			ProductItem.nameProduct.text = product.nameProduct;
+
+            string nameProduct = managerGlobal.GetString(product.nameProduct);
+
+            ProductItem.nameProduct.text = nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPriceProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-			ProductItem.descProduct.text = product.descProduct;
+
+            string descProduct = managerGlobal.GetString(product.descProduct);
+
+            ProductItem.descProduct.text = descProduct;
 			ProductItem.costInHuellas = product.costInHuellas;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
 			ProductItem.levelsUpgradesIdGooglePlay = product.levelsUpgradesIdGooglePlay;
-			ProductItem.btnBuy.GetComponentInChildren<Text> ().text = product.btnBuyText;
+
+            string btnBuyText  = managerGlobal.GetString(product.btnBuyText);
+
+            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
 			nuevoProducto.transform.SetParent (containerUpgrades,false);
 			ProductItem.SetChildId (product.idProduct);
 			if(product.isAvailableInStore){

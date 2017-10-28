@@ -14,8 +14,8 @@ public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 	public Text priceProduct;
 	public Button btnBuy;
 
-	//Configuracion slide
-	public float slideTime;
+    //Configuracion slide
+    public float slideTime;
 	public float minY, maxY;
 	protected internal RectTransform rectTranform;
 	#endregion
