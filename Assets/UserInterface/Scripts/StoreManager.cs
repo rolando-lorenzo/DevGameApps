@@ -210,7 +210,7 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulatePackages(List<PackagesStore> products){
-		LanguagesManager managerGlobal= LanguagesManager.Load();
+		LanguagesManager managerGlobal= LanguagesManager.Instance;
         string deviceLanguage = Application.systemLanguage.ToString();
 
         if (managerGlobal.VerifyLanguage(deviceLanguage))
@@ -262,7 +262,7 @@ public class StoreManager : MonoBehaviour {
 	/// Populates the characters panel.
 	/// </summary>
 	public void PopulateCharacters(){
-        LanguagesManager managerGlobal = LanguagesManager.Load();
+        LanguagesManager managerGlobal = LanguagesManager.Instance;
         string deviceLanguage = Application.systemLanguage.ToString();
 
         if (managerGlobal.VerifyLanguage(deviceLanguage))

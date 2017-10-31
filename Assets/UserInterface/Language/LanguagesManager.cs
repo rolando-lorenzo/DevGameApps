@@ -7,6 +7,35 @@ using System;
 
 [XmlRoot("LanguagesManager")]
 public class LanguagesManager{
+
+    private static LanguagesManager _instance;
+
+    public static LanguagesManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                try
+                {
+                    XmlSerializer parametersSerializer = new XmlSerializer(typeof(LanguagesManager));
+                    Stream reader = new MemoryStream((Resources.Load("Xml/Language", typeof(TextAsset)) as TextAsset).bytes);
+                    StreamReader textReader = new StreamReader(reader);
+                    _instance = (LanguagesManager)parametersSerializer.Deserialize(textReader);
+                    reader.Dispose();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Error Deserialize xml " + e);
+                }
+
+                return _instance;
+            }
+
+            return _instance;
+        }
+    }
+
     private static string globalfilePath = Path.Combine(Application.dataPath, "Resources/Xml/Language.xml");
     
     // Current language - set at the begining of the game(1st time)
@@ -145,27 +174,37 @@ public class LanguagesManager{
 
     public void Save()
     {
-        XmlSerializer serializer = new XmlSerializer(typeof(LanguagesManager));
-        using (FileStream stream = new FileStream(globalfilePath, FileMode.Create))
+        try
         {
-            Debug.Log(globalfilePath);
+            XmlSerializer serializer = new XmlSerializer(typeof(LanguagesManager));
+            Stream stream = new FileStream(Application.dataPath + "/Resources/Xml/Language.xml", FileMode.Create, FileAccess.Write);
             serializer.Serialize(stream, this);
+            stream.Close();
         }
+        catch (Exception e)
+        {
+            Debug.Log("Error serialize xml " + e);
+        }
+
     }
 
     public static LanguagesManager Load()
     {
-        //Debug.Log(File.Exists(globalfilePath));
-        if (File.Exists(globalfilePath))
+        LanguagesManager languagesManager = null;
+        try
         {
-            XmlSerializer serializer = new XmlSerializer(typeof(LanguagesManager));
-            using (FileStream stream = new FileStream(globalfilePath, FileMode.Open))
-            {
-                return serializer.Deserialize (stream) as LanguagesManager;
-            }
+            XmlSerializer parametersSerializer = new XmlSerializer(typeof(LanguagesManager));
+            Stream reader = new MemoryStream((Resources.Load("Xml/Language", typeof(TextAsset)) as TextAsset).bytes);
+            StreamReader textReader = new StreamReader(reader);
+            languagesManager = (LanguagesManager)parametersSerializer.Deserialize(textReader);
+            reader.Dispose();
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Error Deserialize xml " + e);
         }
 
-        return new LanguagesManager();
+        return languagesManager;
     }
 }
 

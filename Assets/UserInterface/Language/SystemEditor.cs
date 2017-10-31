@@ -18,7 +18,7 @@ public class SystemEditor: EditorWindow{
     private void OnEnable()
     {
         //load
-        managerGlobal = LanguagesManager.Load();
+        managerGlobal = LanguagesManager.Instance;
         managerindex = 0;
     }
 
