@@ -35,7 +35,13 @@ public class GameItemsManager  {
         //public string gameMusic = "GameMusic";
         worldName,
         levelWorld,
-        gameProgressLevel
+        gameProgressLevel,
+
+        //Variables of the Dialog Rate
+        postPoneTime,
+        rateState,
+        dateTimePostponeExecution,
+        globalCountRate
     }
 	#endregion
 

@@ -13,10 +13,14 @@ public class ManagerGameSceneTest : MonoBehaviour {
     public Button buttonAddLive;
     public Button buttonSubtractLive;
     public Button buttonCompleteLevel;
+    public Button buttonRateVerify;
 
     public Button buttonBack;
     public Text nameWorldLevel;
     public Text textNewLevel;
+
+    [Header("Conteiner Main for Rate")]
+    public Transform conteinerMain;
 
     private int coinLive;
     private string nameWorld { get; set; }
@@ -61,11 +65,13 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
         buttonCompleteLevel.onClick.AddListener(CompleteLevel);
         buttonBack.onClick.AddListener(GoToLevel);
+
+        buttonRateVerify.onClick.AddListener(VerifyRateShow);
     }
 
     private void Update()
     {
-		Debug.Log (GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints));
+		//Debug.Log (GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints));
         VerifyCoin();
     }
 
@@ -146,6 +152,12 @@ public class ManagerGameSceneTest : MonoBehaviour {
         coinLive += lives;
 		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,lives);
         coinOrLive.text = "" + coinLive;
+    }
+
+    private void VerifyRateShow()
+    {
+        ManagerRate.instance.mainCointener = conteinerMain;
+        ManagerRate.instance.ShowAPIRater();
     }
 
     #endregion

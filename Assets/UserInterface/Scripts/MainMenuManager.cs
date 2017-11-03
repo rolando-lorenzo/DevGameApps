@@ -39,6 +39,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject textConditions;
     public GameObject btnCloseConditions;
 
+    //rate ....
     #endregion
 
     #region Class accesors
@@ -88,7 +89,7 @@ public class MainMenuManager : MonoBehaviour {
 
     void Update()
     {
-        
+      
     }
     #endregion
 
