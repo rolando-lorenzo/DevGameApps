@@ -79,7 +79,7 @@ MonoBehaviour:
   id: 1
   btnGoLevel: {fileID: 114459710462352046}
   nameLevel: {fileID: 114504027811827476}
-  imgLockLevel: {fileID: 1865800848620406}
+  imgLockLevel: {fileID: 114739077157356174}
   nameScene: Level1-W1
 --- !u!114 &114459710462352046
 MonoBehaviour:

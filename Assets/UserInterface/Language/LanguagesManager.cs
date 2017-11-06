@@ -35,8 +35,6 @@ public class LanguagesManager{
             return _instance;
         }
     }
-
-    private static string globalfilePath = Path.Combine(Application.dataPath, "Resources/Xml/Language.xml");
     
     // Current language - set at the begining of the game(1st time)
     [XmlEnum("CurrentLanguage")]
@@ -130,7 +128,6 @@ public class LanguagesManager{
 
     public string GetString(string key)
     {
-        Debug.Log(key);
         int positionEntry = FindEntry(key);
         if (positionEntry >= 0)
             return Translations[positionEntry].GetValue(CurrentLanguage);
@@ -174,38 +171,19 @@ public class LanguagesManager{
 
     public void Save()
     {
-        try
-        {
+        try{
             XmlSerializer serializer = new XmlSerializer(typeof(LanguagesManager));
             Stream stream = new FileStream(Application.dataPath + "/Resources/Xml/Language.xml", FileMode.Create, FileAccess.Write);
             serializer.Serialize(stream, this);
             stream.Close();
         }
-        catch (Exception e)
-        {
+        catch(Exception e){
             Debug.Log("Error serialize xml " + e);
         }
 
     }
 
-    public static LanguagesManager Load()
-    {
-        LanguagesManager languagesManager = null;
-        try
-        {
-            XmlSerializer parametersSerializer = new XmlSerializer(typeof(LanguagesManager));
-            Stream reader = new MemoryStream((Resources.Load("Xml/Language", typeof(TextAsset)) as TextAsset).bytes);
-            StreamReader textReader = new StreamReader(reader);
-            languagesManager = (LanguagesManager)parametersSerializer.Deserialize(textReader);
-            reader.Dispose();
-        }
-        catch (Exception e)
-        {
-            Debug.Log("Error Deserialize xml " + e);
-        }
-
-        return languagesManager;
-    }
+   
 }
 
 public enum Language

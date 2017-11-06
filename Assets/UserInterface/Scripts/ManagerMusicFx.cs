@@ -8,7 +8,7 @@ public class ManagerMusicFx : MonoBehaviour {
 
     #region Class members
     public Slider musicSlider;
-    public GameObject musicGameObjectOn;
+    public GameObject musicGameObjectOn; 
     public GameObject musicGameObjectOff;
     private Image musicImage;
 

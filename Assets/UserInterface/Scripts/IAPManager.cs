@@ -142,7 +142,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 				product = storeController.products.WithID (id: currentCharacter.idStoreGooglePlay);
 			} else {
 				if (OnIAPMessageProgress != null)
-					OnIAPMessageProgress("Tipo de objeto no disponible en tienda.", true);
+                    OnIAPMessageProgress("msg_err_produc_not_avaliable", true);
 			}
 
 			// If the look up found a product for this device's store and that product is ready to be sold ... 
@@ -158,7 +158,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			{
 				// ... report the product look-up failure situation  
 				if (OnIAPMessageProgress != null)
-					OnIAPMessageProgress("Producto no disponible o no se encuentra en tienda.", true);
+                    OnIAPMessageProgress("msg_err_produc_not_avaliable", true);
 			}
 		}
 		// Otherwise ...
@@ -167,7 +167,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			// ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
 			// retrying initiailization.
 			if (OnIAPMessageProgress != null)
-				OnIAPMessageProgress("Errro con el servidor al inicializar la api de IAP.", true);
+                OnIAPMessageProgress("msg_err_init_api_iap", true);
 		}
 	}
 
@@ -210,7 +210,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			Debug.Log("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform);
 			//this.MostrarDialogo("RestorePurchases FAIL. Not supported on this platform. Current = " + Application.platform,true);
 			if (OnIAPMessageProgress != null)
-				OnIAPMessageProgress("IAP No soportado para esta plataforma.", true);
+                OnIAPMessageProgress("msg_err_platfrom_not_support", true);
 		}
 	}
 
@@ -238,7 +238,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 	{
 		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
 		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
-		string msg = "Ocurrio un error con el servidor al inicializar api de IAP: "+ error;
+        string msg = "msg_err_init_api_iap";
 		if (OnIAPMessageProgress != null)
 			OnIAPMessageProgress(msg, true);
 	}
@@ -262,12 +262,13 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			}
 
 			string msj = "Compra exitosa !! Has adquirido "+nameItemPurchased+". Felicidades !!";
+            Debug.Log(msj);
 			if (OnIAPSuccessPurchasedInStore != null)
-				OnIAPSuccessPurchasedInStore(msj, productItemBuy);
+                OnIAPSuccessPurchasedInStore("msg_info_success_purchased", productItemBuy);
 		}
 		else 
 		{
-			string msj = "[ProcessPurchase] Ocurrio un error al intentar comprar en la tienda.";
+            string msj = "msg_err_purchased_error";
 			if (OnIAPMessageProgress != null)
 				OnIAPMessageProgress(msj, true);
 		}
@@ -281,9 +282,10 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 
 	public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
 	{
-		// A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
-		// this reason with the user to guide their troubleshooting actions.
-		string msj = "[PurchaseFailed] Ocurrio un error al intentar comprar en la tienda.";
+        // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
+        // this reason with the user to guide their troubleshooting actions.
+       
+        string msj = "msg_err_purchased_error";
 		if (OnIAPMessageProgress != null)
 			OnIAPMessageProgress(msj, true);
 	}

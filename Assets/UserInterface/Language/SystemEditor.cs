@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 public class SystemEditor: EditorWindow{
@@ -91,3 +92,4 @@ public class SystemEditor: EditorWindow{
         EditorGUILayout.EndHorizontal();
     }
 }
+#endif

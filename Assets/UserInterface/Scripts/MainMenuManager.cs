@@ -1,11 +1,11 @@
-﻿using System;
+﻿
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour {
+
 
     #region Class members
     // GUIAnimFREE objects of top and bottom 
@@ -18,7 +18,6 @@ public class MainMenuManager : MonoBehaviour {
 
     //Button of Facebook and list Score
 	public GUIAnim btnFacebookAnim;
-	public GUIAnim btnListScoreAnim;
 
     //Text Conditions
     public string conditionstext;
@@ -30,8 +29,6 @@ public class MainMenuManager : MonoBehaviour {
     public Button buttonSetting;
     public Button buttonCloseDialog;
 	public Button buttonStore;
-	public Button buttonFacebook;
-	public Button buttonListScore;
 
 	public GameObject panelSetting;
     public GameObject panelConditions;
@@ -39,7 +36,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject textConditions;
     public GameObject btnCloseConditions;
 
-    //rate ....
+
     #endregion
 
     #region Class accesors
@@ -89,7 +86,7 @@ public class MainMenuManager : MonoBehaviour {
 
     void Update()
     {
-      
+        
     }
     #endregion
 
@@ -100,7 +97,7 @@ public class MainMenuManager : MonoBehaviour {
     private IEnumerator MoveInButtonsMenu()
     {
         //Wait 2frame
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0f);
 
         // MoveIn all buttons
         btnPlayAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
@@ -115,10 +112,9 @@ public class MainMenuManager : MonoBehaviour {
     private IEnumerator MoveInButtonsSecondMenu()
     {
         //Wait 2frame
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0f);
         // MoveIn all buttons
         btnFacebookAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
-        btnListScoreAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
 
     }
 

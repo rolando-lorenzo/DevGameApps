@@ -12,11 +12,11 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 	public GameObject character;
 	public Button btnBuyProduct;
 	public Text nameCharacter;
+
+    [HideInInspector]
 	public string descCharacter;
 	public delegate void ItemPurchasedAction (CharacterItem itemPurchased);
 	public event ItemPurchasedAction OnItemPurchased;
-	public const int CHARACTER_LOCK = 1;
-	public const int CHARACTER_UNLOCK = 2;
 	#endregion
 
 	#region Class accesors
@@ -30,7 +30,6 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 		btnBuyProduct = character.GetComponentInChildren<Button> ();
 		nameCharacter = character.GetComponentInChildren<Text> ();
 		btnBuyProduct.onClick.AddListener (() => BuyCharacter(this));
-		InactivateButtonBuyIfUnlocked ();
 
 	}
 	#endregion
@@ -48,17 +47,23 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 			OnItemPurchased (character);
 	}
 
-	public void InactivateButtonBuyIfUnlocked(){
-		try{
-			GameItemsManager.Item itCharacter = (GameItemsManager.Item) Enum.Parse(typeof(GameItemsManager.Item), idStoreGooglePlay); 
-			Debug.Log("Status character "+itCharacter+" "+GameItemsManager.GetValueById(itCharacter));
-			if(GameItemsManager.GetValueById(itCharacter) == CHARACTER_UNLOCK){
-				btnBuyProduct.gameObject.SetActive(false);
-			}
-		}catch(ArgumentException){
-			Debug.Log ("Error al convertir enum.");
-		}
-	}
+
+    public void UpdateTextTranslation()
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        if (nameCharacter != null)
+        {
+            nameCharacter.text = lm.GetString(nameCharacter.text);
+        }
+        if (descCharacter != null)
+        {
+            descCharacter = lm.GetString(descCharacter);
+        }
+        if(btnBuyProduct != null){
+            btnBuyProduct.GetComponentInChildren<Text>().text = lm.GetString("text_btn_buy");
+        }
+
+    }
 
 	#endregion
 

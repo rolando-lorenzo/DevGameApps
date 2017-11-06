@@ -11,7 +11,7 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	public int id;
 	public Button btnGoLevel;
 	public Text nameLevel;
-	public GameObject imgLockLevel;
+	public Image imgLockLevel;
 	public string nameScene;
 	private RectTransform rectTranform;
 	#endregion
@@ -24,24 +24,21 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	void Awake () {
 		rectTranform = GetComponent<RectTransform> ();
 		btnGoLevel = GetComponent<Button> ();
-		btnGoLevel.onClick.AddListener (() => GoToLevel(nameScene, id));
+		btnGoLevel.onClick.AddListener (() => GoToLevel (nameScene));
 	}
 	#endregion
 
 	#region Super class overrides
-	public override string ToString()
-	{
-		return base.ToString() + ": " + id.ToString()+ " " +nameScene;
+	public override string ToString () {
+		return base.ToString () + ": " + id.ToString () + " " + nameScene;
 	}
 	#endregion
 
 
 	#region Interface implementation
-	public void GoToLevel(string level, int id){
-		Debug.Log ("Cargando escena..."+level);
-        //SceneManager.LoadScene (level);
-        GameItemsManager.SetValueById(GameItemsManager.Item.levelWorld, id);
-        SceneManager.LoadScene("GameSceneTest");
+	public void GoToLevel (string level) {
+		Debug.Log ("Cargando escena..." + level);
+		SceneManager.LoadScene (level);
 	}
 
 

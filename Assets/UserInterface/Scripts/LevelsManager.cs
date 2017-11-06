@@ -46,10 +46,10 @@ public class LevelsManager : MonoBehaviour {
 
     #region MonoBehaviour overrides
     void Awake () {
-        currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.worldName);
+        currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName);
 
         char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel).Split(split);
+        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel).Split(split);
 
         for (int i = 0; i < progresslevels.Length; i++)
         {
@@ -119,8 +119,8 @@ public class LevelsManager : MonoBehaviour {
 							level.nameScene = lb.nameScene;
                             if (maxLevels >= level.id)
                             {
-                                level.imgLockLevel.SetActive(false);
-                                level.btnGoLevel.interactable = true;
+								level.imgLockLevel.gameObject.SetActive(false);
+                                //level.btnGoLevel.interactable = true;
                             }
                             else
                             {

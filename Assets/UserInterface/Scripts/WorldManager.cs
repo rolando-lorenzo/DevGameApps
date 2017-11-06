@@ -43,7 +43,7 @@ public class WorldManager : MonoBehaviour {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
 
-        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel, "Circus-1/Train-1/Zoo-1/Mansion-1");
+        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, "Circus-5/Train-5/Zoo-5/Mansion-5");
     }
 
 	void Start () {
@@ -119,8 +119,8 @@ public class WorldManager : MonoBehaviour {
 				break;
 		}
 
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.worldName, nameWorldText);
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.gameProgressLevel, progressLevels);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.WorldName, nameWorldText);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.GameProgressLevel, progressLevels);
         //string namescene = "LevelScene" + this.nameworld;
         string nameScene = "LevelScene";
         SceneManager.LoadScene(sceneName: nameScene);

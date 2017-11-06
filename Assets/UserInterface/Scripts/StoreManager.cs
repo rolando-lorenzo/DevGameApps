@@ -9,12 +9,11 @@ using UnityEngine.SceneManagement;
 
 
 public class ProductStore {
-	public string idProduct;
+    public GameItemsManager.StoreProduct idProduct;
 	public Sprite imgProducto;
 	public string nameProduct;
 	public float priceProduct;
 	public string descProduct;
-	public string btnBuyText;
 	public string idInStoreGooglePlay;
 	public bool isAvailableInStore;
 }
@@ -25,12 +24,10 @@ public class PackagesStore : ProductStore {
 
 [System.Serializable]
 public class PowerUpsStore : ProductStore { 
-	public int costInHuellas;
 }
 
 [System.Serializable]
 public class UpgradesStore : ProductStore {
-	public int costInHuellas;
 	public List<string> levelsUpgradesIdGooglePlay;
 }
 
@@ -52,22 +49,16 @@ public class StoreManager : MonoBehaviour {
 	public GameObject btnProductPowerup;
 	public GameObject btnProductUpgrade;
 	public Button btnCharacters;
+    public Button buttonPowerups;
 	public Button btnInviteFriends;
-	public Button btnCloseCharactersPanel;
 	public Button btnBackScene;
+    public GameObject charactersPanel;
 	public GameObject packagesPanel;
-	public GameObject powerUpsPanel;
-	public GameObject upgradesPanel;
-	public GameObject contadorHuellas;
-
-	private GUIAnim packagesPanelAnim;
-	private GUIAnim powerUpsPanelAnim;
-	private GUIAnim upgradesPanelAnim;
-
-	public GameObject charactersPanel;
+    public GameObject backgroundCharacters;
+    public GameObject backgroundPackages;
+    public GameObject contadorHuellas;
+    public GameObject headerProducts;
 	public Transform containerPaquetes;
-	public Transform containerPowerUps;
-	public Transform containerUpgrades;
 	public GameObject popupBuy;
 	public GameObject dialogMessage;
 	public Sprite imgDialogMessageINFO;
@@ -87,14 +78,14 @@ public class StoreManager : MonoBehaviour {
 	private InfiniteScroll infiniteScrollCharacters;
 	private Text descCharacter;
 	private IAPManager iapManager;
+    private bool IsMovePanelFromRightPackages = true;
+    private bool IsMovePanelFromRightCharacters = true;
 
 	private const int CHARACTER_LOCK = 1;
 	private const int CHARACTER_UNLOCK = 2;
-    /// <summary>
-    /// manager of languages
-    /// </summary>
-    /// 
 
+    private GUIAnim backgroundCharactersAnim;
+    private GUIAnim backgroundPackagesAnim;
 	#endregion
 
 	#region Class accesors
@@ -103,8 +94,8 @@ public class StoreManager : MonoBehaviour {
 	#region MonoBehaviour overrides
 	void OnEnable()
 	{
-        //Eventos internos
-        infiniteScrollCharacters = charactersPanel.GetComponentInChildren<InfiniteScroll> ();
+		//Eventos internos
+		infiniteScrollCharacters = charactersPanel.GetComponentInChildren<InfiniteScroll> ();
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
@@ -132,15 +123,11 @@ public class StoreManager : MonoBehaviour {
 
 	void Awake () {
 		instance = this;
-		btnCharacters.onClick.AddListener (ShowCharactersPanel);
+        btnCharacters.onClick.AddListener (ShowCharactersPanel);
 		btnInviteFriends.onClick.AddListener (InviteFriends);
-		btnCloseCharactersPanel.onClick.AddListener (HideCharactersPanel);
 		btnBackScene.onClick.AddListener (GoMainMenu);
+        buttonPowerups.onClick.AddListener(ShowPowerupsPanel);
 		charactersTemplate = charactersPanel.GetComponentsInChildren<CharacterItem> ();
-
-		packagesPanelAnim = packagesPanel.GetComponent<GUIAnim>();
-		powerUpsPanelAnim = powerUpsPanel.GetComponent<GUIAnim>();
-		upgradesPanelAnim = upgradesPanel.GetComponent<GUIAnim>();
 
 		Transform txtHeaderTrsform = charactersPanel.transform.Find ("TextDescCharacters");
 		if (txtHeaderTrsform != null) {
@@ -160,12 +147,23 @@ public class StoreManager : MonoBehaviour {
 		iapManager = IAPManager.Instance;
 		iapManager.InitializePurchasing (itemsAvailableInStore);
 
+        backgroundCharactersAnim = backgroundCharacters.GetComponent<GUIAnim>();
+        backgroundPackagesAnim = backgroundPackages.GetComponent<GUIAnim>();
 
+        backgroundCharactersAnim.m_MoveIn.Enable = true;
+        backgroundCharactersAnim.m_MoveIn.MoveFrom = GUIAnim.ePosMove.RightScreenEdge;
+        backgroundCharactersAnim.m_MoveOut.Enable = true;
+        backgroundCharactersAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.LeftScreenEdge;
+
+        backgroundPackagesAnim.m_MoveIn.Enable = true;
+        backgroundPackagesAnim.m_MoveIn.MoveFrom = GUIAnim.ePosMove.LeftScreenEdge;
+        backgroundPackagesAnim.m_MoveOut.Enable = true;
+        backgroundPackagesAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.RightScreenEdge;
 	}
 
 	void Start(){
-        ShowELementsInScreen ();
-		StartCoroutine (AnimPanelsPackages ());
+        AnimPanelIn(backgroundPackagesAnim,IsMovePanelFromRightPackages);
+		ShowELementsInScreen ();
 	}
 
 	void OnDisable()
@@ -210,40 +208,24 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulatePackages(List<PackagesStore> products){
-		LanguagesManager managerGlobal= LanguagesManager.Instance;
-        string deviceLanguage = Application.systemLanguage.ToString();
 
-        if (managerGlobal.VerifyLanguage(deviceLanguage))
-        {
-            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
-            managerGlobal.SetLanguage(languageEnum);
-        }
-        else
-        {
-            managerGlobal.SetLanguage(Language.Default);
-        }
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 
-        foreach (var product in products){
+        //creates header of current elemnts
+        BuildHeaderProducts(lm.GetString("text_header_product_packages"));
+
+        //creates body of products
+		foreach(var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductPackage) as GameObject;
 			ProductItem ProductItem = nuevoProducto.GetComponent<ProductItem> ();
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-
-            String nameProduct = managerGlobal.GetString(product.nameProduct);
-
-			ProductItem.nameProduct.text = nameProduct;
+			ProductItem.nameProduct.text = product.nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPriceProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-
-            String descProduct = managerGlobal.GetString(product.descProduct);
-
-			ProductItem.descProduct.text = descProduct;
+			ProductItem.descProduct.text = product.descProduct;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
-
-            String btnBuyText = managerGlobal.GetString(product.btnBuyText);
-
-            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
 			nuevoProducto.transform.SetParent (containerPaquetes,false);
 
 			if (product.isAvailableInStore) {
@@ -254,6 +236,7 @@ public class StoreManager : MonoBehaviour {
 				// it could be purchased only with items like Hulleas, yinyangs ....
 				itemsNotAvailableStore.Add (ProductItem); 
 			}
+            ProductItem.UpdateTextTranslation();
 			btnsSlide.Add (ProductItem);
 		}
 	}
@@ -262,32 +245,15 @@ public class StoreManager : MonoBehaviour {
 	/// Populates the characters panel.
 	/// </summary>
 	public void PopulateCharacters(){
-        LanguagesManager managerGlobal = LanguagesManager.Instance;
-        string deviceLanguage = Application.systemLanguage.ToString();
 
-        if (managerGlobal.VerifyLanguage(deviceLanguage))
-        {
-            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
-            managerGlobal.SetLanguage(languageEnum);
-        }
-        else
-        {
-            managerGlobal.SetLanguage(Language.Default);
-        }
-        foreach (CharacterStore character in characters) {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+
+		foreach (CharacterStore character in characters) {
 			foreach (CharacterItem characterTemplate in charactersTemplate) {
 				if(character.idCharacter == characterTemplate.idCharacter){
-
-                    string nameCharacter = managerGlobal.GetString(character.nameCharacter);
-
-                    characterTemplate.nameCharacter.text = nameCharacter;
+					characterTemplate.nameCharacter.text = character.nameCharacter;
 					characterTemplate.btnBuyProduct.image.overrideSprite = character.imgBuyCharacter;
-
-                    string descriptionCharacter = managerGlobal.GetString(character.descriptionCharacter);
-                    string btnText = managerGlobal.GetString("btnglobal");
-
-                    characterTemplate.descCharacter = descriptionCharacter;
-                    characterTemplate.btnBuyProduct.GetComponentInChildren<Text>().text = btnText;
+					characterTemplate.descCharacter = character.descriptionCharacter;
 					characterTemplate.idStoreGooglePlay = character.idInStoreGooglePlay;
 					characterTemplate.isAvailableInStore = character.isAvailableInStore;
 					Image currentImg = characterTemplate.character.GetComponent<Image> ();
@@ -299,11 +265,12 @@ public class StoreManager : MonoBehaviour {
 						// it could be purchased only with items like Hulleas, yinyangs ....
 						itemsNotAvailableStore.Add (characterTemplate); 
 					}
+                    characterTemplate.UpdateTextTranslation();
 				}	
 			}
 		}
 		if (characters.Count > 0) {
-			descCharacter.text = characters [0].descriptionCharacter;
+            descCharacter.text = lm.GetString(characters[0].descriptionCharacter);
 		}
 
 	}
@@ -313,41 +280,25 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulatePowerUps(List<PowerUpsStore> products){
-        LanguagesManager managerGlobal = LanguagesManager.Load();
-        string deviceLanguage = Application.systemLanguage.ToString();
+		
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 
-        if (managerGlobal.VerifyLanguage(deviceLanguage))
-        {
-            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
-            managerGlobal.SetLanguage(languageEnum);
-        }
-        else
-        {
-            managerGlobal.SetLanguage(Language.Default);
-        }
-        foreach (var product in products){
+        //creates header of current elemnts
+        BuildHeaderProducts(lm.GetString("text_header_product_powerups"));
+
+        //creates body of products
+		foreach(var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductPowerup) as GameObject;
 			ProductItem ProductItem = nuevoProducto.GetComponent<ProductItem> ();
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-
-            String nameProduct = managerGlobal.GetString(product.nameProduct);
-
-            ProductItem.nameProduct.text = nameProduct;
+			ProductItem.nameProduct.text = product.nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPawprintsProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-
-            String descProduct = managerGlobal.GetString(product.descProduct);
-
-            ProductItem.descProduct.text = descProduct;
-			ProductItem.costInHuellas = product.costInHuellas;
+			ProductItem.descProduct.text = product.descProduct;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
-
-            String btnBuyText = managerGlobal.GetString(product.btnBuyText);
-
-            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
-			nuevoProducto.transform.SetParent (containerPowerUps,false);
+            nuevoProducto.transform.SetParent (containerPaquetes,false);
 			if(product.isAvailableInStore){
 				// it could be purchased only in Online Store
 				itemsAvailableInStore.Add (ProductItem);
@@ -355,6 +306,7 @@ public class StoreManager : MonoBehaviour {
 				// it could be purchased only with items like Hulleas, yinyangs ....
 				itemsNotAvailableStore.Add (ProductItem); 
 			}
+            ProductItem.UpdateTextTranslation();
 			btnsSlide.Add (ProductItem);
 		}
 	}
@@ -364,44 +316,27 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="products">Products.</param>
 	private void PopulateUpgrades(List<UpgradesStore> products){
-        LanguagesManager managerGlobal = LanguagesManager.Load();
-        string deviceLanguage = Application.systemLanguage.ToString();
 
-        if (managerGlobal.VerifyLanguage(deviceLanguage))
-        {
-            Language languageEnum = managerGlobal.GetLanguageEnum(deviceLanguage);
-            managerGlobal.SetLanguage(languageEnum);
-        }
-        else
-        {
-            managerGlobal.SetLanguage(Language.Default);
-        }
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 
-        foreach (var product in products){
+        //creates header of current elemnts
+        BuildHeaderProducts(lm.GetString("text_header_product_upgrades"));
+
+        //creates body of products
+		foreach(var product in products){
 			GameObject nuevoProducto = Instantiate (btnProductUpgrade) as GameObject;
 			ProductUpgradeItem ProductItem = nuevoProducto.GetComponent<ProductUpgradeItem> ();
 
 			ProductItem.idProductItem = product.idProduct;
 			ProductItem.imgProduct.sprite = product.imgProducto;
-
-            string nameProduct = managerGlobal.GetString(product.nameProduct);
-
-            ProductItem.nameProduct.text = nameProduct;
+			ProductItem.nameProduct.text = product.nameProduct;
 			ProductItem.priceProduct.text = MenuUtils.FormatPriceProducts(product.priceProduct);
 			ProductItem.valCurrency = product.priceProduct;
-
-            string descProduct = managerGlobal.GetString(product.descProduct);
-
-            ProductItem.descProduct.text = descProduct;
-			ProductItem.costInHuellas = product.costInHuellas;
+			ProductItem.descProduct.text = product.descProduct;
 			ProductItem.idStoreGooglePlay = product.idInStoreGooglePlay;
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
 			ProductItem.levelsUpgradesIdGooglePlay = product.levelsUpgradesIdGooglePlay;
-
-            string btnBuyText  = managerGlobal.GetString(product.btnBuyText);
-
-            ProductItem.btnBuy.GetComponentInChildren<Text> ().text = btnBuyText;
-			nuevoProducto.transform.SetParent (containerUpgrades,false);
+            nuevoProducto.transform.SetParent (containerPaquetes,false);
 			ProductItem.SetChildId (product.idProduct);
 			if(product.isAvailableInStore){
 				// it could be purchased only in Online Store
@@ -410,9 +345,18 @@ public class StoreManager : MonoBehaviour {
 				// it could be purchased only with items like Hulleas, yinyangs ....
 				itemsNotAvailableStore.Add (ProductItem); 
 			}
+            ProductItem.UpdateTextTranslation();
 			btnsSlide.Add (ProductItem);
 		}
 	}
+
+
+    private void BuildHeaderProducts(string text){
+
+        GameObject header = Instantiate(headerProducts) as GameObject;
+        header.GetComponentInChildren<Text>().text = text;
+        header.transform.SetParent(containerPaquetes, false);
+    }
 
 	/// <summary>
 	/// Closes all buttons.
@@ -428,19 +372,23 @@ public class StoreManager : MonoBehaviour {
 	}
 
 	/// <summary>
-	/// Shows the characters (Turn TRUE SetActive)panel.
-	/// </summary>
+    /// Shows the characters panel.
+    /// </summary>
 	public void ShowCharactersPanel(){
-		ToggleActivePackagesPanels ();
-		charactersPanel.SetActive (true);
-		GUIAnim guiAnim = charactersPanel.GetComponent<GUIAnim> ();
-		guiAnim.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
+        AnimPanelOut(backgroundPackagesAnim,IsMovePanelFromRightCharacters);
+        StartCoroutine(WaitForIn(backgroundCharactersAnim,IsMovePanelFromRightCharacters));
+
+        IsMovePanelFromRightCharacters = !IsMovePanelFromRightCharacters;
 	}
 
-	public void HideCharactersPanel(){
-		ToggleActivePackagesPanels ();
-		GUIAnim guiAnim = charactersPanel.GetComponent<GUIAnim> ();
-		guiAnim.MoveOut (GUIAnimSystem.eGUIMove.SelfAndChildren);
+    /// <summary>
+    /// Shows the powerups panel.
+    /// </summary>
+    public void ShowPowerupsPanel(){
+        AnimPanelOut(backgroundCharactersAnim,IsMovePanelFromRightPackages);
+        StartCoroutine(WaitForIn(backgroundPackagesAnim,IsMovePanelFromRightPackages));
+
+        IsMovePanelFromRightPackages = !IsMovePanelFromRightPackages;
 	}
 
 	public void GoMainMenu(){
@@ -456,18 +404,18 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	public void ShowELementsInScreen(){
 		StringBuilder txtElemts = new StringBuilder();
-		txtElemts.Append("Huellas: "+ GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints).ToString());
-		txtElemts.Append(", Multiplicadores: "+ GameItemsManager.GetValueById(GameItemsManager.Item.numMultipliers).ToString());
-		txtElemts.Append(", Chuletas: "+ GameItemsManager.GetValueById(GameItemsManager.Item.numMultipliers).ToString());
-		txtElemts.Append(", Magnetos: "+  GameItemsManager.GetValueById(GameItemsManager.Item.numMagnets).ToString());
-		txtElemts.Append(", YinYangs: "+ GameItemsManager.GetValueById(GameItemsManager.Item.numYinYangs).ToString());
+		txtElemts.Append("Huellas: "+ GameItemsManager.GetValueById(GameItemsManager.Item.NumPawprints).ToString());
+		txtElemts.Append(", Multiplicadores: "+ GameItemsManager.GetValueById(GameItemsManager.Item.NumMultipliers).ToString());
+		txtElemts.Append(", Chuletas: "+ GameItemsManager.GetValueById(GameItemsManager.Item.NumMultipliers).ToString());
+		txtElemts.Append(", Magnetos: "+  GameItemsManager.GetValueById(GameItemsManager.Item.NumMagnets).ToString());
+		txtElemts.Append(", YinYangs: "+ GameItemsManager.GetValueById(GameItemsManager.Item.NumYinYangs).ToString());
 		Debug.Log (txtElemts);
 		Text contHuellasText = contadorHuellas.GetComponentInChildren<Text> ();
 		contHuellasText.text = txtElemts.ToString();
 	}
 
 	/// <summary>
-	/// Handles the current character.
+	/// Handles OnChangeCharcater event  on infinite-scroll.
 	/// </summary>
 	/// <param name="previousItem">Previous item.</param>
 	/// <param name="currentItem">Current item.</param>
@@ -487,60 +435,19 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="chItem">Character item.</param>
 	private void HandleCharacterToWillPurchase(CharacterItem chItem){
 		Debug.Log ("Intentando comprar... : "+chItem.nameCharacter.text);
+        GameItemsManager.Character en = (GameItemsManager.Character)Enum.Parse(typeof(GameItemsManager.Character), chItem.idStoreGooglePlay);
+
+        //If character was purchased avoid buy again
+        if(!GameItemsManager.isLockedCharacter(en)){
+            BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR);
+            return;
+        }
+        //proceeds to buy on store online
 		if (chItem.isAvailableInStore) {
 			Debug.Log ("Comprando en IAP...");
 			iapManager.BuyInStore (chItem);
 		} else {
-			Debug.Log ("Comprando con Items (Huellas, YingYangs, etc...)");
-			//Unlock character
-			GameItemsManager.Item en = (GameItemsManager.Item)Enum.Parse(typeof(GameItemsManager.Item),chItem.idStoreGooglePlay);
-			Debug.Log (en);
-			if (string.Equals (chItem.idStoreGooglePlay, GameItemsManager.Item.personajeJaguarMexicano.ToString ())) {
-
-				//case Jaguar Mexicano (Needs 25000 huellas, 5 YingYangs)
-				if(checkItemsAvailableToPlay(25000,5)){
-					GameItemsManager.SetValueById (GameItemsManager.Item.personajeJaguarMexicano, CHARACTER_UNLOCK);
-					chItem.InactivateButtonBuyIfUnlocked ();
-					Debug.Log ("Se ha desbloqueado a "
-						+GameItemsManager.Item.personajeJaguarMexicano.ToString()+" a valor: "
-						+GameItemsManager.GetValueById(GameItemsManager.Item.personajeJaguarMexicano));
-					BuildPopupPurchasedCharacter (chItem);
-				} else {
-					BuildDialogMessage ("Message from Store","Nesecitas 25000 huellas, 5 YingYangs ! Para desbloquear este personaje.",DialogMessage.typeMessage.ERROR);
-				}
-
-			} else if (string.Equals (chItem.idStoreGooglePlay, GameItemsManager.Item.personajeTigreSable.ToString ())) {
-
-				//case Tigre dientes de sable (Needs 50000 huellas, 15 YingYangs)
-				if(checkItemsAvailableToPlay(50000,15)){
-					GameItemsManager.SetValueById (GameItemsManager.Item.personajeTigreSable, CHARACTER_UNLOCK);
-					chItem.InactivateButtonBuyIfUnlocked ();
-					Debug.Log ("Se ha desbloqueado a "
-						+GameItemsManager.Item.personajeTigreSable.ToString()+" a valor: "
-						+GameItemsManager.GetValueById(GameItemsManager.Item.personajeTigreSable));
-					BuildPopupPurchasedCharacter (chItem);
-					
-				} else {
-					BuildDialogMessage ("Message from Store","Nesecitas 50000 huellas, 15 YingYangs ! Para desbloquear este personaje.",DialogMessage.typeMessage.ERROR);
-				}
-
-			} else if (string.Equals (chItem.idStoreGooglePlay, GameItemsManager.Item.personajeGatoMontes.ToString ())) {
-
-				//case Gato Montes (Needs 25000 huellas, 10 YingYangs)
-				if (checkItemsAvailableToPlay (25000, 10)) {
-					GameItemsManager.SetValueById (GameItemsManager.Item.personajeGatoMontes, CHARACTER_UNLOCK);
-					chItem.InactivateButtonBuyIfUnlocked ();
-					Debug.Log ("Se ha desbloqueado a "
-						+ GameItemsManager.Item.personajeGatoMontes.ToString () + " a valor: "
-						+ GameItemsManager.GetValueById (GameItemsManager.Item.personajeGatoMontes));
-					BuildPopupPurchasedCharacter (chItem);
-				} else {
-					BuildDialogMessage ("Message from Store","Nesecitas 25000 huellas, 10 YingYangs ! Para desbloquear este personaje.",DialogMessage.typeMessage.ERROR);
-				}
-
-			} else {
-				BuildDialogMessage ("Message from Store","Personaje no considerado para Online Store !",DialogMessage.typeMessage.ERROR);
-			}
+			//Caso de que se compren personajes con huellas yong yangs etc. aqui se maneja el pago.
 		}
 	}
 
@@ -551,8 +458,8 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="numHuellas">Number huellas.</param>
 	/// <param name="numYingYangs">Number ying yangs.</param>
 	private bool checkItemsAvailableToPlay(int numHuellas, int numYingYangs){
-		if (numHuellas <= GameItemsManager.GetValueById (GameItemsManager.Item.numPawprints)
-		    && numYingYangs <= GameItemsManager.GetValueById (GameItemsManager.Item.numYinYangs)) {
+		if (numHuellas <= GameItemsManager.GetValueById (GameItemsManager.Item.NumPawprints)
+		    && numYingYangs <= GameItemsManager.GetValueById (GameItemsManager.Item.NumYinYangs)) {
 			return true;
 		} else {
 			return false;
@@ -583,19 +490,28 @@ public class StoreManager : MonoBehaviour {
 
 			int globalCostPowerUp = ((int)currentBought.valCurrency * currentBought.numProductsToBuy);
 
-			if (globalCostPowerUp <= GameItemsManager.GetValueById (GameItemsManager.Item.numPawprints)) {
-				//subtracts pawprints
+			if (globalCostPowerUp <= GameItemsManager.GetValueById (GameItemsManager.Item.NumPawprints)) {
+				
+                //subtracts pawprints
 				substractElements (globalCostPowerUp, 0, 0, 0);
-				BuildDialogMessage ("Message from Store","Compra exitosa !! Ahora ya cuentas con el PowerUp "+currentBought.nameProduct.text,DialogMessage.typeMessage.INFO);
+                Debug.Log("Compra exitosa !! Ahora ya cuentas con el PowerUp " + currentBought.ToString());
+
+                //Save new PowerUp
+                GameItemsManager.SetPowerUpValue(currentBought.idProductItem, 1);
+                Debug.Log("Se ha guardado 1 nuevo power up .. "+ currentBought.idProductItem.ToString() +", Ahora ya cuentas con "+GameItemsManager.GetPowerUpValue(currentBought.idProductItem));
+
+                BuildDialogMessage ("msg_store_title_popup","msg_info_success_purchased",DialogMessage.typeMessage.INFO);
+
 			} else {
-				BuildDialogMessage ("Message from Store","No cuentas con Huellas suficientes para este PowerUp",DialogMessage.typeMessage.ERROR);
+                BuildDialogMessage ("msg_store_title_popup","msg_err_insuficient_resources",DialogMessage.typeMessage.ERROR);
 			}
 			Debug.Log (contadorHuellas.GetComponentInChildren<Text> ().text);
 		}
 
+        //Va a la tienda de Google play
 		if (pi is ProductUpgradeItem){
 			ProductUpgradeItem currentBought = ((ProductUpgradeItem)pi);
-			Debug.Log ("[StoreManager] Upgrade comprado"+currentBought.idProductItem +" "+ currentBought.nameProduct.text);
+			Debug.Log ("[StoreManager] Upgrade a comprar..."+currentBought);
 			if (currentBought.isAvailableInStore) {
 				iapManager.BuyInStore (pi);
 			}
@@ -610,7 +526,7 @@ public class StoreManager : MonoBehaviour {
 	private void HandleIncializationIAP (bool isError){
 		if (isError) {
 			Debug.Log ("[StoreManager] Ocurrio un error al inicializar api de IAP");
-			BuildDialogMessage ("Message from Store","Ocurrio un error al inicializar api de IAP",DialogMessage.typeMessage.ERROR);
+            BuildDialogMessage ("msg_store_title_popup","msg_err_init_api_iap",DialogMessage.typeMessage.ERROR);
 		}
 
 	}
@@ -621,7 +537,7 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="messageResult">Message result.</param>
 	/// <param name="isError">If set to <c>true</c> is error.</param>
 	private void HandleIAPEvents(string messageResult, bool isError){
-		string titlePopup = "Message from Store";
+        string titlePopup = "msg_store_title_popup";
 		if (isError) {
 			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.ERROR);
 		} else {
@@ -636,62 +552,72 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="messageResult">Message result.</param>
 	/// <param name="item">Item.</param>
 	private void HandleSuccessPurchasedInStore(string messageResult, IStorePurchase ite){
-		string titlePopup = "Message from Store";
-
-		if (ite is ProductItem) {
-			//Acciones en la compra exitosa desde IAP
+        Debug.Log("Menssage from store: "+messageResult);
+		
+        //If was successful purchased a product from IAP
+        if (ite is ProductItem) {
 			ProductItem currentProduct = ((ProductItem)ite);
+
+            //If it's some Package.
 			if (currentProduct is ProductPackagesItem) {
 				ProductPackagesItem currentPck= ((ProductPackagesItem)currentProduct);
 				Debug.Log ("Paquete pagado-> "+currentPck.ToString());
-				//if was purchased package 1
-				if (string.Equals(currentPck.idProductItem,"Pck1")) {
-					//200 huellas + 2 multiplicadores + 2 chuletas
-					addElements (200,2,2,0);
-				}
+				
+                switch(currentPck.idProductItem){
 
-				//if was purchased package 2
-				if (string.Equals(currentPck.idProductItem,"Pck2")) {
-					//500 huellas + 5 multiplicadores + 3 chuletas + 2 magnetos
-					addElements (500,5,3,2);
-				}
+                    //if was purchased package 1
+                    case GameItemsManager.StoreProduct.Package1:
+                        //200 huellas + 2 multiplicadores + 2 chuletas
+                        addElements(200, 2, 2, 0);
+                        break;
 
-				//if was purchased package 3
-				if (string.Equals(currentPck.idProductItem,"Pck3")) {
-					//1000 huellas + 10 multiplicadores + 5 chuletas + 5 magnetos
-					addElements (1000,10,5,5);
-				}
+                    //if was purchased package 2
+                    case GameItemsManager.StoreProduct.Package2:
+                        //500 huellas + 5 multiplicadores + 3 chuletas + 2 magnetos
+                        addElements(500, 5, 3, 2);
+                        break;
+                    
+                    //if was purchased package 3
+                    case GameItemsManager.StoreProduct.Package3:
+                        //1000 huellas + 10 multiplicadores + 5 chuletas + 5 magnetos
+                        addElements(1000, 10, 5, 5);
+                        break;
 
-				//if was purchased package 4
-				if (string.Equals(currentPck.idProductItem,"Pck4")) {
-					//15,000 huellas + 10 multiplicadores + 10 chuletas + 10 magnetos
-					addElements (15000,10,10,10);
-				}
+                    //if was purchased package 4
+                    case GameItemsManager.StoreProduct.Package4:
+                        //15,000 huellas + 10 multiplicadores + 10 chuletas + 10 magnetos
+                        addElements(15000, 10, 10, 10);
+                        break;
+                }
 			}
-			BuildDialogMessage (titlePopup,messageResult,DialogMessage.typeMessage.INFO);
+
+            //If it's some Upgrade.
+            if (currentProduct is ProductUpgradeItem){
+                ProductUpgradeItem currentUpg = ((ProductUpgradeItem)currentProduct);
+                Debug.Log("Upgrade pagado-> " + currentUpg);
+                //increments in 1 after purchased current upgrade.
+                GameItemsManager.SetUpgradeValue(currentUpg.idProductItem,1);
+                Debug.Log("Se guarda y actualiza el valor del upgrade "+currentUpg.idProductItem.ToString() + ", ahora tiene un valor: "+GameItemsManager.GetUpgradeValue(currentUpg.idProductItem));
+                currentUpg.UpdatePriceAndProgress();
+
+            }
+
+            BuildPopupPurchasedProduct (currentProduct);
 		} 
 
+        //If was successful purchased a character from IAP
 		if (ite is CharacterItem) {
-			//Acciones en la compra exitosa de carateres desde IAP
 			CharacterItem currentCharacter = ((CharacterItem)ite);
-			//Unlock character
-			if(string.Equals(currentCharacter.idStoreGooglePlay,
-				GameItemsManager.Item.personajePantera.ToString())){
-				
-				GameItemsManager.SetValueById (GameItemsManager.Item.personajePantera, CHARACTER_UNLOCK);
-				Debug.Log ("Se ha desbloqueado a "
-					+GameItemsManager.Item.personajePantera.ToString()+" a valor: "
-					+GameItemsManager.GetValueById(GameItemsManager.Item.personajePantera));
-			}
-			if(string.Equals(currentCharacter.idStoreGooglePlay,
-				GameItemsManager.Item.personajePuma.ToString())){
 
-				GameItemsManager.SetValueById (GameItemsManager.Item.personajePuma, CHARACTER_UNLOCK);
-				Debug.Log ("Se ha desbloqueado a "
-					+GameItemsManager.Item.personajePuma.ToString()+" a valor: "
-					+GameItemsManager.GetValueById(GameItemsManager.Item.personajePuma));
-			}
-
+            GameItemsManager.Character ch = (GameItemsManager.Character)Enum.Parse(typeof(GameItemsManager.Character), currentCharacter.idStoreGooglePlay);
+            //Unlock character
+            GameItemsManager.SetUnlockCharacter(ch);
+            if(!GameItemsManager.isLockedCharacter(ch)){
+                Debug.Log("Se ha desbloqueado a "+ch.ToString());
+            } else{
+                BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR);
+                Debug.Log("No se pudo desbloquear a "+ch.ToString());
+            }
 			BuildPopupPurchasedCharacter (currentCharacter);
 		}
 
@@ -703,7 +629,7 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="msg">Message.</param>
 	private void HandleProductLimitBuyReached(string msg){
-		BuildDialogMessage ("Message from Store", msg, DialogMessage.typeMessage.ERROR);
+        BuildDialogMessage ("msg_store_title_popup", msg, DialogMessage.typeMessage.ERROR);
 	}
 
 	private CharacterStore searchImgCharacter(int id){
@@ -721,22 +647,22 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <returns>The image product.</returns>
 	/// <param name="id">Identifier.</param>
-	private ProductStore searchImgProduct(string id){
+    private ProductStore searchImgProduct(GameItemsManager.StoreProduct id){
 		ProductStore prodAux = null;
 		foreach (ProductStore prod in packagesStore) {
-			if (string.Equals(prod.idProduct,id)) {
+			if (prod.idProduct == id) {
 				prodAux = prod;
 				return prodAux;
 			}
 		}
 		foreach (ProductStore prod in powerUpsStore) {
-			if (string.Equals(prod.idProduct,id)) {
+			if (prod.idProduct == id) {
 				prodAux = prod;
 				return prodAux;
 			}
 		}
 		foreach (ProductStore prod in upgradesStore) {
-			if (string.Equals(prod.idProduct,id)) {
+			if (prod.idProduct == id) {
 				prodAux = prod;
 				return prodAux;
 			}
@@ -744,26 +670,22 @@ public class StoreManager : MonoBehaviour {
 		return prodAux;
 	}
 
-	/// <summary>
-	/// Toggles the show active products panels.
-	/// </summary>
-	private void ToggleActivePackagesPanels(){
-		packagesPanel.SetActive(!packagesPanel.activeSelf);
-		powerUpsPanel.SetActive(!powerUpsPanel.activeSelf);
-		upgradesPanel.SetActive(!upgradesPanel.activeSelf);
-	}
 
-	/// <summary>
-	/// Animations the panels products.
-	/// </summary>
-	/// <returns>The panels packages.</returns>
-	private IEnumerator AnimPanelsPackages() {
-		yield return new WaitForSeconds (0.5f);
-		packagesPanelAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
-		powerUpsPanelAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
-		upgradesPanelAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+    private void AnimPanelIn(GUIAnim obj, bool isMovePanelFromRight){
+     
+        obj.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+    }
 
-	}
+    private void AnimPanelOut(GUIAnim obj, bool isMovePanelFromRight)
+    {
+        obj.MoveOut(GUIAnimSystem.eGUIMove.SelfAndChildren);
+    }
+
+    private IEnumerator WaitForIn(GUIAnim obj, bool isMovePanelFromRight){
+        yield return new WaitForSeconds(1.0f);
+        obj.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+    }
+	
 
 	/// <summary>
 	/// Adds the elements.
@@ -779,11 +701,11 @@ public class StoreManager : MonoBehaviour {
 							 int numYingYangs = 0){
 
 
-		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,numHuellasPurchased);
-		GameItemsManager.addValueById (GameItemsManager.Item.numMultipliers,numMultiplicadoresPurchased);
-		GameItemsManager.addValueById (GameItemsManager.Item.numPorkchop,numChuletasPurchased);
-		GameItemsManager.addValueById (GameItemsManager.Item.numMagnets,numMagnetosPurchased);
-		GameItemsManager.addValueById (GameItemsManager.Item.numYinYangs,numYingYangs);
+		GameItemsManager.addValueById (GameItemsManager.Item.NumPawprints,numHuellasPurchased);
+		GameItemsManager.addValueById (GameItemsManager.Item.NumMultipliers,numMultiplicadoresPurchased);
+		GameItemsManager.addValueById (GameItemsManager.Item.NumPorkchop,numChuletasPurchased);
+		GameItemsManager.addValueById (GameItemsManager.Item.NumMagnets,numMagnetosPurchased);
+		GameItemsManager.addValueById (GameItemsManager.Item.NumYinYangs,numYingYangs);
 		ShowELementsInScreen ();
 	}
 
@@ -800,11 +722,11 @@ public class StoreManager : MonoBehaviour {
 		int numMagnetosPurchased,
 		int numYingYangs = 0){
 
-		GameItemsManager.subtractValueById (GameItemsManager.Item.numPawprints,numHuellasPurchased);
-		GameItemsManager.subtractValueById (GameItemsManager.Item.numMultipliers,numMultiplicadoresPurchased);
-		GameItemsManager.subtractValueById (GameItemsManager.Item.numPorkchop,numChuletasPurchased);
-		GameItemsManager.subtractValueById (GameItemsManager.Item.numMagnets,numMagnetosPurchased);
-		GameItemsManager.subtractValueById (GameItemsManager.Item.numYinYangs,numYingYangs);
+		GameItemsManager.subtractValueById (GameItemsManager.Item.NumPawprints,numHuellasPurchased);
+		GameItemsManager.subtractValueById (GameItemsManager.Item.NumMultipliers,numMultiplicadoresPurchased);
+		GameItemsManager.subtractValueById (GameItemsManager.Item.NumPorkchop,numChuletasPurchased);
+		GameItemsManager.subtractValueById (GameItemsManager.Item.NumMagnets,numMagnetosPurchased);
+		GameItemsManager.subtractValueById (GameItemsManager.Item.NumYinYangs,numYingYangs);
 		ShowELementsInScreen ();
 	}
 
@@ -831,6 +753,7 @@ public class StoreManager : MonoBehaviour {
 			break;
 		}
 		mostrarMsg.transform.SetParent (mainContainer,false);
+        popupMsg.UpdateTextTranslation();
 		popupMsg.OpenDialogmessage();
 	}
 
@@ -839,9 +762,10 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="pi">ProductItem</param>
 	private void BuildPopupPurchasedProduct(ProductItem pi){
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 		GameObject mostrarMsg = Instantiate (popupBuy) as GameObject;
 		PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct> ();
-		popupMsg.message.text = "Felicidades !! Has comprado a "+pi.nameProduct.text;
+        popupMsg.message.text = string.Format(lm.GetString("msg_info_success_store_purchased"), pi.nameProduct.text);
 		if (searchImgProduct (pi.idProductItem) != null) {
 			popupMsg.imgProductPurchased.overrideSprite = searchImgProduct(pi.idProductItem).imgProducto;
 		}
@@ -855,9 +779,10 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="pi">ProductItem</param>
 	private void BuildPopupPurchasedCharacter(CharacterItem pi){
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 		GameObject mostrarMsg = Instantiate (popupBuy) as GameObject;
 		PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct> ();
-		popupMsg.message.text = "Felicidades !! Has comprado a "+pi.nameCharacter.text;
+        popupMsg.message.text = string.Format(lm.GetString("msg_info_success_store_purchased"),pi.nameCharacter.text);
 		if (searchImgCharacter (pi.idCharacter) != null) {
 			popupMsg.imgProductPurchased.overrideSprite = searchImgCharacter(pi.idCharacter).imgCharacter;
 		}

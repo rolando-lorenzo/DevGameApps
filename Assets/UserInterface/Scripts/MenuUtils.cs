@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MenuUtils  {
@@ -15,7 +13,7 @@ public class MenuUtils  {
     /// <returns>The price products.</returns>
     /// <param name="val">Value.</param>
     public static string FormatPriceProducts (float val){
-		return "$"+ val + " USD";
+        return "$ " + val;
 	}
 
 	/// <summary>
@@ -35,7 +33,7 @@ public class MenuUtils  {
     public static void CompleteLevel(string nameWorld, int levelOfWorl)
     {
         char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.gameProgressLevel).Split(split);
+        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel).Split(split);
 
         int maxlevel = 0;
 
@@ -78,10 +76,29 @@ public class MenuUtils  {
             }
 
         }
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.gameProgressLevel, cadena);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.GameProgressLevel, cadena);
     }
 
+    /// <summary>
+    /// Builds the leanguage manager traslation.
+    /// </summary>
+    /// <returns>The leanguage manager traslation.</returns>
+    public static LanguagesManager BuildLeanguageManagerTraslation()
+    {
 
+        string deviceLanguage = Application.systemLanguage.ToString();
+
+        if (LanguagesManager.Instance.VerifyLanguage(deviceLanguage))
+        {
+            Language languageEnum = LanguagesManager.Instance.GetLanguageEnum(deviceLanguage);
+            LanguagesManager.Instance.SetLanguage(languageEnum);
+        }
+        else
+        {
+            LanguagesManager.Instance.SetLanguage(Language.Default);
+        }
+        return LanguagesManager.Instance;
+    }
 
     #endregion
 

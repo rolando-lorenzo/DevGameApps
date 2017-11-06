@@ -1,7 +1,7 @@
 fileFormatVersion: 2
-guid: ea0917b62ac36d44fb6717b02381c235
-timeCreated: 1508890429
-licenseType: Free
+guid: ea12512506de08747a752e3290142446
+timeCreated: 1508365599
+licenseType: Pro
 TextureImporter:
   fileIDToRecycleName:
     21300000: icon-error-succes-warn_0
@@ -37,8 +37,8 @@ TextureImporter:
     aniso: -1
     mipBias: -1
     wrapU: 1
-    wrapV: 1
-    wrapW: 1
+    wrapV: -1
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -102,7 +102,7 @@ TextureImporter:
         width: 193
         height: 192
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -116,7 +116,7 @@ TextureImporter:
         width: 193
         height: 167
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -125,12 +125,12 @@ TextureImporter:
       name: icon-error-succes-warn_2
       rect:
         serializedVersion: 2
-        x: 404
+        x: 401
         y: 0
-        width: 196
+        width: 199
         height: 192
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

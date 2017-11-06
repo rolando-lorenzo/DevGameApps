@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class ProductPackagesItem : ProductItem {
 
@@ -26,6 +23,11 @@ public class ProductPackagesItem : ProductItem {
 			OnProductPackageItemPurchased (pItem);
 
 	}
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 	#endregion
 
 }

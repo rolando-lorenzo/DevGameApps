@@ -62,6 +62,19 @@ public class DialogMessage : MonoBehaviour {
 			GameObject.Destroy (panelPrefabsDialog);
         }
     }
+
+    public void UpdateTextTranslation()
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        if (txtMessage != null)
+        {
+            txtMessage.text = lm.GetString(txtMessage.text);
+        }
+        if (txtTitle != null)
+        {
+            txtTitle.text = lm.GetString(txtTitle.text);
+        }
+    }
     #endregion
 
 }

@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class ProductPowerupItem : ProductItem {
 
@@ -44,6 +41,11 @@ public class ProductPowerupItem : ProductItem {
 		value *= (int)valCurrency;
 		priceProduct.text = MenuUtils.FormatPawprintsProducts (value);
 	}
+
+    public override string ToString()
+    {
+        return base.ToString() + ", Num Products To Buy: " + numProductsToBuy.ToString();
+    }
 		
 	#endregion
 }

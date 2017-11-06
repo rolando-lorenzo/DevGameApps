@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class StoreUpgradeProgress : MonoBehaviour {
@@ -17,14 +15,14 @@ public class StoreUpgradeProgress : MonoBehaviour {
 
 	#region Class accesors
 	public int currentProgress{ set; get;}
-	public string idUpgrade{ set; get;}
+    public GameItemsManager.StoreProduct idUpgrade{ set; get;}
 	public int limitOfUpgrades { set; get;}
 	#endregion
 
 	#region MonoBehaviour overrides
 	void Start(){
-		
-		currentProgress = PlayerPrefs.GetInt ("StoreUpgrade"+idUpgrade,0); //limit 5
+
+        currentProgress = GameItemsManager.GetUpgradeValue(idUpgrade); //limit 5
 		if(currentProgress > limitOfUpgrades){
 			currentProgress = limitOfUpgrades;
 		}
@@ -35,26 +33,28 @@ public class StoreUpgradeProgress : MonoBehaviour {
 	#endregion
 
 	#region Class implementation
-	public bool IncrementProgress(){
+	/// <summary>
+	/// Increments the progress.
+	/// </summary>
+	/// <returns><c>true</c>, if progress was incremented, <c>false</c> otherwise.</returns>
+	public bool IsIncrementableProgress(){
 
 		bool wasIncremented = false;
 		++currentProgress;
 		if (currentProgress <= limitOfUpgrades) {
-			ChangeImgsColor ();
 			wasIncremented = true;
 		} else {
 			currentProgress = limitOfUpgrades;
 		}
-		PlayerPrefs.SetInt ("StoreUpgrade"+idUpgrade,currentProgress);
-
-		if (OnUpgradeProgressChange != null)
-			OnUpgradeProgressChange (currentProgress);
 
 		return wasIncremented;
 	}
 
-	private void ChangeImgsColor(){
-		for (int i = 0; i < currentProgress; i++) {
+	/// <summary>
+	/// Changes the color of the imgs progresss
+	/// </summary>
+	public void ChangeImgsColor(){
+        for (int i = 0; i < GameItemsManager.GetUpgradeValue(idUpgrade); i++) {
 			Image currImg = imgsProgress [i];
 			currImg.color = Color.blue;
 		}

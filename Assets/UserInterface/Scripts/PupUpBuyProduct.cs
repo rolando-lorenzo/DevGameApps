@@ -57,6 +57,15 @@ public class PupUpBuyProduct : MonoBehaviour {
 			GameObject.Destroy (popupSelfBuy);
 		}
 	}
+
+    public void UpdateTextTranslation()
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        if (message != null)
+        {
+            message.text = lm.GetString(message.text);
+        }
+    }
 	#endregion
 
 

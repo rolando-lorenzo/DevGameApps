@@ -1,12 +1,11 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 
 	#region Class members
-	public string idProductItem;
+    public GameItemsManager.StoreProduct idProductItem;
 	public Button btnProduct;
 	public Image imgProduct;
 	public Text nameProduct;
@@ -14,8 +13,8 @@ public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 	public Text priceProduct;
 	public Button btnBuy;
 
-    //Configuracion slide
-    public float slideTime;
+	//Configuracion slide
+	public float slideTime;
 	public float minY, maxY;
 	protected internal RectTransform rectTranform;
 	#endregion
@@ -23,7 +22,6 @@ public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 	#region Class accesors
 	public float valCurrency{ get; set;}
 	public bool isOpen { get; set; }
-	public int costInHuellas{ get; set; }
 	public string idStoreGooglePlay{ get; set;}
 	public bool isAvailableInStore{ get; set;}
 	#endregion
@@ -67,9 +65,25 @@ public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 		});
 	}
 
+    public void UpdateTextTranslation()
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        if (nameProduct != null)
+        {
+            nameProduct.text = lm.GetString(nameProduct.text);
+        }
+        if (descProduct != null)
+        {
+            descProduct.text = lm.GetString(descProduct.text);
+        }
+        if(btnBuy != null){
+            btnBuy.GetComponentInChildren<Text>().text = lm.GetString("text_btn_buy");
+        }
+    }
+
 	public override string ToString()
 	{
-		return base.ToString() + ": Item: " + idProductItem.ToString() +" Name: "+nameProduct.text +" Price: "+priceProduct.text;
+        return base.ToString() + ": Item: " + idProductItem.ToString() +", Name: "+nameProduct.text +", Price: "+priceProduct.text+", ID Google: "+idStoreGooglePlay;
 	}
 	#endregion
 

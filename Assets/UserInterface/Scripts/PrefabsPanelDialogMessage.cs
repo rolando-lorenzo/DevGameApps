@@ -58,7 +58,8 @@ public class PrefabsPanelDialogMessage : MonoBehaviour {
         yield return new WaitForSeconds(2.0f);
         if (panelPrefabsDialog != null)
         {
-            GameObject.DestroyObject(panelPrefabsDialog);
+			GameObject.Destroy (panelPrefabsDialog);
+            
         }
     }
     #endregion

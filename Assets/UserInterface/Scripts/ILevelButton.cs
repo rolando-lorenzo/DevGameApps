@@ -5,6 +5,6 @@ using UnityEngine.UI;
 
 public interface ILevelButton {
 
-	void GoToLevel (string level, int id);
+	void GoToLevel (string level);
 
 }

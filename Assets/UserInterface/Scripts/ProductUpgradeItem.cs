@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ProductUpgradeItem : ProductItem {
 
@@ -25,20 +23,18 @@ public class ProductUpgradeItem : ProductItem {
 		storeUpProg = progressBar.GetComponent<StoreUpgradeProgress> ();
 		btnBuy.onClick.AddListener (() => BuyProductItem(this));
 	}
-
-	void OnEnable(){
-		storeUpProg.OnUpgradeProgressChange += HandleUpgradeprogressChange;
-	}
-
-	void OnDisable(){
-		storeUpProg.OnUpgradeProgressChange -= HandleUpgradeprogressChange;
-	}
+    void Start(){
+        //Update price and color with saved value of progress
+        UpdatePriceAndProgress();
+    }
+	
 	#endregion
 
 
 	#region Class implementation
 	public void BuyProductItem(ProductUpgradeItem pItem){
-		if (pItem.storeUpProg.IncrementProgress ()) {
+
+        if (pItem.storeUpProg.IsIncrementableProgress ()) {
 			Debug.Log ("Current idInGooglePlay... " + levelsUpgradesIdGooglePlay [(pItem.storeUpProg.currentProgress-1)]);
 			pItem.idStoreGooglePlay = levelsUpgradesIdGooglePlay [(pItem.storeUpProg.currentProgress-1)];
 			if (OnProductUpgradeItemPurchased != null) {
@@ -48,23 +44,31 @@ public class ProductUpgradeItem : ProductItem {
 		} else {
 			Debug.Log ("Se ha alcanzado el limite de compra permitido." + pItem.nameProduct.text);
 			if (OnProductUpgradeBuyLimitMax != null) {
-				OnProductUpgradeBuyLimitMax ("Se ha alcanzado el limite de compra permitido para " + pItem.nameProduct.text);
+                OnProductUpgradeBuyLimitMax ("msg_err_purchase_limit_reached");
 			}
 		}
 
 	}
 		
-	private void HandleUpgradeprogressChange(int value){
-		float val = valCurrency*(value+1);
+	public void UpdatePriceAndProgress(){
+        int currentVal = GameItemsManager.GetUpgradeValue(idProductItem);
+        float val = valCurrency*(currentVal+1);
 		priceProduct.text = MenuUtils.FormatPriceProducts (val);
+        storeUpProg.ChangeImgsColor();
 	}
 
-	public void SetChildId(string id){
+    public void SetChildId(GameItemsManager.StoreProduct id){
 		storeUpProg.idUpgrade = id;
 		if (levelsUpgradesIdGooglePlay != null && levelsUpgradesIdGooglePlay.Count > 0) {
 			storeUpProg.limitOfUpgrades = levelsUpgradesIdGooglePlay.Count;
 		}
 	}
+
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 	#endregion
 
 }

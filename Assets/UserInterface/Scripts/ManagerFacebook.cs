@@ -109,18 +109,21 @@ public class ManagerFacebook : MonoBehaviour {
 
     private void HandleMessegeFacebookProgress(string message, bool isError)
     {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 		if (isError) {
-			BuildDialogMessage ("Facebook", message, DialogMessage.typeMessage.ERROR);
+            BuildDialogMessage (lm.GetString("popup_message_header_facebook"), lm.GetString(message), DialogMessage.typeMessage.ERROR);
 		} else {
-			BuildDialogMessage ("Facebook",message,DialogMessage.typeMessage.INFO);
+            BuildDialogMessage (lm.GetString("popup_message_header_facebook"),lm.GetString(message),DialogMessage.typeMessage.INFO);
 		}
     }
 
     private void HandheldPawsFacebookReward(int paws)
     {
-		GameItemsManager.addValueById (GameItemsManager.Item.numPawprints,paws);
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+		GameItemsManager.addValueById (GameItemsManager.Item.NumPawprints,paws);
         //get rewards in number of paws
         Debug.Log("Num huellas de regalo:" + paws);
+        BuildDialogMessage(lm.GetString("popup_message_header_facebook"),string.Format(lm.GetString("msg_info_reward_facebook"),paws), DialogMessage.typeMessage.INFO);
 	}
 
     private void closeFadePanelFacebook()
