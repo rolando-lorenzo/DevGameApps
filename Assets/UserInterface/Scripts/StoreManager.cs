@@ -153,12 +153,12 @@ public class StoreManager : MonoBehaviour {
         backgroundCharactersAnim.m_MoveIn.Enable = true;
         backgroundCharactersAnim.m_MoveIn.MoveFrom = GUIAnim.ePosMove.RightScreenEdge;
         backgroundCharactersAnim.m_MoveOut.Enable = true;
-        backgroundCharactersAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.LeftScreenEdge;
+        backgroundCharactersAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.RightScreenEdge;
 
         backgroundPackagesAnim.m_MoveIn.Enable = true;
         backgroundPackagesAnim.m_MoveIn.MoveFrom = GUIAnim.ePosMove.LeftScreenEdge;
         backgroundPackagesAnim.m_MoveOut.Enable = true;
-        backgroundPackagesAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.RightScreenEdge;
+        backgroundPackagesAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.LeftScreenEdge;
 	}
 
 	void Start(){
@@ -375,20 +375,29 @@ public class StoreManager : MonoBehaviour {
     /// Shows the characters panel.
     /// </summary>
 	public void ShowCharactersPanel(){
-        AnimPanelOut(backgroundPackagesAnim,IsMovePanelFromRightCharacters);
-        StartCoroutine(WaitForIn(backgroundCharactersAnim,IsMovePanelFromRightCharacters));
+        float xposition = backgroundCharactersAnim.transform.localPosition.x;
+        if(xposition > 0)
+        {
+            AnimPanelOut(backgroundPackagesAnim, IsMovePanelFromRightCharacters);
+            StartCoroutine(WaitForIn(backgroundCharactersAnim, IsMovePanelFromRightCharacters));
 
-        IsMovePanelFromRightCharacters = !IsMovePanelFromRightCharacters;
+            IsMovePanelFromRightCharacters = !IsMovePanelFromRightCharacters;
+        }
 	}
 
     /// <summary>
     /// Shows the powerups panel.
     /// </summary>
     public void ShowPowerupsPanel(){
-        AnimPanelOut(backgroundCharactersAnim,IsMovePanelFromRightPackages);
-        StartCoroutine(WaitForIn(backgroundPackagesAnim,IsMovePanelFromRightPackages));
+        float xposition = backgroundPackagesAnim.transform.localPosition.x;
+        if (xposition < 0)
+        {
+            AnimPanelOut(backgroundCharactersAnim, IsMovePanelFromRightPackages);
+            StartCoroutine(WaitForIn(backgroundPackagesAnim, IsMovePanelFromRightPackages));
 
-        IsMovePanelFromRightPackages = !IsMovePanelFromRightPackages;
+            IsMovePanelFromRightPackages = !IsMovePanelFromRightPackages;
+        }
+        
 	}
 
 	public void GoMainMenu(){

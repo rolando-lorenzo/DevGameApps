@@ -80,6 +80,7 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 						foreach (string lvs in currentUp.levelsUpgradesIdGooglePlay) {
 							Debug.Log ("Agregando item(ProductUpgradeItem) para el store: " + lvs);
 							builder.AddProduct (lvs, ProductType.Consumable);
+                            //builder.AddProduct()
 						}
 					}
 				} else { //If is PowerUp or Package
