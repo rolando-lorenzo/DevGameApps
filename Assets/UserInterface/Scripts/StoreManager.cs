@@ -163,10 +163,11 @@ public class StoreManager : MonoBehaviour {
 
 	void Start(){
         AnimPanelIn(backgroundPackagesAnim,IsMovePanelFromRightPackages);
+        TransformScale(false);
 		ShowELementsInScreen ();
 	}
 
-	void OnDisable()
+    void OnDisable()
 	{
 		if (infiniteScrollCharacters != null) {
 			infiniteScrollCharacters.OnItemChanged -= HandleCurrentCharacter;
@@ -379,6 +380,7 @@ public class StoreManager : MonoBehaviour {
         float xposition = backgroundCharactersAnim.transform.localPosition.x;
         if(xposition > 0)
         {
+            TransformScale(true);
             AnimPanelOut(backgroundPackagesAnim, IsMovePanelFromRightCharacters);
             StartCoroutine(WaitForIn(backgroundCharactersAnim, IsMovePanelFromRightCharacters));
 
@@ -393,6 +395,7 @@ public class StoreManager : MonoBehaviour {
         float xposition = backgroundPackagesAnim.transform.localPosition.x;
         if (xposition < 0)
         {
+            TransformScale(false);
             AnimPanelOut(backgroundCharactersAnim, IsMovePanelFromRightPackages);
             StartCoroutine(WaitForIn(backgroundPackagesAnim, IsMovePanelFromRightPackages));
 
@@ -401,7 +404,25 @@ public class StoreManager : MonoBehaviour {
         
 	}
 
-	public void GoMainMenu(){
+    /// <summary>
+    /// Transform scale on the game object
+    /// </summary>
+    private void TransformScale(bool visible)
+    {
+        Transform transfornGO = backgroundCharacters.transform;
+        if (visible)
+        {
+            transfornGO.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transfornGO.localScale = new Vector3(1, 1, 0);
+        }
+        
+
+    }
+
+    public void GoMainMenu(){
 		SceneManager.LoadScene("MainScene");
 	}
 

@@ -204,6 +204,7 @@ MonoBehaviour:
   character: {fileID: 1019956607015366}
   btnBuyProduct: {fileID: 114257535316497306}
   nameCharacter: {fileID: 114012989657345606}
+  ImageUnlock: {fileID: 0}
   descCharacter: Este es un felino
 --- !u!114 &114582652067522576
 MonoBehaviour:
@@ -290,7 +291,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1756173143272270}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: -37.9, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224378000415024396}
@@ -308,7 +309,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1639172115157298}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: -432, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224195364730426066}
@@ -327,7 +328,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1108748853138140}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 8.88797, y: 366, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.0006942, y: 1.0006942, z: 1.0006942}
   m_Children: []
   m_Father: {fileID: 224932091017368480}
@@ -356,7 +357,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 650, y: 750}
+  m_SizeDelta: {x: 590, y: 681}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &225528771332793316
 CanvasGroup:
