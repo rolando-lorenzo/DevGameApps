@@ -257,7 +257,8 @@ public class StoreManager : MonoBehaviour {
 					characterTemplate.idStoreGooglePlay = character.idInStoreGooglePlay;
 					characterTemplate.isAvailableInStore = character.isAvailableInStore;
 					Image currentImg = characterTemplate.character.GetComponent<Image> ();
-					currentImg.overrideSprite = character.imgCharacter;
+                    currentImg.overrideSprite = character.imgCharacter;
+                    characterTemplate.VerifyUnlockandLockCharacter();
 					if(character.isAvailableInStore){
 						// it could be purchased only in Online Store
 						itemsAvailableInStore.Add (characterTemplate);
@@ -448,6 +449,7 @@ public class StoreManager : MonoBehaviour {
 
         //If character was purchased avoid buy again
         if(!GameItemsManager.isLockedCharacter(en)){
+            Debug.Log("esta bloqueado");
             BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR);
             return;
         }

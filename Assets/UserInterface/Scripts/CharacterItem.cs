@@ -8,10 +8,12 @@ using System;
 public class CharacterItem : MonoBehaviour, IStorePurchase {
 
 	#region Class members
+    [Header("Setting Character")]
 	public int idCharacter;
 	public GameObject character;
 	public Button btnBuyProduct;
 	public Text nameCharacter;
+    public GameObject ImageUnlock;
 
     [HideInInspector]
 	public string descCharacter;
@@ -30,7 +32,6 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 		btnBuyProduct = character.GetComponentInChildren<Button> ();
 		nameCharacter = character.GetComponentInChildren<Text> ();
 		btnBuyProduct.onClick.AddListener (() => BuyCharacter(this));
-
 	}
 	#endregion
 
@@ -46,6 +47,23 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 		if (OnItemPurchased != null)
 			OnItemPurchased (character);
 	}
+
+    public void VerifyUnlockandLockCharacter()
+    {
+        GameItemsManager.Character en = (GameItemsManager.Character)Enum.Parse(typeof(GameItemsManager.Character), idStoreGooglePlay);
+        if (!GameItemsManager.isLockedCharacter(en))
+        {
+            Debug.Log("esta bloqueado");
+            Transform buttonSellCharacter = btnBuyProduct.transform;
+            buttonSellCharacter.gameObject.SetActive(false);
+            ImageUnlock.SetActive(true);
+            return;
+        }
+        else
+        {
+            ImageUnlock.SetActive(false);
+        }
+    }
 
 
     public void UpdateTextTranslation()
