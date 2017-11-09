@@ -589,7 +589,6 @@ public class StoreManager : MonoBehaviour {
         //If was successful purchased a product from IAP
         if (ite is ProductItem) {
 			ProductItem currentProduct = ((ProductItem)ite);
-
             //If it's some Package.
 			if (currentProduct is ProductPackagesItem) {
 				ProductPackagesItem currentPck= ((ProductPackagesItem)currentProduct);
@@ -640,11 +639,12 @@ public class StoreManager : MonoBehaviour {
         //If was successful purchased a character from IAP
 		if (ite is CharacterItem) {
 			CharacterItem currentCharacter = ((CharacterItem)ite);
-
+            
             GameItemsManager.Character ch = (GameItemsManager.Character)Enum.Parse(typeof(GameItemsManager.Character), currentCharacter.idStoreGooglePlay);
             //Unlock character
             GameItemsManager.SetUnlockCharacter(ch);
             if(!GameItemsManager.isLockedCharacter(ch)){
+                currentCharacter.VerifyUnlockandLockCharacter();
                 Debug.Log("Se ha desbloqueado a "+ch.ToString());
             } else{
                 BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR);
