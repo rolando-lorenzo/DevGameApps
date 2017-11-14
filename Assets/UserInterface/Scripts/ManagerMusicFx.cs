@@ -58,7 +58,7 @@ public class ManagerMusicFx : MonoBehaviour {
         musicImage = musicGameObjectOn.GetComponent<Image>();
         fxImage = fxGameObjectOn.GetComponent<Image>();
         //set Value to Music Slider and Fx Slider
-        musicSlider.value = SoundManager.ins.GetMusicSaveVolume();
+        musicSlider.value = SoundManager.ins.GetMusicVolumeScale();
         fxSlider.value = SoundManager.ins.GetFXSaveVolume();
     }
 

@@ -1,11 +1,10 @@
-﻿using System.Collections;
+﻿
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 
 	#region Class members
-    public GameItemsManager.StoreProduct idProductItem;
 	public Button btnProduct;
 	public Image imgProduct;
 	public Text nameProduct;
@@ -83,7 +82,7 @@ public abstract class ProductItem : MonoBehaviour, IStorePurchase {
 
 	public override string ToString()
 	{
-        return base.ToString() + ": Item: " + idProductItem.ToString() +", Name: "+nameProduct.text +", Price: "+priceProduct.text+", ID Google: "+idStoreGooglePlay;
+        return base.ToString() + " Item. Name: "+nameProduct.text +", Price: "+priceProduct.text+", ID Google: "+idStoreGooglePlay;
 	}
 	#endregion
 

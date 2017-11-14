@@ -212,60 +212,60 @@
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="name_character01">
-      <Default>Enzo</Default>
-      <English>Enzo</English>
-      <Spanish>Enzo</Spanish>
+    <Translation key="name_character_cielo">
+      <Default>Cielo</Default>
+      <English>Cielo</English>
+      <Spanish>Cielo</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="desc_character01">
-      <Default>White tiger</Default>
-      <English>White tiger</English>
-      <Spanish>Tigre Blanco es muy peligroso.</Spanish>
+    <Translation key="desc_character_cielo">
+      <Default>Panther</Default>
+      <English>Panther</English>
+      <Spanish>Pantera</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="name_character02">
-      <Default>Love</Default>
-      <English>Love</English>
-      <Spanish>Love</Spanish>
+    <Translation key="name_character_tierra">
+      <Default>Tierra</Default>
+      <English>Tierra</English>
+      <Spanish>Tierra</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="desc_character02">
-      <Default>Lion is very amazing.</Default>
-      <English>Lion is very amazing.</English>
-      <Spanish>Leon es muy asombroso</Spanish>
+    <Translation key="desc_character_tierra">
+      <Default>Bengal Tiger</Default>
+      <English>Bengal Tiger</English>
+      <Spanish>Tigre de Bengala</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="name_character03">
-      <Default>Ali</Default>
-      <English>Ali</English>
-      <Spanish>Ali</Spanish>
+    <Translation key="name_character_han">
+      <Default>Han</Default>
+      <English>Han</English>
+      <Spanish>Han</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="desc_character03">
-      <Default>White Lion is your best choice because it never get tired.</Default>
-      <English>White Lion is your best choice because it never get tired.</English>
-      <Spanish>White Lion es tu mejor opcion por que nunca se cansa.</Spanish>
+    <Translation key="desc_character_han">
+      <Default>Lion</Default>
+      <English>Lion</English>
+      <Spanish>Leon</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -283,9 +283,9 @@
       <German />
     </Translation>
     <Translation key="desc_character04">
-      <Default>Tiger is your best choice because it never get tired.</Default>
-      <English>Tiger is your best choice because it never get tired.</English>
-      <Spanish>El tigre Achilles es tu mejor opcion por que nunca se cansa.</Spanish>
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -303,9 +303,9 @@
       <German />
     </Translation>
     <Translation key="desc_character05">
-      <Default>Jaguar Matzo  is slower but nice</Default>
-      <English>Jaguar Matzo  is slower but nice</English>
-      <Spanish>Jaguar Matzo es mas lento pero buena onda</Spanish>
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -696,6 +696,16 @@
       <Default>Upgrades of powerups</Default>
       <English>Upgrades of powerups</English>
       <Spanish>Incrementar Poderes</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="button_text_play">
+      <Default>Play</Default>
+      <English>Play</English>
+      <Spanish>Jugar</Spanish>
       <Dutch />
       <French />
       <Italian />

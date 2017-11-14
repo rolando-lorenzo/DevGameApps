@@ -3,123 +3,106 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum FadeType {In, Out}
+public class SoundManager : MonoBehaviour {
 
-public class SoundManager: MonoBehaviour {
-
-    #region Class members
+	#region Class members
 	public static SoundManager ins;
 	public AudioSource fxSource, musicSource;
-    public float volumeLevelMusic, volumeLevelSound;
-    public float fadeTime;
-    //variables PlaysPref
-    private string stateMusic = "MusicState";
-    private string volMusic = "volumeLevelMusic";
-    private string stateFx = "FXState";
-    private string volFx = "fxLevelVolume";
-    #endregion
+	public float fadeTime = 2;
+	#endregion
 
-    #region Class accesors
-    #endregion
+	#region Class accesors
+	#endregion
 
-    #region MonoBehaviour overrides
-    private void Awake()
-	{
-        if (ins == null)
-        {
-            ins = this;
-        }
-        else if (ins !=  this)
-        {
-            Destroy(gameObject);
-        }
+	#region MonoBehaviour overrides
+	private void Awake () {
+		if (ins == null) {
+			ins = this;
+		}
+		else {
+			Destroy (gameObject);
+		}
 
-        DontDestroyOnLoad(gameObject);
-    }
-
-    private void Start()
-    {
-        musicSource.volume = PlayerPrefs.GetFloat(volMusic,1);
-        fxSource.volume = PlayerPrefs.GetFloat(volFx,1);
-        musicSource.mute = ExtensionMethods.GetBool(stateMusic);
-        fxSource.mute = ExtensionMethods.GetBool(stateFx);
-    }
-
-    #endregion
-
-    #region Super class overrides
-    #endregion
-
-    #region Class implementation
-
-
-	public void PlayMusic(AudioClip clip)
-	{
-        if (musicSource.clip == null)
-        {
-            musicSource.clip = clip;
-            musicSource.volume = 0;
-            musicSource.Play();
-            ITween tween = Tween.FloatTween(gameObject, "FadeIn", 0, GetMusicSaveVolume(), fadeTime, (startTween) =>
-            {
-                musicSource.volume = startTween.Value;
-            });
-        }
-        else
-        {
-            ITween tween = Tween.FloatTween(gameObject, "FadeOut", GetMusicSaveVolume(), 0,  fadeTime, (startTween) =>
-            {
-                musicSource.volume = startTween.Value;
-            }, (t) => {
-                musicSource.clip = clip;
-                musicSource.volume = 0;
-                musicSource.Play();
-                ITween secondTween = Tween.FloatTween(gameObject, "FadeIn", 0, GetMusicSaveVolume(), fadeTime, (endTween) =>
-                {
-                    musicSource.volume = endTween.Value;
-                });
-            });
-        }
-    }
-
-    public void PlaySound(AudioClip clip)
-	{
-		fxSource.PlayOneShot (clip);
+		DontDestroyOnLoad (gameObject);
 	}
 
-    public void SetMusicVolume(float volume)
-    {
-        musicSource.volume = volume;
-        PlayerPrefs.SetFloat(volMusic, volume);
-    }
+	private void Start () {
+		musicSource.volume = PlayerPrefs.GetFloat ("volumeLevelMusic", 1);
+		fxSource.volume = PlayerPrefs.GetFloat ("fxLevelVolume", 1);
+		musicSource.mute = ExtensionMethods.GetBool ("MusicState", false);
+		fxSource.mute = ExtensionMethods.GetBool ("FXState", false);
+	}
 
-    public void SetFXVolume(float volume)
-    {
-        fxSource.volume = volume;
-        PlayerPrefs.SetFloat(volFx, volume);
-    }
+	#endregion
 
-    public float GetMusicSaveVolume()
-    {
-        return PlayerPrefs.GetFloat(volMusic, 1);
-    }
+	#region Super class overrides
+	#endregion
 
-    public float GetFXSaveVolume()
-    {
-        return PlayerPrefs.GetFloat(volFx, 1);
-    }
+	#region Class implementation
 
-    public void SetMusicState(bool state)
-    {
-        musicSource.mute = state;
-        ExtensionMethods.SetBool(stateMusic, state);
-    }
 
-    public void SetFXState(bool state)
-    {
-        fxSource.mute = state;
-        ExtensionMethods.SetBool(stateFx, state);
-    }
-    #endregion
+	public void PlayMusic (AudioClip clip, float volumeScale) {
+		if (musicSource.clip != null) {
+			if (musicSource.clip.name == clip.name)
+				return;
+		}
 
+		if (musicSource.clip == null)
+			AnimateMusicFadeIn (clip, volumeScale);
+		else
+			AnimateMusicFadeOut (clip, volumeScale);
+	}
+
+	public void PlaySound (AudioClip clip, float volumeScale = 1) {
+		fxSource.PlayOneShot (clip, volumeScale);
+	}
+
+	private void AnimateMusicFadeIn (AudioClip clip, float volumeScale) {
+		musicSource.clip = clip;
+		musicSource.volume = 0;
+		musicSource.Play ();
+		Tween.FloatTween (gameObject, "FadeIn", 0, GetMusicVolumeScale () * volumeScale, fadeTime, (tween) => {
+			musicSource.volume = tween.Value;
+		});
+	}
+
+	private void AnimateMusicFadeOut (AudioClip clip, float volumeScale) {
+		Tween.FloatTween (gameObject, "FadeOut", GetMusicVolumeScale () * volumeScale, 0, fadeTime, (tween) => {
+			musicSource.volume = tween.Value;
+		}, (tween) => {
+			AnimateMusicFadeIn (clip, volumeScale);
+		});
+	}
+
+	public void SetMusicVolume (float volume) {
+		musicSource.volume = volume;
+		PlayerPrefs.SetFloat ("volumeLevelMusic", volume);
+	}
+
+	public void SetFXVolume (float volume) {
+		fxSource.volume = volume;
+		PlayerPrefs.SetFloat ("volumeLevelFX", volume);
+	}
+
+	public float GetMusicVolumeScale () {
+		return PlayerPrefs.GetFloat ("volumeLevelMusic", 1);
+	}
+
+	public float GetFXSaveVolume () {
+		return PlayerPrefs.GetFloat ("volumeLevelFX", 1);
+	}
+
+	public void SetMusicState (bool state) {
+		musicSource.mute = state;
+		ExtensionMethods.SetBool ("MusicState", state);
+	}
+
+	public void SetFXState (bool state) {
+		fxSource.mute = state;
+		ExtensionMethods.SetBool ("FXState", state);
+	}
+	#endregion
+
+	#region Interface implementation
+	#endregion
 }

@@ -47,6 +47,8 @@ public class WorldManager : MonoBehaviour {
     }
 
 	void Start () {
+        Debug.Log("Ultimo charcater "+GameItemsManager.GetLastChooseCharacter().ToString());
+
 		//Button of Back
 		Button btnback = buttonBack.GetComponent<Button> ();
 		btnback.onClick.AddListener (GoMainScene);

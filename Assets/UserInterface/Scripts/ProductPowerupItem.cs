@@ -3,6 +3,8 @@
 public class ProductPowerupItem : ProductItem {
 
 	#region Class members
+    public GameItemsManager.StorePower idProductPower;
+
 	public delegate void ProductItemPurchasedAction (ProductPowerupItem productItemPurchased);
 	public event ProductItemPurchasedAction OnProductPowerUpItemPurchased;
 	private SpinnerStorePowerups spinnerPowerUp;
@@ -30,7 +32,7 @@ public class ProductPowerupItem : ProductItem {
 
 	#region Class implementation
 	public void BuyProductItem(ProductPowerupItem pItem){
-		Debug.Log ("Comprando PowerUp..."+pItem.idProductItem+" "+pItem.nameProduct.text);
+		//Debug.Log ("Comprando PowerUp..."+pItem.idProductItem+" "+pItem.nameProduct.text);
 		if (OnProductPowerUpItemPurchased != null)
 			OnProductPowerUpItemPurchased (pItem);
 

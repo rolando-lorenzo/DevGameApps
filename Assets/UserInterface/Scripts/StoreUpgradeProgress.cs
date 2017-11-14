@@ -15,14 +15,14 @@ public class StoreUpgradeProgress : MonoBehaviour {
 
 	#region Class accesors
 	public int currentProgress{ set; get;}
-    public GameItemsManager.StoreProduct idUpgrade{ set; get;}
+    public GameItemsManager.StorePower idUpgrade{ set; get;}
 	public int limitOfUpgrades { set; get;}
 	#endregion
 
 	#region MonoBehaviour overrides
 	void Start(){
 
-        currentProgress = GameItemsManager.GetUpgradeValue(idUpgrade); //limit 5
+        //currentProgress = GameItemsManager.GetPowerUpgradeLevel(idUpgrade); //limit 5
 		if(currentProgress > limitOfUpgrades){
 			currentProgress = limitOfUpgrades;
 		}
@@ -38,15 +38,19 @@ public class StoreUpgradeProgress : MonoBehaviour {
 	/// </summary>
 	/// <returns><c>true</c>, if progress was incremented, <c>false</c> otherwise.</returns>
 	public bool IsIncrementableProgress(){
-
-		bool wasIncremented = false;
-		++currentProgress;
-		if (currentProgress <= limitOfUpgrades) {
-			wasIncremented = true;
-		} else {
-			currentProgress = limitOfUpgrades;
-		}
-
+        int progress = GameItemsManager.GetPowerUpgradeLevel(idUpgrade) - 1;
+        bool wasIncremented = false;
+        if(progress < limitOfUpgrades){
+            ++currentProgress;
+            if (currentProgress <= limitOfUpgrades)
+            {
+                wasIncremented = true;
+            }
+            else
+            {
+                currentProgress = limitOfUpgrades;
+            }
+        }
 		return wasIncremented;
 	}
 
@@ -54,7 +58,9 @@ public class StoreUpgradeProgress : MonoBehaviour {
 	/// Changes the color of the imgs progresss
 	/// </summary>
 	public void ChangeImgsColor(){
-        for (int i = 0; i < GameItemsManager.GetUpgradeValue(idUpgrade); i++) {
+        int progress = GameItemsManager.GetPowerUpgradeLevel(idUpgrade)-1;
+        Debug.Log(GameItemsManager.GetPowerUpgradeLevel(idUpgrade));
+        for (int i = 0; i < progress; i++) {
 			Image currImg = imgsProgress [i];
 			currImg.color = Color.blue;
 		}

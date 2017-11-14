@@ -4,6 +4,7 @@ using UnityEngine;
 public class ProductUpgradeItem : ProductItem {
 
 	#region Class members
+    public GameItemsManager.StorePower idProductPower;
 
 	public GameObject progressBar;
 	private StoreUpgradeProgress storeUpProg;
@@ -51,13 +52,13 @@ public class ProductUpgradeItem : ProductItem {
 	}
 		
 	public void UpdatePriceAndProgress(){
-        int currentVal = GameItemsManager.GetUpgradeValue(idProductItem);
-        float val = valCurrency*(currentVal+1);
+        int currentVal = GameItemsManager.GetPowerUpgradeLevel(idProductPower);
+        float val = valCurrency*(currentVal);
 		priceProduct.text = MenuUtils.FormatPriceProducts (val);
         storeUpProg.ChangeImgsColor();
 	}
 
-    public void SetChildId(GameItemsManager.StoreProduct id){
+    public void SetChildId(GameItemsManager.StorePower id){
 		storeUpProg.idUpgrade = id;
 		if (levelsUpgradesIdGooglePlay != null && levelsUpgradesIdGooglePlay.Count > 0) {
 			storeUpProg.limitOfUpgrades = levelsUpgradesIdGooglePlay.Count;

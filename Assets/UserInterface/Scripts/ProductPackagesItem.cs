@@ -3,6 +3,8 @@
 public class ProductPackagesItem : ProductItem {
 
 	#region Class members
+    public GameItemsManager.StoreProduct idProductItem;
+
 	public delegate void ProductItemPurchasedAction (ProductPackagesItem productItemPurchased);
 	public event ProductItemPurchasedAction OnProductPackageItemPurchased;
 	#endregion
