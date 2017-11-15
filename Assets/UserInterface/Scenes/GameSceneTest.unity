@@ -498,7 +498,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 730820906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e01f5f201eb0afa4f9ff937c847f2404, type: 3}
+  m_Script: {fileID: 11500000, guid: 99c35aabe339949d286d75e4002c375f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   coinOrLive: {fileID: 1910981439}

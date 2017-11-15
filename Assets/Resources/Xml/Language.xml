@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <LanguagesManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CurrentLanguage>Spanish</CurrentLanguage>
   <Translations>
@@ -706,6 +706,46 @@
       <Default>Play</Default>
       <English>Play</English>
       <Spanish>Jugar</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="ratetitle">
+      <Default>Like the game?</Default>
+      <English>Like the game?</English>
+      <Spanish>te gusto el juego</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="rateMessage">
+      <Default>Please take a moment and leave your feedback</Default>
+      <English>Please take a moment and leave your feedback</English>
+      <Spanish>Por favor, tomate un momento y deja tu comentario</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="rateBtn">
+      <Default>Rate</Default>
+      <English>Rate</English>
+      <Spanish>Calificar</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="rateLater">
+      <Default>Later</Default>
+      <English>Later</English>
+      <Spanish>Más tarde</Spanish>
       <Dutch />
       <French />
       <Italian />

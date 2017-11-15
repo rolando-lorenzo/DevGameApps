@@ -28,9 +28,8 @@ public class ManagerRate : MonoBehaviour {
 
     [Header("Rate Count Setting")]
     public bool internetConnection;
+    public int LimitRandom;
     public int minSessionCount;
-    public float delayAfterLaunchInHours;
-    public float postponeInHours;
 
     //internal varibles
     private DateTime dateTimeNow;
@@ -79,8 +78,6 @@ public class ManagerRate : MonoBehaviour {
 
     private void Start()
     {
-        delayAfterLaunchInHours = delayAfterLaunchInHours > 1 ? 1 : delayAfterLaunchInHours;
-        postponeInHours = postponeInHours > 24 ? 24 : postponeInHours;
         StartRate();
     }
 
@@ -101,14 +98,11 @@ public class ManagerRate : MonoBehaviour {
     #region Class implementation
     public void StartRate()
     {
-        dateTimeNow = DateTime.Now;
-        //string nowDateAux = dateNow.Date.ToLongDateString() + " " + dateNow.ToLongTimeString();
-        //get time postpone 
         globalCount = GameItemsManager.GetValueById(GameItemsManager.Item.globalCountRate);
         //globalCount = globalCount > 0 && ratestate != false ? globalCount : minSessionCount;
         globalCount = globalCount > 0 ? globalCount : minSessionCount;
-        int postPoneTimeAux = GameItemsManager.GetValueById(GameItemsManager.Item.postPoneTime);
-        postPoneTime = postPoneTimeAux == 0 ? false : true;
+        int rateStateGlobalAux = GameItemsManager.GetValueById(GameItemsManager.Item.rateState);
+        rateStateGlobal = rateStateGlobalAux == 0 ? false : true;
 
         Debug.Log(postPoneTime);       
     }
@@ -126,12 +120,12 @@ public class ManagerRate : MonoBehaviour {
         return rateUrl;
     }
 
-    public void ShowAPIRater()
+    public void ShowAPIRaterRandom()
     {
         try
         {
 
-            if (CanShowRateIt())
+            if (CanShowRateItRandom())
             {
                 RateAppShow();
             }
@@ -142,142 +136,47 @@ public class ManagerRate : MonoBehaviour {
         }
     }
 
-    private bool CanShowRateIt()
+    private bool CanShowRateItRandom()
     {
-        Debug.Log("count Global: "+ globalCount);
-        if (globalCount > 0)
-        {
-            if (TimeVerify())
+        Debug.Log("state: "+rateStateGlobal);
+        if (rateStateGlobal == false) {
+            if (globalCount > 0)
             {
-                if (internetConnection && CheckNetworkAvailability())
-                {
-                    Debug.Log("intert");
-                    return true;
-                }
-                else
-                {
-                    Debug.Log("No intert");
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        
-        return false;
-    }
-
-    private bool TimeVerify()
-    {
-        //if it rate was postponed 
-        Debug.Log("postPone:" + postPoneTime);
-        if (postPoneTime)
-        {
-            //return TimeBetweenPostponeAndLaunch();
-            if (TimeBetweenPostponeAndLaunch())
-            {
-                Debug.Log("here Sofia");
-                return true;
-            }
-            else if (TimeBetweenLaunchAndNow())
-            {
-
+                LimitRandom = LimitRandom > 3 ? LimitRandom : 3;
                 System.Random gen = new System.Random();
-                int prob = gen.Next(100);
-
-                return prob <= 50;
-            }
-            {
-                return false;
+                int prob = gen.Next(LimitRandom);
+                //int search = (int)LimitRandom / 2;
+                int search = gen.Next(LimitRandom);
+                Debug.Log("random" + prob);
+                Debug.Log("seacrh" + search);
+                if (prob == search)
+                {
+                    if (internetConnection && CheckNetworkAvailability())
+                    {
+                        Debug.Log("internet");
+                        return true;
+                    }
+                    else
+                    {
+                        Debug.Log("No internet");
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
         else
         {
-            TimeBetweenLaunchAndNow();
+            return false;
         }
 
         return false;
     }
 
-    private bool TimeBetweenPostponeAndLaunch()
-    {
-        int baseHour = (int)postponeInHours / 1;
-        int baseMinutes = (int)((postponeInHours - baseHour) * 60);
-
-        Debug.Log("DelayAfterPostPone Hour:" + baseHour);
-        Debug.Log("DelayAfterPostPone Minutes:" + baseMinutes);
-
-        string postponeDateTime = GameItemsManager.GetValueStringById(GameItemsManager.Item.dateTimePostponeExecution);
-        DateTime dateTimePostpone = DateTime.Parse(postponeDateTime);
-        DateTime AuxTime = DateTime.Now;
-        TimeSpan subtime = AuxTime.Subtract(dateTimePostpone);
-
-        Debug.Log("PostPone Sub:" + subtime.Days+ " - " + subtime.Hours + " - " + subtime.Minutes);
-
-        if (subtime.Days == 0)
-        {
-            if (baseHour <= subtime.Hours)
-            {
-                if (baseMinutes <= subtime.Minutes)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    private bool TimeBetweenLaunchAndNow()
-    {
-        int baseHour = (int)delayAfterLaunchInHours / 1;
-        int baseMinutes = (int)((delayAfterLaunchInHours - baseHour) * 60);
-
-        Debug.Log("DelayAfterLunch Hour:" + baseHour);
-        Debug.Log("DelayAfterLunch Minutes:" + baseMinutes);
-
-        DateTime AuxTime = DateTime.Now;
-        TimeSpan subtime = AuxTime.Subtract(dateTimeNow);
-
-        Debug.Log("Launch Sub:" + subtime.Days + " - " + subtime.Hours + " - " + subtime.Minutes);
-        //it verify if the gamer played to more at time launch 
-
-        if (subtime.Days == 0)
-        {
-            if (baseHour <= subtime.Hours)
-            {
-                if (baseMinutes <= subtime.Minutes)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
-    }
-
+    //verify Network
     private bool CheckNetworkAvailability()
     {
         string HtmlText = GetHtmlFromUri("http://google.com");
@@ -338,17 +237,16 @@ public class ManagerRate : MonoBehaviour {
 
     private void RateAppShow()
     {
-        Debug.Log("here susana");
         GameObject panel = Instantiate (panelRate) as GameObject;
         ControllerRate controller = panel.GetComponent<ControllerRate>();
         controller.globalCount = globalCount;
-        Debug.Log(GetRateUrl());
+        //Debug.Log(GetRateUrl());/
         controller.rateUrls = GetRateUrl();
         controller.lateButtonText.text = txtBtnLateRate;
         controller.rateButtonText.text = txtBtnRate;
         controller.titleRate.text = txtTitleRate;
         controller.messageRate.text = txtMessageRate;
-
+        controller.UpdateTextTranslation();
         panel.transform.SetParent(mainCointener, false);
         controller.RateAppShow();
 

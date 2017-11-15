@@ -77,19 +77,36 @@ public class ControllerRate : MonoBehaviour {
        
     }
 
+    public void UpdateTextTranslation()
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        if (titleRate != null)
+        {
+            titleRate.text = lm.GetString(titleRate.text);
+        }
+        if (messageRate != null)
+        {
+            messageRate.text = lm.GetString(messageRate.text);
+        }
+        if (rateButton != null)
+        {
+            rateButton.GetComponentInChildren<Text>().text = lm.GetString(rateButtonText.text);
+        }
+
+        if (laterButton != null)
+        {
+            laterButton.GetComponentInChildren<Text>().text = lm.GetString(lateButtonText.text);
+        }
+    }
+
     private void LaterRateAppValue()
     {
         globalCount--;
-        globalCount = globalCount < 0 ? 0 : globalCount;
+        globalCount = globalCount < 1 ? 1 : globalCount;
 
         Debug.Log(globalCount);
 
         GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
-        DateTime postTime = DateTime.Now;
-        string postpone = postTime.ToLongDateString() + " " + postTime.ToLongTimeString();
-        Debug.Log(postpone);
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.dateTimePostponeExecution, postpone);
-        GameItemsManager.SetValueById(GameItemsManager.Item.postPoneTime, 1);
 
         CloseDialogRateAndPanel();
     }
@@ -98,14 +115,17 @@ public class ControllerRate : MonoBehaviour {
     {
         if(OnRateApp != null)
             OnRateApp(10);
-        //count globalCount = 0;GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
-        //GameItemsManager.SetValueById(GameItemsManager.Item.rateState, 0);
+        
+        globalCount = 1;
+        GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
+        GameItemsManager.SetValueById(GameItemsManager.Item.rateState, 1);
         //Debug.Log(rateUrls);
         if (Application.platform == RuntimePlatform.Android)
             Application.OpenURL(rateUrls);
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            //veridy in apple
+            //verify in apple
             NativeReviewRequest.RequestReview();
+            //Application.OpenURL(rateUrls);
         else
             Application.OpenURL(rateUrls);
 

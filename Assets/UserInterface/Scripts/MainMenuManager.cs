@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -51,6 +52,14 @@ public class MainMenuManager : MonoBehaviour {
             // Set GUIAnimSystemFREE.Instance.m_AutoAnimation to false in Awake() will let you control all GUI Animator elements in the scene via scripts.
             GUIAnimSystem.Instance.m_AutoAnimation = false;
         }
+        
+    }
+
+    private IEnumerator MostrarRate()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("aqui");
+        ManagerRate.instance.ShowAPIRaterRandom();
     }
 
     void Start()
@@ -82,11 +91,12 @@ public class MainMenuManager : MonoBehaviour {
 
 		logoGameAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         StartCoroutine(MoveInButtonsMenu());
+        StartCoroutine(MostrarRate());
     }
 
     void Update()
     {
-        
+       
     }
     #endregion
 

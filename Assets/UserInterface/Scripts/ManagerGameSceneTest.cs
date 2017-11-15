@@ -13,10 +13,14 @@ public class ManagerGameSceneTest : MonoBehaviour {
     public Button buttonAddLive;
     public Button buttonSubtractLive;
     public Button buttonCompleteLevel;
+    public Button buttonRateVerify;
 
     public Button buttonBack;
     public Text nameWorldLevel;
     public Text textNewLevel;
+
+    [Header("Conteiner Main for Rate")]
+    public Transform conteinerMain;
 
     private int coinLive;
     private string nameWorld { get; set; }
@@ -32,22 +36,21 @@ public class ManagerGameSceneTest : MonoBehaviour {
     {
         AdsManagement.OnCoinLive += HandleCoinLive;
         AdsManagement.OnMessageAds += HandleMessageAds;
-        AdsManagement.OnNewLevelUnlocked += HandleNewLevelUnlocek;
     }
 
     private void Awake()
     {
         AdsManagement.Instance.InitAds();
 
-        PlayConstant constant = new PlayConstant();
+        //PlayConstant constant = new PlayConstant();
         //coinLive = PlayerPrefs.GetInt(constant.coinLive, 3);
 		coinLive = GameItemsManager.GetValueById(GameItemsManager.Item.NumPawprints);
 
         coinOrLive.text = "" + coinLive;
         VerifyCoin();
 
-        nameWorld = PlayerPrefs.GetString(constant.worldName, "Mexico");
-        nameLevel = PlayerPrefs.GetInt(constant.levelWorld, 1);
+        nameWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName);
+        nameLevel = GameItemsManager.GetValueById(GameItemsManager.Item.LevelWorld);
 
         nameWorldLevel.text = nameWorld + " " + nameLevel;         
     }
@@ -62,11 +65,13 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
         buttonCompleteLevel.onClick.AddListener(CompleteLevel);
         buttonBack.onClick.AddListener(GoToLevel);
+
+        buttonRateVerify.onClick.AddListener(VerifyRateShow);
     }
 
     private void Update()
     {
-		Debug.Log (GameItemsManager.GetValueById(GameItemsManager.Item.NumPawprints));
+		//Debug.Log (GameItemsManager.GetValueById(GameItemsManager.Item.numPawprints));
         VerifyCoin();
     }
 
@@ -74,7 +79,6 @@ public class ManagerGameSceneTest : MonoBehaviour {
     {
         AdsManagement.OnCoinLive -= HandleCoinLive;
         AdsManagement.OnMessageAds -= HandleMessageAds;
-        AdsManagement.OnNewLevelUnlocked -= HandleNewLevelUnlocek;
     }
     #endregion
 
@@ -96,7 +100,8 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void CompleteLevel()
     {
-        AdsManagement.Instance.CompleteLevel(nameWorld, nameLevel);
+        MenuUtils.CompleteLevel(nameWorld, nameLevel);
+        NewLevelUnlocek(MenuUtils.newLevel);
     }
 
 
@@ -129,7 +134,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
             AdsManagement.Instance.ShowVideo();
     }
 
-    private void HandleNewLevelUnlocek(int newLevel)
+    private void NewLevelUnlocek(int newLevel)
     {
         if(newLevel>0)
             textNewLevel.text = "Desbloqueo el Nivel: " + newLevel;
@@ -147,6 +152,12 @@ public class ManagerGameSceneTest : MonoBehaviour {
         coinLive += lives;
 		GameItemsManager.addValueById (GameItemsManager.Item.NumPawprints,lives);
         coinOrLive.text = "" + coinLive;
+    }
+
+    private void VerifyRateShow()
+    {
+        ManagerRate.instance.mainCointener = conteinerMain;
+        ManagerRate.instance.ShowAPIRaterRandom();
     }
 
     #endregion
