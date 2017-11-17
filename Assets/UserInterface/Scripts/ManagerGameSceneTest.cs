@@ -156,7 +156,6 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void VerifyRateShow()
     {
-        ManagerRate.instance.mainCointener = conteinerMain;
         ManagerRate.instance.ShowAPIRaterRandom();
     }
 

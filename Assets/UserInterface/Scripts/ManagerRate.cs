@@ -41,7 +41,7 @@ public class ManagerRate : MonoBehaviour {
     public GameObject panelRate;
     public GameObject panelDialogMessage;
     public Sprite imgDialogMessageINFO;
-    public Transform mainCointener;
+    private Transform mainCointener;
 
     [Header("Text Panel")]
     public string txtTitleRate;
@@ -122,6 +122,9 @@ public class ManagerRate : MonoBehaviour {
 
     public void ShowAPIRaterRandom()
     {
+        Canvas main = GameObject.FindObjectOfType<Canvas>();
+        mainCointener = main.GetComponent<Transform>();
+        DontDestroyOnLoad(gameObject);
         try
         {
 

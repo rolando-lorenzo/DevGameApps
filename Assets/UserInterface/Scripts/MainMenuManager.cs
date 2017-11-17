@@ -59,6 +59,7 @@ public class MainMenuManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(3f);
         Debug.Log("aqui");
+
         ManagerRate.instance.ShowAPIRaterRandom();
     }
 
