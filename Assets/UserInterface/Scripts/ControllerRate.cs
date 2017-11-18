@@ -120,14 +120,7 @@ public class ControllerRate : MonoBehaviour {
         GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
         GameItemsManager.SetValueById(GameItemsManager.Item.rateState, 1);
         //Debug.Log(rateUrls);
-        if (Application.platform == RuntimePlatform.Android)
-            Application.OpenURL(rateUrls);
-        else if (Application.platform == RuntimePlatform.IPhonePlayer)
-            //verify in apple
-            NativeReviewRequest.RequestReview();
-            //Application.OpenURL(rateUrls);
-        else
-            Application.OpenURL(rateUrls);
+        Application.OpenURL(rateUrls);
 
         CloseDialogRateAndPanel();
     }
