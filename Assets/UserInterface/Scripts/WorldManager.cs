@@ -28,6 +28,9 @@ public class WorldManager : MonoBehaviour {
     public GameObject buttonGoLevelTrain;
     public GameObject buttonGoLevelZoo;
     public GameObject buttonGoLevelMansion;
+    public Color unlockColor;
+    public Sprite[] unlockButtonSprite; 
+
 
     //variables
     private string nameWorldText { get; set; }
@@ -42,8 +45,7 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
-
-        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, "Circus-5/Train-5/Zoo-5/Mansion-5");
+        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, "Circus-1/Train-0/Zoo-0/Mansion-0");
     }
 
 	void Start () {
@@ -73,10 +75,10 @@ public class WorldManager : MonoBehaviour {
 		btnNameWorld.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         nameSingGUIAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
 		StartCoroutine (MoveInBulletsWorld ());
+        VerifyLevel();
 	}
 
-
-	void Update () {
+    void Update () {
 
 	}
 	#endregion
@@ -98,13 +100,12 @@ public class WorldManager : MonoBehaviour {
 
 	}
 
-
-	void GoMainScene () {
+    void GoMainScene () {
 		Debug.Log ("Go Main Scene!");
 		SceneManager.LoadScene ("MainScene");
 	}
 
-	private void GoLevelScene(int world) {
+    private void GoLevelScene(int world) {
 		switch (world) {
 			case 1:
 				//name the world in Xml
@@ -128,8 +129,53 @@ public class WorldManager : MonoBehaviour {
         SceneManager.LoadScene(sceneName: nameScene);
     }
 
-	#endregion
+    private void VerifyLevel()
+    {
+        string[] world = { "Circus", "Train", "Zoo", "Mansion" };
+        for (int i = 0; i < world.Length; i++)
+        {
+            int maxlevel = MenuUtils.GetLevelWorl(world[i]);
+            Debug.Log(world[i] + " " + maxlevel);
+            if (maxlevel == 0)
+            {
+                InteractableWorlds(world[i]);
+            }
+        }
+    }
 
-	#region Interface implementation
-	#endregion
+    private void InteractableWorlds(string world)
+    {
+        switch (world)
+        {
+            case "Train":
+                SetDataButton(buttonGoLevelTrain.GetComponent<Button>(), unlockButtonSprite[0]);
+                break;
+            case "Zoo":
+                SetDataButton(buttonGoLevelZoo.GetComponent<Button>(), unlockButtonSprite[1]);
+                break;
+            case "Mansion":
+                SetDataButton(buttonGoLevelMansion.GetComponent<Button>(), unlockButtonSprite[2]);
+                break;
+        }
+    }
+
+    private void SetDataButton(Button buttonWorld, Sprite spriteWorld)
+    {
+        Button buttonAux;
+        Image imageAux;
+        ColorBlock colorBlockButton;
+
+        buttonAux = buttonWorld.GetComponent<Button>();
+        imageAux = buttonWorld.GetComponent<Image>();
+        imageAux.overrideSprite = spriteWorld;
+        buttonAux.interactable = false;
+        colorBlockButton = buttonAux.colors;
+        colorBlockButton.disabledColor = unlockColor;
+        buttonAux.colors = colorBlockButton;
+    }
+
+    #endregion
+
+    #region Interface implementation
+    #endregion
 }

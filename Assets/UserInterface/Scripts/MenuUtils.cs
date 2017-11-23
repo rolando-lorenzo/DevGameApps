@@ -26,6 +26,27 @@ public class MenuUtils  {
 		return  val + " Huellas";
 	}
 
+    public static int GetLevelWorl(string nameWorld)
+    {
+        char[] split = { '/', '-' };
+        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, "Circus-1/Train-0/Zoo-0/Mansion-0").Split(split);
+
+        int maxlevel = 0;
+
+        for (int i = 0; i < progresslevels.Length; i++)
+        {
+
+            //Debug.Log(levelname);
+            if (progresslevels[i] == nameWorld)
+            {
+                maxlevel = Int32.Parse(progresslevels[i + 1]);
+                return maxlevel;
+            }
+        }
+
+        return 0;
+    }
+
     /// <summary>
     /// 
     /// </summary>

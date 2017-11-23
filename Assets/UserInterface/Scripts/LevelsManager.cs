@@ -47,14 +47,7 @@ public class LevelsManager : MonoBehaviour {
 	void Awake () {
 		currentWorld = GameItemsManager.GetValueStringById (GameItemsManager.Item.WorldName);
 
-		char[] split = { '/', '-' };
-		string[] progresslevels = GameItemsManager.GetValueStringById (GameItemsManager.Item.GameProgressLevel).Split (split);
-
-		for (int i = 0; i < progresslevels.Length; i++) {
-			if (progresslevels[i] == currentWorld) {
-				maxLevels = Int32.Parse (progresslevels[i + 1]);
-			}
-		}
+        maxLevels = MenuUtils.GetLevelWorl(currentWorld);
 
 		switch (currentWorld) {
 			case "Circus":
