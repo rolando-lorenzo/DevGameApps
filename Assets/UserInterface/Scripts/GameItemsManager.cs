@@ -32,7 +32,6 @@ public class GameItemsManager {
         //Variables of the Dialog Rate
         postPoneTime,
         rateState,
-        dateTimePostponeExecution,
         globalCountRate
 	}
 

@@ -257,15 +257,16 @@ public class ManagerRate : MonoBehaviour {
 
     private void HandlerOnRateApp(int paws)
     {
+        GameItemsManager.addValueById(GameItemsManager.Item.NumPawprints,paws);
+        LanguagesManager lm =MenuUtils.BuildLeanguageManagerTraslation();
         Debug.Log("Paws rate: "+paws);
-
-        /*GameObject mostrarMsg = Instantiate(panelDialogMessage) as GameObject;
+        GameObject mostrarMsg = Instantiate(panelDialogMessage) as GameObject;
         DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage>();
-        popupMsg.txtMessage.text = "Temporal";
-        popupMsg.txtTitle.text = "Title Temporal";
+        popupMsg.txtMessage.text = string.Format(lm.GetString("msg_info_reward_facebook"),paws);
+        popupMsg.txtTitle.text = lm.GetString("msg_info_tnks_review");
         popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
         mostrarMsg.transform.SetParent(mainCointener, false);
-        popupMsg.OpenDialogmessage();*/
+        popupMsg.OpenDialogmessage();
     }
 
     #endregion

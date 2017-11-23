@@ -10,7 +10,6 @@ public class Level {
 	public int idLevel;
 	public Sprite imgLevel;
 	public string nameLevel;
-	public Sprite imgLockLevel;
 	public string nameScene;
 	public bool isLocked;
 }
@@ -40,26 +39,24 @@ public class LevelsManager : MonoBehaviour {
 
 	#region Class accesors
 	private string currentWorld { set; get; }
-    private int maxLevels { set; get; }
+	private int maxLevels { set; get; }
 
-    #endregion
+	#endregion
 
-    #region MonoBehaviour overrides
-    void Awake () {
-        currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName);
+	#region MonoBehaviour overrides
+	void Awake () {
+		currentWorld = GameItemsManager.GetValueStringById (GameItemsManager.Item.WorldName);
 
-        char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel).Split(split);
+		char[] split = { '/', '-' };
+		string[] progresslevels = GameItemsManager.GetValueStringById (GameItemsManager.Item.GameProgressLevel).Split (split);
 
-        for (int i = 0; i < progresslevels.Length; i++)
-        {
-            if (progresslevels[i] == currentWorld)
-            {
-                maxLevels = Int32.Parse(progresslevels[i + 1]);
-            }
-        }
+		for (int i = 0; i < progresslevels.Length; i++) {
+			if (progresslevels[i] == currentWorld) {
+				maxLevels = Int32.Parse (progresslevels[i + 1]);
+			}
+		}
 
-        switch (currentWorld) {
+		switch (currentWorld) {
 			case "Circus":
 				currentPanel = panelWorldUSA;
 				break;
@@ -82,11 +79,7 @@ public class LevelsManager : MonoBehaviour {
 			btnBack = btnTrsform.gameObject.GetComponent<Button> ();
 			btnBack.onClick.AddListener (GoWorldScene);
 		}
-		Transform txtHeaderTrsform = currentPanel.transform.Find ("TextHeaderWorld");
-		if (txtHeaderTrsform != null) {
-			txtHeaderWorld = txtHeaderTrsform.gameObject.GetComponent<Text> ();
-			txtHeaderWorld.text = currentWorld;
-		}
+		
 
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
@@ -109,23 +102,19 @@ public class LevelsManager : MonoBehaviour {
 		foreach (LevelItem level in btnsLevels) {
 			foreach (World world in worlds) {
 				if (string.Equals (world.nameWorld, currentWorld)) {
-                   // Debug.Log(world.nameWorld);
-                    foreach (Level lb in world.levels) {
-                        if (lb.idLevel == level.id) {
-                            //Debug.Log("idLevel: "+lb.idLevel);
+					// Debug.Log(world.nameWorld);
+					foreach (Level lb in world.levels) {
+						if (lb.idLevel == level.id) {
+							//Debug.Log("idLevel: "+lb.idLevel);
 							level.btnGoLevel.image.overrideSprite = lb.imgLevel;
-							level.imgLockLevel.GetComponent<Image>().sprite = lb.imgLockLevel;
-							level.nameLevel.text = lb.nameLevel;
+							level.nameLevel.text = lb.idLevel.ToString ();
 							level.nameScene = lb.nameScene;
-                            if (maxLevels >= level.id)
-                            {
-								level.imgLockLevel.gameObject.SetActive(false);
-                                //level.btnGoLevel.interactable = true;
-                            }
-                            else
-                            {
-                                level.btnGoLevel.interactable = false;
-                            }
+							if (maxLevels >= level.id) {
+								level.btnGoLevel.interactable = true;
+							}
+							else {
+								level.btnGoLevel.interactable = false;
+							}
 						}
 					}
 				}
@@ -153,10 +142,7 @@ public class LevelsManager : MonoBehaviour {
 
 
 	void GoWorldScene () {
-		if (currentPanel != null) {
-			currentPanel.SetActive (false);
-		}
-
+		
 		Debug.Log ("Cargando WorldScene!...");
 		SceneManager.LoadScene ("WorldScene");
 	}

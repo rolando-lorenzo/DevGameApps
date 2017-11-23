@@ -16,9 +16,9 @@ public class LanguageItem : MonoBehaviour {
 	#region MonoBehaviour overrides
 	private void Start () {
 		text = GetComponent<Text> ();
-        if(string.IsNullOrEmpty(textLanguages[LanguageManager.ins.currentLanguage]) == false)
-		    text.text = textLanguages[LanguageManager.ins.currentLanguage];
-    }
+		if (string.IsNullOrEmpty (textLanguages[LanguageManager.ins.currentLanguage]) == false)
+			text.text = textLanguages[LanguageManager.ins.currentLanguage];
+	}
 	#endregion
 
 	#region Super class overrides

@@ -80,7 +80,6 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 						foreach (string lvs in currentUp.levelsUpgradesIdGooglePlay) {
 							Debug.Log ("Agregando item(ProductUpgradeItem) para el store: " + lvs);
 							builder.AddProduct (lvs, ProductType.Consumable);
-                            //builder.AddProduct()
 						}
 					}
 				} else { //If is PowerUp or Package
@@ -99,15 +98,15 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		}
 
 		// Continue adding the non-consumable product.
-		builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
+		//builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
 		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
 		// if the Product ID was configured differently between Apple and Google stores. Also note that
 		// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
 		// must only be referenced here. 
-		builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
+		/*builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
 			{ kProductNameAppleSubscription, AppleAppStore.Name },
 			{ kProductNameGooglePlaySubscription, GooglePlay.Name },
-		});
+		});*/
 
 		// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
 		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.

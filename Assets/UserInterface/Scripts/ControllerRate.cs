@@ -54,7 +54,7 @@ public class ControllerRate : MonoBehaviour {
 
     private IEnumerator ShowDialogRate()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.5f);
         // MoveIn all buttons
         dialogRate.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
     }
@@ -67,7 +67,7 @@ public class ControllerRate : MonoBehaviour {
 
     private IEnumerator ClosePanel()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
         // MoveIn all buttons
         if (panelRate != null)
         {
@@ -119,7 +119,8 @@ public class ControllerRate : MonoBehaviour {
         globalCount = 1;
         GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
         GameItemsManager.SetValueById(GameItemsManager.Item.rateState, 1);
-        //Debug.Log(rateUrls);
+        Debug.Log(rateUrls);
+       
         Application.OpenURL(rateUrls);
 
         CloseDialogRateAndPanel();

@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,9 +18,6 @@ public class MainMenuManager : MonoBehaviour {
 
     //Button of Facebook and list Score
 	public GUIAnim btnFacebookAnim;
-
-    //Text Conditions
-    public string conditionstext;
 
     //DilogBox
 	public GUIAnim dialogBoxSettingAnim;
@@ -52,15 +48,6 @@ public class MainMenuManager : MonoBehaviour {
             // Set GUIAnimSystemFREE.Instance.m_AutoAnimation to false in Awake() will let you control all GUI Animator elements in the scene via scripts.
             GUIAnimSystem.Instance.m_AutoAnimation = false;
         }
-        
-    }
-
-    private IEnumerator MostrarRate()
-    {
-        yield return new WaitForSeconds(3f);
-        Debug.Log("aqui");
-
-        ManagerRate.instance.ShowAPIRaterRandom();
     }
 
     void Start()
@@ -75,8 +62,6 @@ public class MainMenuManager : MonoBehaviour {
         Button btncloseconditions = btnCloseConditions.GetComponent<Button>();
         btncloseconditions.onClick.AddListener(ViewSetting);
 
-        textConditions.GetComponent<Text>().text = conditionstext;
-        //end conditions
 
         Button btnsetting = buttonSetting.GetComponent<Button>();
         btnsetting.onClick.AddListener(OpenDialogBoxSetting);
@@ -92,12 +77,12 @@ public class MainMenuManager : MonoBehaviour {
 
 		logoGameAnim.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         StartCoroutine(MoveInButtonsMenu());
-        StartCoroutine(MostrarRate());
+        StartCoroutine(MenuUtils.MostrarRate());
     }
 
     void Update()
     {
-       
+        
     }
     #endregion
 
@@ -105,6 +90,8 @@ public class MainMenuManager : MonoBehaviour {
     #endregion
 
     #region Class implementation
+
+
     private IEnumerator MoveInButtonsMenu()
     {
         //Wait 2frame
@@ -144,6 +131,11 @@ public class MainMenuManager : MonoBehaviour {
     {
         Debug.Log("Modal Box Setting Close!");
         dialogBoxSettingAnim.MoveOut(GUIAnimSystem.eGUIMove.SelfAndChildren);
+        StartCoroutine(WaitForHideDialogBox());
+    }
+
+    private IEnumerator WaitForHideDialogBox(){
+        yield return new WaitForSeconds(1.0f);
         panelSetting.SetActive(false);
         panelConditions.SetActive(false);
     }

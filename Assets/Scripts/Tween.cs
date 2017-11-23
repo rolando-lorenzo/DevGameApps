@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -29,7 +29,8 @@ public class Tween : MonoBehaviour {
 				continue;
 			}
 
-			if (tween.Update (Time.deltaTime) && i < m_Tweens.Count && m_Tweens[i] == tween)
+			float timeScale = (tween.UseUnscaledTime) ? Time.unscaledDeltaTime : Time.deltaTime;
+			if (tween.Update (timeScale) && i < m_Tweens.Count && m_Tweens[i] == tween)
 				m_Tweens.RemoveAt (i);
 		}
 	}
@@ -39,27 +40,27 @@ public class Tween : MonoBehaviour {
 			m_Root = new GameObject ("Tween", typeof (Tween));
 	}
 
-	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Action<ITween> progress) {
-		return InitFloatTween (reference, key, start, end, duration, TweenFunctions.Linear, progress, null);
+	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Action<ITween> progress, bool useUnscaledTime = true) {
+		return InitFloatTween (reference, key, start, end, duration, TweenFunctions.Linear, progress, null, useUnscaledTime);
 	}
 
-	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Action<ITween> progress, Action<ITween> finish) {
-		return InitFloatTween (reference, key, start, end, duration, TweenFunctions.Linear, progress, finish);
+	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Action<ITween> progress, Action<ITween> finish, bool useUnscaledTime = true) {
+		return InitFloatTween (reference, key, start, end, duration, TweenFunctions.Linear, progress, finish, useUnscaledTime);
 	}
 
-	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress) {
-		return InitFloatTween (reference, key, start, end, duration, scaleFunction, progress, null);
+	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, bool useUnscaledTime = true) {
+		return InitFloatTween (reference, key, start, end, duration, scaleFunction, progress, null, useUnscaledTime);
 	}
 
-	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish) {
-		return InitFloatTween (reference, key, start, end, duration, scaleFunction, progress, finish);
+	public static FloatTween FloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish, bool useUnscaledTime = true) {
+		return InitFloatTween (reference, key, start, end, duration, scaleFunction, progress, finish, useUnscaledTime);
 	}
 
-	protected static FloatTween InitFloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish) {
+	protected static FloatTween InitFloatTween (GameObject reference, string key, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish, bool useUnscaledTime) {
 		FloatTween floatTween = new FloatTween ();
 
 		floatTween.Key = reference.GetInstanceID () + key;
-		floatTween.Start (reference, start, end, duration, scaleFunction, progress, finish);
+		floatTween.Start (reference, start, end, duration, scaleFunction, progress, finish, useUnscaledTime);
 
 		AddTween (floatTween);
 		return floatTween;
@@ -103,13 +104,14 @@ public interface ITween {
 	float Value { get; }
 	float Progress { get; }
 
-	void Start (GameObject reference, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish);
+	void Start (GameObject reference, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish, bool useUnscaledTime);
 
 	void Pause ();
 	void Resume ();
 
 	void Stop (TweenStopState stopBehavior);
 
+	bool UseUnscaledTime { get; }
 	bool Update (float elapsedTime);
 }
 
@@ -128,13 +130,14 @@ public class FloatTween : ITween {
 	public float EndValue { get; private set; }
 	public float CurrentTime { get; private set; }
 	public float Value { get; private set; }
+	public bool UseUnscaledTime { get; private set; }
 
 	public float Progress { get; private set; }
 
 	private Action<ITween> m_ProgressCallback;
 	private Action<ITween> m_FinishCallback;
 
-	public void Start (GameObject reference, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish) {
+	public void Start (GameObject reference, float start, float end, float duration, Func<float, float> scaleFunction, Action<ITween> progress, Action<ITween> finish, bool useUnscaledTime) {
 		if (reference == null)
 			return;
 
@@ -146,6 +149,7 @@ public class FloatTween : ITween {
 		Duration = duration;
 		StartValue = start;
 		EndValue = end;
+		UseUnscaledTime = useUnscaledTime;
 
 		m_ProgressCallback = progress;
 		m_FinishCallback = finish;

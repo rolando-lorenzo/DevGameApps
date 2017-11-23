@@ -59,11 +59,10 @@ MonoBehaviour:
   LimitRandom: 3
   minSessionCount: 15
   panelRate: {fileID: 1015830052006164, guid: 8270a9b2f400f494ba57ec02e0c9255b, type: 2}
-  panelDialogMessage: {fileID: 1873179064494094, guid: 56c2a5e16f409244a9ce9f2306f7122a,
+  panelDialogMessage: {fileID: 1242504538257936, guid: 383afa9cdcfc1ff47815c5495ebaa107,
     type: 2}
   imgDialogMessageINFO: {fileID: 21300000, guid: ea12512506de08747a752e3290142446,
     type: 3}
-  mainCointener: {fileID: 0}
   txtTitleRate: ratetitle
   txtMessageRate: rateMessage
   txtBtnRate: rateBtn

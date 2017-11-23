@@ -165,7 +165,6 @@ public class StoreManager : MonoBehaviour {
 
 	void Start () {
 		AnimPanelIn (backgroundPackagesAnim);
-		
 	}
 
 	void OnDisable () {
@@ -422,12 +421,8 @@ public class StoreManager : MonoBehaviour {
 	public void ShowCharactersPanel () {
         
 		float xposition = backgroundCharactersAnim.transform.localPosition.x;
-		if (xposition > 0) {
-			AnimPanelOut (backgroundPackagesAnim);
-			StartCoroutine (WaitForIn (backgroundCharactersAnim));
-		}
-        buttonPowerups.gameObject.SetActive(true);
-        btnCharacters.gameObject.SetActive(false);
+        AnimPanelOut (backgroundPackagesAnim, btnCharacters.gameObject);
+        StartCoroutine (WaitForIn (backgroundCharactersAnim, buttonPowerups.gameObject));
 	}
 
 	/// <summary>
@@ -435,12 +430,8 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	public void ShowPowerupsPanel () {
 		float xposition = backgroundPackagesAnim.transform.localPosition.x;
-		if (xposition < 0) {
-			AnimPanelOut (backgroundCharactersAnim);
-			StartCoroutine (WaitForIn (backgroundPackagesAnim));
-		}
-        buttonPowerups.gameObject.SetActive(false);
-        btnCharacters.gameObject.SetActive(true);
+        AnimPanelOut (backgroundCharactersAnim, buttonPowerups.gameObject);
+        StartCoroutine (WaitForIn (backgroundPackagesAnim,btnCharacters.gameObject));
 	}
 
 	public void GoMainMenu () {
@@ -522,7 +513,7 @@ public class StoreManager : MonoBehaviour {
 		//Va a la tienda de Google play
 		if (pi is ProductPackagesItem) {
 			ProductPackagesItem currentBought = ((ProductPackagesItem) pi);
-			Debug.Log ("[StoreManager] Iniciando compra... " + currentBought.idProductItem + " " + currentBought.nameProduct.text);
+            Debug.Log ("[StoreManager] Iniciando compra... ID: " + currentBought.idStoreGooglePlay + " " + currentBought.nameProduct.text);
 
 			if (currentBought.isAvailableInStore) {
                 if(gameMode == GameItemsManager.GameMode.RELEASE){
@@ -535,6 +526,7 @@ public class StoreManager : MonoBehaviour {
 				
 			}
 		}
+
 
 		//Utiliza las Huellas disponibles
 		if (pi is ProductPowerupItem) {
@@ -564,7 +556,7 @@ public class StoreManager : MonoBehaviour {
 		//Va a la tienda de Google play
 		if (pi is ProductUpgradeItem) {
 			ProductUpgradeItem currentBought = ((ProductUpgradeItem) pi);
-			Debug.Log ("[StoreManager] Upgrade a comprar..." + currentBought);
+            Debug.Log ("[StoreManager] Upgrade a comprar... ID: " + currentBought.idStoreGooglePlay);
 			if (currentBought.isAvailableInStore) {
                 if (gameMode == GameItemsManager.GameMode.RELEASE)
                 {
@@ -749,21 +741,23 @@ public class StoreManager : MonoBehaviour {
 		obj.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
 	}
 
-	private void AnimPanelOut (GUIAnim obj) {
+    private void AnimPanelOut (GUIAnim obj,GameObject buttonObj) {
 		obj.MoveOut (GUIAnimSystem.eGUIMove.SelfAndChildren);
-        StartCoroutine(WaitForHide(obj.gameObject));
+        StartCoroutine(WaitForHide(obj.gameObject, buttonObj));
 	}
 
-	private IEnumerator WaitForIn (GUIAnim obj) {
+    private IEnumerator WaitForIn (GUIAnim obj, GameObject buttonOfObject) {
         obj.gameObject.SetActive(true);
+        buttonOfObject.SetActive(true);
 		yield return new WaitForSeconds (1.0f);
 		obj.MoveIn (GUIAnimSystem.eGUIMove.SelfAndChildren);
 	}
 
-    private IEnumerator WaitForHide(GameObject obj)
+    private IEnumerator WaitForHide(GameObject obj, GameObject buttonObj)
     {
         yield return new WaitForSeconds(1.0f);
         obj.SetActive(false);
+        buttonObj.SetActive(false);
     }
 
 

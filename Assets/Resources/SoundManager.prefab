@@ -383,6 +383,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fxSource: {fileID: 82415727346363488}
   musicSource: {fileID: 82590668078630352}
-  volumeLevelMusic: 0
-  volumeLevelSound: 0
-  fadeTime: 2
+  fadeTime: 0.25

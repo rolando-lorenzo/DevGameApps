@@ -11,7 +11,7 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	public int id;
 	public Button btnGoLevel;
 	public Text nameLevel;
-	public Image imgLockLevel;
+    [HideInInspector]
 	public string nameScene;
 	private RectTransform rectTranform;
 	#endregion

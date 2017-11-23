@@ -51,4 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa2d604e2906af0418d30251efd5805b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: 0
+  deviceLanguage: 34
   idioms: 0a00000022000000

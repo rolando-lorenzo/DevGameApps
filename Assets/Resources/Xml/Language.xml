@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="Windows-1252"?>
+<?xml version="1.0" encoding="us-ascii"?>
 <LanguagesManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <CurrentLanguage>Spanish</CurrentLanguage>
   <Translations>
     <Translation key="name_pack01">
-      <Default>Package 1 </Default>
-      <English>Package 1 </English>
+      <Default>Pack 1 </Default>
+      <English>Pack 1 </English>
       <Spanish>Paquete 1</Spanish>
       <Dutch />
       <French />
@@ -13,8 +13,8 @@
       <German />
     </Translation>
     <Translation key="desc_pack01">
-      <Default>200 pawprints + 2 multipliers + 2 porkchops.</Default>
-      <English>200 pawprints + 2 multipliers + 2 porkchops.</English>
+      <Default>200 gold paws + 2 multipliers + 2 pork chops.</Default>
+      <English>200 gold paws + 2 multipliers + 2 pork chops.</English>
       <Spanish>200 huellas + 2 multiplicadores + 2 chuletas.</Spanish>
       <Dutch />
       <French />
@@ -33,8 +33,8 @@
       <German />
     </Translation>
     <Translation key="name_pack02">
-      <Default>Package 2</Default>
-      <English>Package 2</English>
+      <Default>Pack 2</Default>
+      <English>Pack 2</English>
       <Spanish>Paquete 2</Spanish>
       <Dutch />
       <French />
@@ -43,8 +43,8 @@
       <German />
     </Translation>
     <Translation key="desc_pack02">
-      <Default>500 pawprints + 5 multipliers + 3 porkchops + 2 magnets.</Default>
-      <English>500 pawprints + 5 multipliers + 3 porkchops + 2 magnets.</English>
+      <Default>500 gold paws + 5 multipliers + 3 pork chops + 2 magnets.</Default>
+      <English>500 gold paws + 5 multipliers + 3 pork chops + 2 magnets.</English>
       <Spanish>500 huellas + 5 multiplicadores + 3 chuletas + 2 magnetos.</Spanish>
       <Dutch />
       <French />
@@ -53,8 +53,8 @@
       <German />
     </Translation>
     <Translation key="name_pack03">
-      <Default>Package 3</Default>
-      <English>Package 3</English>
+      <Default>Pack 3</Default>
+      <English>Pack 3</English>
       <Spanish>Paquete 3</Spanish>
       <Dutch />
       <French />
@@ -63,8 +63,8 @@
       <German />
     </Translation>
     <Translation key="desc_pack03">
-      <Default>1000 pawprints + 10 multipliers + 5 porkchops + 5 magnets.</Default>
-      <English>1000 pawprints + 10 multipliers + 5 porkchops + 5 magnets.</English>
+      <Default>1000 gold paws + 10 multipliers + 5 pork chops + 5 magnets.</Default>
+      <English>1000 gold paws + 10 multipliers + 5 pork chops + 5 magnets.</English>
       <Spanish>1000 huellas + 10 multiplicadores + 5 chuletas + 5 magnetos.</Spanish>
       <Dutch />
       <French />
@@ -73,8 +73,8 @@
       <German />
     </Translation>
     <Translation key="name_pack04">
-      <Default>Package 4</Default>
-      <English>Package 4</English>
+      <Default>Pack 4</Default>
+      <English>Pack 4</English>
       <Spanish>Paquete 4</Spanish>
       <Dutch />
       <French />
@@ -83,8 +83,8 @@
       <German />
     </Translation>
     <Translation key="desc_pack04">
-      <Default>15,000 pawprints + 10 multipliers + 10 pokchops + 10 magnets.</Default>
-      <English>15,000 pawprints + 10 multipliers + 10 pokchops + 10 magnets.</English>
+      <Default>15,000 gold paws + 10 multipliers + 10 pork chops + 10 magnets.</Default>
+      <English>15,000 gold paws + 10 multipliers + 10 pork chops + 10 magnets.</English>
       <Spanish>15,000 huellas + 10 multiplicadores + 10 chuletas + 10 magnetos.</Spanish>
       <Dutch />
       <French />
@@ -93,8 +93,8 @@
       <German />
     </Translation>
     <Translation key="name_powup_magnet">
-      <Default>Magneto</Default>
-      <English>Magneto</English>
+      <Default>Magnet</Default>
+      <English>Magnet</English>
       <Spanish>Magneto</Spanish>
       <Dutch />
       <French />
@@ -103,9 +103,9 @@
       <German />
     </Translation>
     <Translation key="desc_powup_magnet">
-      <Default>With this you will become Magneto of the X-Men.</Default>
-      <English>With this you will become Magneto of the X-Men.</English>
-      <Spanish>Con esto te haras Magneto de los X-Men.</Spanish>
+      <Default>Magnets atract all the paws in your path</Default>
+      <English>Magnets atract all the paws in your path</English>
+      <Spanish>Usa los imanes para atraer huellas en tu camino.</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -123,9 +123,9 @@
       <German />
     </Translation>
     <Translation key="desc_powup_multiplier">
-      <Default>With this you will become omnipresent.</Default>
-      <English>With this you will become omnipresent.</English>
-      <Spanish>Con esto te haras omnipresente.</Spanish>
+      <Default>Doubles the number of paws you collect.</Default>
+      <English>Doubles the number of paws you collect.</English>
+      <Spanish>Duplica el numero de huellas que recolectes.</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -133,8 +133,8 @@
       <German />
     </Translation>
     <Translation key="name_powup_porkchop">
-      <Default>Chop</Default>
-      <English>Chop</English>
+      <Default>Pork Chop</Default>
+      <English>Pork Chop</English>
       <Spanish>Chuleta</Spanish>
       <Dutch />
       <French />
@@ -143,9 +143,9 @@
       <German />
     </Translation>
     <Translation key="desc_powup_porkchop">
-      <Default>With this you will become super strong.</Default>
-      <English>With this you will become super strong.</English>
-      <Spanish>Con esto te haras super fuerte.</Spanish>
+      <Default>Give you invincibility for some time.</Default>
+      <English>Give you invincibility for some time.</English>
+      <Spanish>Te dan invencibilidad por un tiempo.</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -153,8 +153,8 @@
       <German />
     </Translation>
     <Translation key="name_upgrade_porkchop">
-      <Default>Porkchop</Default>
-      <English>Porkchop</English>
+      <Default>PorkChop</Default>
+      <English>PorkChop</English>
       <Spanish>Chuleta</Spanish>
       <Dutch />
       <French />
@@ -163,9 +163,9 @@
       <German />
     </Translation>
     <Translation key="desc_upgrade_porkchop">
-      <Default>This is the pokchop upgrade.</Default>
-      <English>This is the porkchop upgrade.</English>
-      <Spanish>Este es el upgrade de chuleta.</Spanish>
+      <Default>Increase the time of your power up</Default>
+      <English>Increase the time of your power up</English>
+      <Spanish>Aumenta el tiempo de tu power up</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -183,9 +183,9 @@
       <German />
     </Translation>
     <Translation key="desc_upgrade_magnet">
-      <Default>This is the magnet upgrade.</Default>
-      <English>This is the magnet upgrade.</English>
-      <Spanish>Este es el upgrade de magneto.</Spanish>
+      <Default>Increase the time of your power up to attract gold paws</Default>
+      <English>Increase the time of your power up to attract gold paws</English>
+      <Spanish>Aumenta el tiempo de PowerUp para atraer huellas.</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -203,9 +203,9 @@
       <German />
     </Translation>
     <Translation key="desc_upgrade_multiplier">
-      <Default>This is the multiplier upgrade.</Default>
-      <English>This is the multiplier upgrade.</English>
-      <Spanish>Este es el upgrade de multiplicador.</Spanish>
+      <Default>Increase the time of the multiplier to double gold paws</Default>
+      <English>Increase the time of the multiplier to double gold paws</English>
+      <Spanish>Aumenta el tiempo de tu power up para duplicar las huellas</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -313,8 +313,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_produc_not_avaliable">
-      <Default>Product not available in online store.</Default>
-      <English>Product not available in online store.</English>
+      <Default>Item not available at the online store.</Default>
+      <English>Item not available at the online store.</English>
       <Spanish>Producto no disponible en la tienda en linea.</Spanish>
       <Dutch />
       <French />
@@ -323,8 +323,8 @@
       <German />
     </Translation>
     <Translation key="msg_store_title_popup">
-      <Default>Message from Store</Default>
-      <English>Message from Store</English>
+      <Default>Store Message</Default>
+      <English>Store Message</English>
       <Spanish>Mensage de la Tienda</Spanish>
       <Dutch />
       <French />
@@ -353,8 +353,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_purchased_error">
-      <Default>An error ocurred on pay proccess. </Default>
-      <English>An error ocurred on pay proccess. </English>
+      <Default>Error occurred when processing payment in store.</Default>
+      <English>Error occurred when processing payment in store.</English>
       <Spanish>Ocurrio un error al procesar pago en tienda.</Spanish>
       <Dutch />
       <French />
@@ -363,8 +363,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_success_purchased">
-      <Default>Success on purchasing product. Congrats !!</Default>
-      <English>Success on purchasing product. Congrats !!</English>
+      <Default>Successful purchase, congratulations!</Default>
+      <English>Successful purchase, congratulations!</English>
       <Spanish>Compra exitosa. Felicidades !!</Spanish>
       <Dutch />
       <French />
@@ -373,8 +373,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_init_sdk_facebook">
-      <Default>An error occurred on initializing SDK Facebook</Default>
-      <English>An error occurred on initializing SDK Facebook</English>
+      <Default>There was an error initializing SDK Facebook</Default>
+      <English>There was an error initializing SDK Facebook</English>
       <Spanish>Se produjo un error al inicializar SDK Facebook</Spanish>
       <Dutch />
       <French />
@@ -393,8 +393,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_get_account_info">
-      <Default>Couldn't get Facebook user information.</Default>
-      <English>Couldn't get Facebook user information.</English>
+      <Default>Unable to obtain user information on Facebook.</Default>
+      <English>Unable to obtain user information on Facebook.</English>
       <Spanish>No se pudo obtener la informacion del usuario en Facebook.</Spanish>
       <Dutch />
       <French />
@@ -433,8 +433,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_success_share_fb">
-      <Default>Success on facebook share.</Default>
-      <English>Success on facebook share.</English>
+      <Default>Success in sharing on Facebook</Default>
+      <English>Success in sharing on Facebook</English>
       <Spanish>Exito al compartir en Facebook</Spanish>
       <Dutch />
       <French />
@@ -443,8 +443,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_to_play">
-      <Default>You should play this awesome game!</Default>
-      <English>You should play this awesome game!</English>
+      <Default>You should play this game, it's awesome!</Default>
+      <English>You should play this game, it's awesome!</English>
       <Spanish>Deberias jugar este increible juego!</Spanish>
       <Dutch />
       <French />
@@ -453,8 +453,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_5friends">
-      <Default>You have invited more than 5 friends, Congrats you have won 100 pawprints !</Default>
-      <English>You have invited more than 5 friends, Congrats you have won 100 pawprints !</English>
+      <Default>You have invited more than 5 friends. Congratulations, you have earned 100 gold paws!</Default>
+      <English>You have invited more than 5 friends. Congratulations, you have earned 100 gold paws!</English>
       <Spanish>Has invitado a mas de 5 amigos. Felicidades, has ganado 100 huellas!</Spanish>
       <Dutch />
       <French />
@@ -463,8 +463,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_less_5friends">
-      <Default>TIP: If you will invite more than 5 friends, you could win amazing awards.</Default>
-      <English>TIP: If you will invite more than 5 friends, you could win amazing awards.</English>
+      <Default>TIP: If you invite more than 5 friends, you could win incredible prizes.</Default>
+      <English>TIP: If you invite more than 5 friends, you could win incredible prizes.</English>
       <Spanish>CONSEJO: Si invitas a mas de 5 amigos, podrias ganar premios increibles.</Spanish>
       <Dutch />
       <French />
@@ -473,9 +473,9 @@
       <German />
     </Translation>
     <Translation key="msg_info_share_score">
-      <Default>Can you overmatch my score ?</Default>
-      <English>Can you overmatch my score ?</English>
-      <Spanish>Puedes superar mi record ?</Spanish>
+      <Default>Can you beat my record ?</Default>
+      <English>Can you beat my record ?</English>
+      <Spanish>Puedes superar mi logro ?</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -483,8 +483,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_video_not_load">
-      <Default>Could not load ad video !</Default>
-      <English>Could not load ad video !</English>
+      <Default>The advertising video could not be loaded.</Default>
+      <English>The advertising video could not be loaded.</English>
       <Spanish>No se pudo cargar el video.</Spanish>
       <Dutch />
       <French />
@@ -493,8 +493,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_insuficient_resources">
-      <Default>You don't have sufficient paw prints to buy this product</Default>
-      <English>You don't have sufficient paw prints to buy this product</English>
+      <Default>You do not have enough gold paws to purchase this product</Default>
+      <English>You do not have enough gold paws to purchase this product</English>
       <Spanish>No cuentas con suficientes huellas de para para comprar este producto</Spanish>
       <Dutch />
       <French />
@@ -513,8 +513,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_purchase_limit_reached">
-      <Default>You have reached purchase limit of this item.</Default>
-      <English>You have reached purchase limit of this item.</English>
+      <Default>You have reached the purchase limit for this item.</Default>
+      <English>You have reached the purchase limit for this item.</English>
       <Spanish>Se ha alcanzado el limite de compra permitido para este producto.</Spanish>
       <Dutch />
       <French />
@@ -523,8 +523,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_purchase_again">
-      <Default>Unlocked product, you have already purchased this product.</Default>
-      <English>Unlocked product, you have already purchased this product.</English>
+      <Default>Item unlocked. You have already bought this item.</Default>
+      <English>Item unlocked. You have already bought this item.</English>
       <Spanish>Producto desbloqueado, Ya has comprado este producto.</Spanish>
       <Dutch />
       <French />
@@ -543,8 +543,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_init_sdk_facebook">
-      <Default>An internal server error was generated when trying to initialize Facebook</Default>
-      <English>An internal server error was generated when trying to initialize Facebook</English>
+      <Default>Server error when trying to initialize Facebook</Default>
+      <English>Server error when trying to initialize Facebook</English>
       <Spanish>Error en el servidor al intentar inicializar Facebook</Spanish>
       <Dutch />
       <French />
@@ -553,8 +553,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_login_facebook">
-      <Default>An error occurred trying to login to Facebook.</Default>
-      <English>An error occurred trying to login to Facebook.</English>
+      <Default>Error trying to login on Facebook.</Default>
+      <English>Error trying to login on Facebook.</English>
       <Spanish>Error al intentar iniciar sesion en Facebook.</Spanish>
       <Dutch />
       <French />
@@ -563,8 +563,8 @@
       <German />
     </Translation>
     <Translation key="msg_err_get_account_info">
-      <Default>Error trying to get user account information.</Default>
-      <English>Error trying to get user account information.</English>
+      <Default>Failed to obtain user information on Facebook.</Default>
+      <English>Failed to obtain user information on Facebook.</English>
       <Spanish>Error al obtener informacion del usuario en Facebook.</Spanish>
       <Dutch />
       <French />
@@ -603,8 +603,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_success_share_fb">
-      <Default>Success on share.</Default>
-      <English>Success on share.</English>
+      <Default>Success in sharing on Facebook</Default>
+      <English>Success in sharing on Facebook</English>
       <Spanish>Exito al compartir en Facebook</Spanish>
       <Dutch />
       <French />
@@ -613,9 +613,9 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_to_play">
-      <Default>I recommend you this game, it's amazing !</Default>
-      <English>I recommend you this game, it's amazing !</English>
-      <Spanish>Te recomiendo este juego, ?es incre?ble!</Spanish>
+      <Default>Check out this game, it's amazing!</Default>
+      <English>Check out this game, it's amazing!</English>
+      <Spanish>Te recomiendo este juego, es increible!</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -623,8 +623,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_5friends">
-      <Default>You have invited more than 5 friends, Congrats you have won 100 pawprints !</Default>
-      <English>You have invited more than 5 friends, Congrats you have won 100 pawprints !</English>
+      <Default>You have invited 5 friends or more. Congratulations! You have earned 100 gold paws.</Default>
+      <English>You have invited 5 friends or more. Congratulations! You have earned 100 gold paws.</English>
       <Spanish>Has invitado a 5 amigos o mas. Felicidades, has ganado 100 huellas!</Spanish>
       <Dutch />
       <French />
@@ -633,8 +633,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_invite_less_5friends">
-      <Default>Tip: If you will invite more than 5 friends, you could win amazing awards</Default>
-      <English>Tip: If you will invite more than 5 friends, you could win amazing awards</English>
+      <Default>TIP: If you invite more than 5 friends, you could win incredible prizes.</Default>
+      <English>TIP: If you invite more than 5 friends, you could win incredible prizes.</English>
       <Spanish>Consejo: Si invitas a mas de 5 amigos, podras ganar premios increibles</Spanish>
       <Dutch />
       <French />
@@ -643,8 +643,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_share_score">
-      <Default>Success on share your score</Default>
-      <English>Success on share your score</English>
+      <Default>Success in sharing your achievement.</Default>
+      <English>Success in sharing your achievement.</English>
       <Spanish>Exito al compartir tu logro.</Spanish>
       <Dutch />
       <French />
@@ -653,8 +653,8 @@
       <German />
     </Translation>
     <Translation key="popup_message_header_facebook">
-      <Default>Message from Facebook</Default>
-      <English>Message from Facebook</English>
+      <Default>Facebook Message</Default>
+      <English>Facebook Message</English>
       <Spanish>Mensaje de Facebook</Spanish>
       <Dutch />
       <French />
@@ -663,8 +663,8 @@
       <German />
     </Translation>
     <Translation key="msg_info_reward_facebook">
-      <Default>Congrats !, You have won {0} pawprints.</Default>
-      <English>Congrats !, You have won {0} pawprints.</English>
+      <Default>Congrats !, You have earned {0} gold paws.</Default>
+      <English>Congrats !, You have earned {0} gold paws.</English>
       <Spanish>Felicitaciones! Has ganado {0} huellas.</Spanish>
       <Dutch />
       <French />
@@ -673,9 +673,9 @@
       <German />
     </Translation>
     <Translation key="text_header_product_packages">
-      <Default>Packages</Default>
-      <English>Packages</English>
-      <Spanish>Paquetes</Spanish>
+      <Default>PACKS</Default>
+      <English>PACKS</English>
+      <Spanish>PAQUETES</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -683,9 +683,9 @@
       <German />
     </Translation>
     <Translation key="text_header_product_powerups">
-      <Default>PowerUps</Default>
-      <English>PowerUps</English>
-      <Spanish>Poderes</Spanish>
+      <Default>POWERUPS</Default>
+      <English>POWERUPS</English>
+      <Spanish>POWERUPS</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -693,9 +693,9 @@
       <German />
     </Translation>
     <Translation key="text_header_product_upgrades">
-      <Default>Upgrades of powerups</Default>
-      <English>Upgrades of powerups</English>
-      <Spanish>Incrementar Poderes</Spanish>
+      <Default>UPGRADES</Default>
+      <English>UPGRADES</English>
+      <Spanish>UPGRADES</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -713,9 +713,9 @@
       <German />
     </Translation>
     <Translation key="ratetitle">
-      <Default>Like the game?</Default>
-      <English>Like the game?</English>
-      <Spanish>te gusto el juego</Spanish>
+      <Default>DO YOU LIKE THE GAME?</Default>
+      <English>DO YOU LIKE THE GAME?</English>
+      <Spanish>TE GUSTO EL JUEGO</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -745,7 +745,27 @@
     <Translation key="rateLater">
       <Default>Later</Default>
       <English>Later</English>
-      <Spanish>Más tarde</Spanish>
+      <Spanish>Mas tarde</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="msg_info_tnks_review">
+      <Default>Tanks for your review.</Default>
+      <English>Tanks for your review.</English>
+      <Spanish>Gracias por calificarnos.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="text_welcome_user_facebook">
+      <Default>Welcome {0}</Default>
+      <English>Welcome {0}</English>
+      <Spanish>Bienvenido {0}</Spanish>
       <Dutch />
       <French />
       <Italian />

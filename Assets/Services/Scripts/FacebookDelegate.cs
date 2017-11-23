@@ -169,8 +169,11 @@ public class FacebookDelegate : MonoBehaviour {
     {
         if (string.IsNullOrEmpty(result.Error))
         {
-            if(OnProfileUsernameFacebook != null)
-                OnProfileUsernameFacebook("Welcome "+result.ResultDictionary["first_name"].ToString());
+            if(OnProfileUsernameFacebook != null){
+                LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+                OnProfileUsernameFacebook(string.Format(lm.GetString("text_welcome_user_facebook"), result.ResultDictionary["first_name"].ToString()));
+
+            }
         }
         else
         {
@@ -226,7 +229,8 @@ public class FacebookDelegate : MonoBehaviour {
                "Mira esta App!",
                "Es un excelente juego",
                "Revisa esto...",
-               new Uri("http://iluminart.com.mx/img/portafolio-img/pic3.jpg"),
+                null,
+              // new Uri("http://iluminart.com.mx/img/portafolio-img/pic3.jpg"),
                string.Empty,
                CallBackShareFacebook
            );

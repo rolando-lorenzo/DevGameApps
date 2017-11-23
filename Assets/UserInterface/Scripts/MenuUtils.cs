@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using System.Collections;
 
 public class MenuUtils  {
 
@@ -98,6 +99,14 @@ public class MenuUtils  {
             LanguagesManager.Instance.SetLanguage(Language.Default);
         }
         return LanguagesManager.Instance;
+    }
+
+    public static IEnumerator MostrarRate()
+    {
+        yield return new WaitForSeconds(3f);
+        Debug.Log("aqui");
+        if(ManagerRate.instance != null)
+            ManagerRate.instance.ShowAPIRaterRandom();
     }
 
     #endregion

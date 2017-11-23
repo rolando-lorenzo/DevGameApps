@@ -31,8 +31,8 @@ public class ManagerMusicFx : MonoBehaviour {
     #region MonoBehaviour overrides
     void Awake()
     {
-        stateMusic = ExtensionMethods.GetBool("MusicState");
-        stateFx = ExtensionMethods.GetBool("FXState");
+//        stateMusic = ExtensionMethods.GetBool("MusicState");
+//        stateFx = ExtensionMethods.GetBool("FXState");
 
         verifyStateButtonMusicFx(musicSlider, stateMusic, musicGameObjectOn, musicGameObjectOff, "music");
         verifyStateButtonMusicFx(fxSlider, stateFx, fxGameObjectOn, fxGameObjectOff, "fx");

@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class LanguageManager : MonoBehaviour {
 
 	#region Class members
-	public SystemLanguage[] idioms;
-	private SystemLanguage deviceLanguage;
+	public bool developmentMode;
+	public SystemLanguage deviceLanguage;
+
+	public List<SystemLanguage> idioms = new List<SystemLanguage> ();
 	#endregion
 
 	#region Class accesors
@@ -16,7 +18,7 @@ public class LanguageManager : MonoBehaviour {
 	}
 
 	public int languageCount {
-		get { return idioms.Length; }
+		get { return idioms.Count; }
 	}
 
 	public int currentLanguage { get; set; }
@@ -24,9 +26,10 @@ public class LanguageManager : MonoBehaviour {
 
 	#region MonoBehaviour overrides
 	private void Awake () {
-		deviceLanguage = Application.systemLanguage;
+		if (!developmentMode)
+			deviceLanguage = Application.systemLanguage;
 
-		for (int i = 0; i < idioms.Length; i++) {
+		for (int i = 0; i < idioms.Count; i++) {
 			if (idioms[i].ToString () == deviceLanguage.ToString ()) {
 				currentLanguage = i;
 				break;
