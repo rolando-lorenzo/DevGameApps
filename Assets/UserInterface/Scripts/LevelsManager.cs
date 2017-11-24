@@ -47,19 +47,19 @@ public class LevelsManager : MonoBehaviour {
 	void Awake () {
 		currentWorld = GameItemsManager.GetValueStringById (GameItemsManager.Item.WorldName);
 
-        maxLevels = MenuUtils.GetLevelWorl(currentWorld);
+        maxLevels = ProgressWorldLevel.GetLevelWorl( ProgressWorldLevel.GetWorldsEnum(currentWorld));
 
-		switch (currentWorld) {
-			case "Circus":
+		switch (ProgressWorldLevel.GetWorldsEnum(currentWorld)) {
+			case ProgressWorldLevel.WorldsNames.Circus:
 				currentPanel = panelWorldUSA;
 				break;
-			case "Train":
+			case ProgressWorldLevel.WorldsNames.Train:
 				currentPanel = panelWorldMexico;
 				break;
-			case "Zoo":
+			case ProgressWorldLevel.WorldsNames.Zoo:
 				currentPanel = panelWorldAfrica;
 				break;
-			case "Mansion":
+			case ProgressWorldLevel.WorldsNames.Manssion:
 				currentPanel = panelWorldChina;
 				break;
 		}

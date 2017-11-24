@@ -35,6 +35,7 @@ public class WorldManager : MonoBehaviour {
     //variables
     private string nameWorldText { get; set; }
     private string progressLevels { get; set; }
+
 	#endregion
 
 	#region Class accesors
@@ -45,7 +46,7 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
-        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, "Circus-1/Train-0/Zoo-0/Mansion-0");
+        progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, ProgressWorldLevel.GetLevelWorlBase());
     }
 
 	void Start () {
@@ -106,36 +107,35 @@ public class WorldManager : MonoBehaviour {
 	}
 
     private void GoLevelScene(int world) {
-		switch (world) {
-			case 1:
+		switch (ProgressWorldLevel.GetWorldsEnum(world)) {
+			case ProgressWorldLevel.WorldsNames.Circus:
 				//name the world in Xml
-				nameWorldText = "Circus";
+				nameWorldText = ProgressWorldLevel.WorldsNames.Circus.ToString();
 				break;
-			case 2:
-				nameWorldText = "Train";
+			case ProgressWorldLevel.WorldsNames.Train:
+				nameWorldText = ProgressWorldLevel.WorldsNames.Train.ToString();
 				break;
-			case 3:
-				nameWorldText = "Zoo";
+			case ProgressWorldLevel.WorldsNames.Zoo:
+				nameWorldText = ProgressWorldLevel.WorldsNames.Zoo.ToString();
 				break;
-			case 4:
-				nameWorldText = "Mansion";
+			case ProgressWorldLevel.WorldsNames.Manssion:
+				nameWorldText = ProgressWorldLevel.WorldsNames.Manssion.ToString();
 				break;
 		}
 
         GameItemsManager.SetValueStringById(GameItemsManager.Item.WorldName, nameWorldText);
         GameItemsManager.SetValueStringById(GameItemsManager.Item.GameProgressLevel, progressLevels);
-        //string namescene = "LevelScene" + this.nameworld;
         string nameScene = "LevelScene";
         SceneManager.LoadScene(sceneName: nameScene);
     }
 
     private void VerifyLevel()
     {
-        string[] world = { "Circus", "Train", "Zoo", "Mansion" };
+        ProgressWorldLevel.WorldsNames[] world = { ProgressWorldLevel.WorldsNames.Circus, ProgressWorldLevel.WorldsNames.Train, ProgressWorldLevel.WorldsNames.Zoo, ProgressWorldLevel.WorldsNames.Manssion };
         for (int i = 0; i < world.Length; i++)
         {
-            int maxlevel = MenuUtils.GetLevelWorl(world[i]);
-            Debug.Log(world[i] + " " + maxlevel);
+            int maxlevel = ProgressWorldLevel.GetLevelWorl(world[i]);
+            //Debug.Log(world[i] + " " + maxlevel);
             if (maxlevel == 0)
             {
                 InteractableWorlds(world[i]);
@@ -143,17 +143,17 @@ public class WorldManager : MonoBehaviour {
         }
     }
 
-    private void InteractableWorlds(string world)
+    private void InteractableWorlds(ProgressWorldLevel.WorldsNames world)
     {
         switch (world)
         {
-            case "Train":
+            case ProgressWorldLevel.WorldsNames.Train:
                 SetDataButton(buttonGoLevelTrain.GetComponent<Button>(), unlockButtonSprite[0]);
                 break;
-            case "Zoo":
+            case ProgressWorldLevel.WorldsNames.Zoo:
                 SetDataButton(buttonGoLevelZoo.GetComponent<Button>(), unlockButtonSprite[1]);
                 break;
-            case "Mansion":
+            case ProgressWorldLevel.WorldsNames.Manssion:
                 SetDataButton(buttonGoLevelMansion.GetComponent<Button>(), unlockButtonSprite[2]);
                 break;
         }

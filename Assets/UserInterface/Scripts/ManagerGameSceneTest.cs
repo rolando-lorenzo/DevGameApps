@@ -46,8 +46,8 @@ public class ManagerGameSceneTest : MonoBehaviour {
         coinOrLive.text = "" + coinLive;
         VerifyCoin();
 
-        nameWorld = PlayerPrefs.GetString(constant.worldName, "Mexico");
-        nameLevel = PlayerPrefs.GetInt(constant.levelWorld, 1);
+        nameWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName, ProgressWorldLevel.WorldsNames.Circus.ToString());
+        nameLevel = GameItemsManager.GetValueById(GameItemsManager.Item.LevelWorld);
 
         nameWorldLevel.text = nameWorld + " " + nameLevel;         
     }
@@ -96,7 +96,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void CompleteLevel()
     {
-        AdsManagement.Instance.CompleteLevel(nameWorld, nameLevel);
+        ProgressWorldLevel.CompleteLevel(nameWorld, nameLevel);
     }
 
 

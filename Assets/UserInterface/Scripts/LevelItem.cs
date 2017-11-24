@@ -38,8 +38,11 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	#region Interface implementation
 	public void GoToLevel (string level) {
 		Debug.Log ("Cargando escena..." + level);
-		SceneManager.LoadScene (level);
-	}
+        //load level en memoria
+        GameItemsManager.SetValueById(GameItemsManager.Item.LevelWorld, id);
+        //SceneManager.LoadScene (level);
+        SceneManager.LoadScene("GameSceneTest");
+    }
 
 
 	#endregion
