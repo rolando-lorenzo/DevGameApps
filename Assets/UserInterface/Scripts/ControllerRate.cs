@@ -105,9 +105,10 @@ public class ControllerRate : MonoBehaviour {
         globalCount--;
         globalCount = globalCount < 1 ? 1 : globalCount;
         todayCount++;
-        todayCount = todayCount <= 3 ? todayCount : 3;
+        todayCount = todayCount < 3 ? todayCount : 3;
 
         Debug.Log(globalCount);
+        Debug.Log(todayCount);
 
         DateTime date = DateTime.Now;
 

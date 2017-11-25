@@ -193,9 +193,11 @@ public class ManagerRate : MonoBehaviour {
         DateTime datenow = DateTime.Now;
         todayCount = GameItemsManager.GetValueById(GameItemsManager.Item.TodayCount);
 
+        Debug.Log(todayDate.Date+" "+ datenow.Date);
         if (todayDate.Date == datenow.Date)
         {
-            if(todayCount <= 3)
+            Debug.Log("Conunt today: "+todayCount);
+            if(todayCount < 3)
             {
                 return true;
             }
@@ -216,6 +218,7 @@ public class ManagerRate : MonoBehaviour {
 
         if (todayDate.Date < datenow.Date)
         {
+            Debug.Log("Conunt today: " + todayCount);
             GameItemsManager.SetValueById(GameItemsManager.Item.TodayCount, 0);
         }
     }
