@@ -20,6 +20,7 @@ public class ControllerRate : MonoBehaviour {
     public Text rateButtonText;
     public Text lateButtonText;
     public int globalCount { get; set; }
+    public int todayCount { get; set; }
     public string rateUrls { get; set; }
 
     #endregion
@@ -103,9 +104,15 @@ public class ControllerRate : MonoBehaviour {
     {
         globalCount--;
         globalCount = globalCount < 1 ? 1 : globalCount;
+        todayCount++;
+        todayCount = todayCount <= 3 ? todayCount : 3;
 
         Debug.Log(globalCount);
 
+        DateTime date = DateTime.Now;
+
+        GameItemsManager.SetValueById(GameItemsManager.Item.TodayCount, todayCount);
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.TodayDate, date.ToLongTimeString());
         GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
 
         CloseDialogRateAndPanel();

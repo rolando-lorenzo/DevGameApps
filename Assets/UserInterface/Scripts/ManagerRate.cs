@@ -32,10 +32,11 @@ public class ManagerRate : MonoBehaviour {
     public int minSessionCount;
 
     //internal varibles
-    private DateTime dateTimeNow;
     private bool rateStateGlobal { get; set; }
     private bool postPoneTime { get; set; }
     private int globalCount { get; set; }
+    private int todayCount { get; set; }
+    private DateTime todayDate { get; set; }
 
     [Header("Rate Panel")]
     public GameObject panelRate;
@@ -103,19 +104,28 @@ public class ManagerRate : MonoBehaviour {
         globalCount = globalCount > 0 ? globalCount : minSessionCount;
         int rateStateGlobalAux = GameItemsManager.GetValueById(GameItemsManager.Item.rateState);
         rateStateGlobal = rateStateGlobalAux == 0 ? false : true;
+        string date = GameItemsManager.GetValueStringById(GameItemsManager.Item.TodayDate);
+        if (String.IsNullOrEmpty(date)!=true)
+        {
+            todayDate = DateTime.Parse(date);
+        }
+        else
+        {
+            todayDate = DateTime.Now;
+        }
 
-        Debug.Log(postPoneTime);       
+        VerifyDateState();
     }
 
     public string GetRateUrl()
     {
         string rateUrl = "";
         if (Application.platform == RuntimePlatform.Android)
-            rateUrl = appurlRateAndroid + appIdAndroid;
+            rateUrl = appurlRateAndroid + appIdAndroid + "/";
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
             rateUrl = appurlRateApple + appIdApple;
         else
-            rateUrl = appurlRateAndroid + appIdAndroid;
+            rateUrl = appurlRateAndroid + appIdAndroid +"/";
 
         return rateUrl;
     }
@@ -156,8 +166,7 @@ public class ManagerRate : MonoBehaviour {
                 {
                     if (internetConnection && CheckNetworkAvailability())
                     {
-                        Debug.Log("internet");
-                        return true;
+                        return VerifyDate();
                     }
                     else
                     {
@@ -177,6 +186,38 @@ public class ManagerRate : MonoBehaviour {
         }
 
         return false;
+    }
+
+    private bool VerifyDate()
+    {
+        DateTime datenow = DateTime.Now;
+        todayCount = GameItemsManager.GetValueById(GameItemsManager.Item.TodayCount);
+
+        if (todayDate.Date == datenow.Date)
+        {
+            if(todayCount <= 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    private void VerifyDateState()
+    {
+        DateTime datenow = DateTime.Now;
+
+        if (todayDate.Date < datenow.Date)
+        {
+            GameItemsManager.SetValueById(GameItemsManager.Item.TodayCount, 0);
+        }
     }
 
     //verify Network
@@ -243,6 +284,7 @@ public class ManagerRate : MonoBehaviour {
         GameObject panel = Instantiate (panelRate) as GameObject;
         ControllerRate controller = panel.GetComponent<ControllerRate>();
         controller.globalCount = globalCount;
+        controller.todayCount = todayCount;
         //Debug.Log(GetRateUrl());/
         controller.rateUrls = GetRateUrl();
         controller.lateButtonText.text = txtBtnLateRate;

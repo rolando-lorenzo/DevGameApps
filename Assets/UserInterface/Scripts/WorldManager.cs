@@ -8,6 +8,10 @@ using System;
 public class WorldManager : MonoBehaviour {
 
     #region Class members
+    [Header("Game Mode")]
+    public GameItemsManager.GameMode gameMode = GameItemsManager.GameMode.RELEASE;
+    public bool worldsIsLocked = false;
+    [Header("Panel Setting")]
     public GUIAnim imgWorld;
     public GUIAnim btnBulletCircus;
     public GUIAnim btnBulletTrain;
@@ -46,6 +50,7 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
+        
         progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, ProgressWorldLevel.GetLevelWorlBase());
     }
 
@@ -134,11 +139,22 @@ public class WorldManager : MonoBehaviour {
         ProgressWorldLevel.WorldsNames[] world = { ProgressWorldLevel.WorldsNames.Circus, ProgressWorldLevel.WorldsNames.Train, ProgressWorldLevel.WorldsNames.Zoo, ProgressWorldLevel.WorldsNames.Manssion };
         for (int i = 0; i < world.Length; i++)
         {
-            int maxlevel = ProgressWorldLevel.GetLevelWorl(world[i]);
-            //Debug.Log(world[i] + " " + maxlevel);
-            if (maxlevel == 0)
+            if (gameMode == GameItemsManager.GameMode.RELEASE)
             {
-                InteractableWorlds(world[i]);
+                int maxlevel = ProgressWorldLevel.GetLevelWorl(world[i]);
+                //Debug.Log(world[i] + " " + maxlevel);
+                if (maxlevel == 0)
+                {
+                    InteractableWorlds(world[i]);
+                }
+            }
+            else
+            {
+                if(worldsIsLocked == true)
+                {
+                    InteractableWorlds(world[i]);
+                }
+                
             }
         }
     }

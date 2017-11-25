@@ -23,8 +23,12 @@ public class World {
 
 public class LevelsManager : MonoBehaviour {
 
-	#region Class members
-	public GameObject panelWorldUSA;
+    #region Class members
+    [Header("Game Mode")]
+    public GameItemsManager.GameMode gameMode = GameItemsManager.GameMode.RELEASE;
+    public ProgressWorldLevel.WorldsNames CurrentWoldDebug;
+    [Header("Panel Setting")]
+    public GameObject panelWorldUSA;
 	public GameObject panelWorldMexico;
 	public GameObject panelWorldAfrica;
 	public GameObject panelWorldChina;
@@ -45,7 +49,15 @@ public class LevelsManager : MonoBehaviour {
 
 	#region MonoBehaviour overrides
 	void Awake () {
-		currentWorld = GameItemsManager.GetValueStringById (GameItemsManager.Item.WorldName);
+        if(gameMode == GameItemsManager.GameMode.RELEASE)
+        {
+            currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName);
+        }
+        else
+        {
+            currentWorld = CurrentWoldDebug.ToString();
+        }
+		
 
         maxLevels = ProgressWorldLevel.GetLevelWorl( ProgressWorldLevel.GetWorldsEnum(currentWorld));
 
@@ -102,12 +114,30 @@ public class LevelsManager : MonoBehaviour {
 							level.btnGoLevel.image.overrideSprite = lb.imgLevel;
 							level.nameLevel.text = lb.idLevel.ToString ();
 							level.nameScene = lb.nameScene;
-							if (maxLevels >= level.id) {
-								level.btnGoLevel.interactable = true;
-							}
-							else {
-								level.btnGoLevel.interactable = false;
-							}
+                            if (gameMode == GameItemsManager.GameMode.RELEASE)
+                            {
+                                if (maxLevels >= level.id)
+                                {
+                                    level.btnGoLevel.interactable = true;
+                                }
+                                else
+                                {
+                                    level.btnGoLevel.interactable = false;
+                                }
+                            }
+                            else
+                            {
+                                Debug.Log(level.id + " " + lb.isLocked);
+                                if (lb.isLocked)
+                                {
+                                    level.btnGoLevel.interactable = false;
+                                }
+                                else
+                                {
+                                    level.btnGoLevel.interactable = true;
+                                }
+                            }
+							
 						}
 					}
 				}

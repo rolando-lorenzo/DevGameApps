@@ -2985,6 +2985,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5879299cc8cc843e8867a7a578bf1c1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 0
+  worldsIsLocked: 0
   imgWorld: {fileID: 135962429}
   btnBulletCircus: {fileID: 1792585576}
   btnBulletTrain: {fileID: 1146820568}
