@@ -52,6 +52,7 @@ public class MainMenuManager : MonoBehaviour {
 
     void Start()
     {
+        PlayerPrefs.DeleteAll();
         //conditions
         panelConditions.SetActive(false);
         panelSetting.SetActive(false);

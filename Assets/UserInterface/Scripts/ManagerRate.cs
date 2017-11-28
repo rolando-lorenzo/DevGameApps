@@ -121,11 +121,11 @@ public class ManagerRate : MonoBehaviour {
     {
         string rateUrl = "";
         if (Application.platform == RuntimePlatform.Android)
-            rateUrl = appurlRateAndroid + appIdAndroid + "/";
+            rateUrl = "market://details?id=" + appIdAndroid;
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
             rateUrl = appurlRateApple + appIdApple;
         else
-            rateUrl = appurlRateAndroid + appIdAndroid +"/";
+            rateUrl = "market://details?id=" + appIdAndroid;
 
         return rateUrl;
     }

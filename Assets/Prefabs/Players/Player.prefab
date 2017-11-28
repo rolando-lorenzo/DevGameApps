@@ -653,7 +653,7 @@ Transform:
   m_GameObject: {fileID: 1037882548344644}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.21, y: -0.907, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.45}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 4192965870782382}
   - {fileID: 4699144028261384}
@@ -992,11 +992,11 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 59efaa2153629204493acb604f54beaa, type: 2}
-  - {fileID: 2100000, guid: fef025a14c4d49e4d896e42aa04f9bab, type: 2}
-  - {fileID: 2100000, guid: 59efaa2153629204493acb604f54beaa, type: 2}
-  - {fileID: 2100000, guid: fef025a14c4d49e4d896e42aa04f9bab, type: 2}
-  - {fileID: 2100000, guid: 59efaa2153629204493acb604f54beaa, type: 2}
+  - {fileID: 2100000, guid: 903772613f2e43049aedd577ac1ff4b3, type: 2}
+  - {fileID: 2100000, guid: 35a6c376e79898b4fad83c66e1e2bc98, type: 2}
+  - {fileID: 2100000, guid: 903772613f2e43049aedd577ac1ff4b3, type: 2}
+  - {fileID: 2100000, guid: 35a6c376e79898b4fad83c66e1e2bc98, type: 2}
+  - {fileID: 2100000, guid: 903772613f2e43049aedd577ac1ff4b3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1315,7 +1315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   castMask:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 394240
   castRadius: 0.31
   colliderPercentRadius: 0.726
 --- !u!114 &114443176801722808
@@ -1458,7 +1458,7 @@ MonoBehaviour:
   - {fileID: 4514704985647406}
   castMask:
     serializedVersion: 2
-    m_Bits: 68865
+    m_Bits: 331009
   boundsDistanceMultiplier: 0.05
   castDistance: {x: 0.1, y: 0.1}
 --- !u!114 &114659447031792598
@@ -1567,15 +1567,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bff3924287b893488d6d376357e396b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  developmentMode: 0
+  instanceIndex: 2
   skeletonRenderer: {fileID: 114911426202889150}
   instances:
-  - skeletonDataAsset: {fileID: 11400000, guid: ddadb53af0c7ef449b3a0dd81295b3b9,
+  - skeletonDataAsset: {fileID: 11400000, guid: 4ced0f32378ce434c97f78365b9cc605,
       type: 2}
     skinName: default
-  - skeletonDataAsset: {fileID: 11400000, guid: cad54f2efa503214fb8a6af783ea57e3,
+  - skeletonDataAsset: {fileID: 11400000, guid: 8378b6d56ca24454f9db64cc47f694df,
       type: 2}
     skinName: Lion
-  - skeletonDataAsset: {fileID: 11400000, guid: 01da0f2851296094384ea2e864985eed,
+  - skeletonDataAsset: {fileID: 11400000, guid: f7f2b8c1d41e84f488c107893ac0a945,
       type: 2}
     skinName: Lion
   selectedInstance:
@@ -1687,7 +1689,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 979fd9864e68a52478cde99923ad7f72, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 8378b6d56ca24454f9db64cc47f694df, type: 2}
   initialSkinName: Lion
   initialFlipX: 0
   initialFlipY: 0

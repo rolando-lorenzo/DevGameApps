@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
+  m_Name: BlackJaguar_Atlas
+  m_EditorClassIdentifier: 
+  atlasFile: {fileID: 4900000, guid: 6815b6c10e752cc4fa97b6e35ffad5db, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 65b4d9ac3fef6d84d84716afb0b26e3c, type: 2}
+  - {fileID: 2100000, guid: 7bce1cd72ee74ac419933ce46b473cf8, type: 2}
+  - {fileID: 2100000, guid: d917bb8f4f3318e4886cb3a0d12936e3, type: 2}
+  - {fileID: 2100000, guid: 54f0c8431eecf134da1f3d8a4e9c04ca, type: 2}
+  - {fileID: 2100000, guid: a3bbb98b1bd79d046ab726824b63a467, type: 2}
+  - {fileID: 2100000, guid: 387d40513d0bfa448b6b30d938d4bbf4, type: 2}
+  - {fileID: 2100000, guid: f9e4a45c18000e54cbe0b9023ff1c4d7, type: 2}
+  - {fileID: 2100000, guid: 328f5f1ddf6959b4c87b47c193cd5a6a, type: 2}

@@ -35,6 +35,7 @@ public class GameItemsManager {
         globalCountRate,
         TodayCount,
         TodayDate
+
 	}
 
 	/// <summary>

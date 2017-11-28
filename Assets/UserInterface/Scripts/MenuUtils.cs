@@ -26,6 +26,9 @@ public class MenuUtils  {
 		return  val + " Huellas";
 	}
 
+
+   
+
     /// <summary>
     /// Builds the leanguage manager traslation.
     /// </summary>

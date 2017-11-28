@@ -9,6 +9,7 @@ public class ControllerRate : MonoBehaviour {
     //Event rate
     public delegate void EventRateApp(int paws);
     public static event EventRateApp OnRateApp;
+
     //Setting Rate
     [Header("Panel Rate")]
     public GameObject panelRate;
@@ -22,6 +23,7 @@ public class ControllerRate : MonoBehaviour {
     public int globalCount { get; set; }
     public int todayCount { get; set; }
     public string rateUrls { get; set; }
+
 
     #endregion
 
@@ -121,8 +123,7 @@ public class ControllerRate : MonoBehaviour {
 
     private void RateAppValue()
     {
-        if(OnRateApp != null)
-            OnRateApp(10);
+        
         
         globalCount = 1;
         GameItemsManager.SetValueById(GameItemsManager.Item.globalCountRate, globalCount);
@@ -132,6 +133,10 @@ public class ControllerRate : MonoBehaviour {
         Application.OpenURL(rateUrls);
 
         CloseDialogRateAndPanel();
+
+
+        if (OnRateApp != null)
+            OnRateApp(10);
     }
 
     #endregion

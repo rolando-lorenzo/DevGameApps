@@ -10,7 +10,7 @@ public class ProgressWorldLevel {
         Circus = 1,
         Train = 2,
         Zoo = 3,
-        Manssion = 4
+        Mansion = 4
     }
 
     #region Class implementation
@@ -76,7 +76,6 @@ public class ProgressWorldLevel {
             Debug.Log(nameWorld);
             if (progresslevels[i] == nameWorld)
             {
-                Debug.Log("here");
                 maxlevel = Int32.Parse(progresslevels[i + 1]);
                 if (levelOfWorl + 1 <= 5)
                 {

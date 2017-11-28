@@ -1964,6 +1964,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bb9ac46e58e964d81d1ac5b7df3e97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitsToDie: 1
   root: {fileID: 1076057057222206}
   royHealth: {fileID: 114846638846436318}
   siegfriedHealth: {fileID: 114071156779761128}

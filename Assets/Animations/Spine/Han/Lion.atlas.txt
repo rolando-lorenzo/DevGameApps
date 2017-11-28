@@ -1,0 +1,124 @@
+
+Lion.png
+size: 1481,1483
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubble
+  rotate: false
+  xy: 1450, 465
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+FrontForearm
+  rotate: true
+  xy: 1177, 1255
+  size: 226, 294
+  orig: 226, 294
+  offset: 0, 0
+  index: -1
+FrontShoulder
+  rotate: true
+  xy: 1000, 217
+  size: 277, 448
+  orig: 277, 448
+  offset: 0, 0
+  index: -1
+FrontWrist
+  rotate: false
+  xy: 1177, 978
+  size: 291, 275
+  orig: 291, 275
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 2, 2
+  size: 873, 996
+  orig: 873, 996
+  offset: 0, 0
+  index: -1
+RearAnkle
+  rotate: false
+  xy: 1000, 15
+  size: 160, 200
+  orig: 160, 200
+  offset: 0, 0
+  index: -1
+RearFemur
+  rotate: true
+  xy: 1000, 496
+  size: 379, 474
+  orig: 379, 474
+  offset: 0, 0
+  index: -1
+RearPaw
+  rotate: false
+  xy: 1162, 29
+  size: 251, 186
+  orig: 251, 186
+  offset: 0, 0
+  index: -1
+Torso
+  rotate: false
+  xy: 2, 877
+  size: 1173, 604
+  orig: 1173, 604
+  offset: 0, 0
+  index: -1
+
+Lion2.png
+size: 1409,429
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ClosedEye
+  rotate: false
+  xy: 758, 16
+  size: 119, 132
+  orig: 119, 132
+  offset: 0, 0
+  index: -1
+Eye
+  rotate: false
+  xy: 879, 16
+  size: 119, 132
+  orig: 119, 132
+  offset: 0, 0
+  index: -1
+FrontPaw
+  rotate: false
+  xy: 1121, 2
+  size: 286, 161
+  orig: 286, 161
+  offset: 0, 0
+  index: -1
+HalfEye
+  rotate: false
+  xy: 1000, 16
+  size: 119, 132
+  orig: 119, 132
+  offset: 0, 0
+  index: -1
+RearLeg
+  rotate: false
+  xy: 1026, 165
+  size: 256, 262
+  orig: 256, 262
+  offset: 0, 0
+  index: -1
+Star
+  rotate: true
+  xy: 758, 150
+  size: 277, 266
+  orig: 277, 266
+  offset: 0, 0
+  index: -1
+Tail
+  rotate: true
+  xy: 2, 16
+  size: 411, 754
+  orig: 411, 754
+  offset: 0, 0
+  index: -1

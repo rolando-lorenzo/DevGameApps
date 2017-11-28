@@ -51,6 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d356a38184f91e049968b154fe56473b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showOnStart: 1
+  showOnStart: 0
   developmentUI: {fileID: 114720543268398370, guid: 980f70667a7b6a143aaa399a7c619325,
     type: 2}

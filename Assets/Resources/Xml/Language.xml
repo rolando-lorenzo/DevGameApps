@@ -93,9 +93,9 @@
       <German />
     </Translation>
     <Translation key="name_powup_magnet">
-      <Default>Magnet</Default>
-      <English>Magnet</English>
-      <Spanish>Magneto</Spanish>
+      <Default>Powerup Magnet</Default>
+      <English>Powerup Magnet</English>
+      <Spanish>Powerup Magneto</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -115,7 +115,7 @@
     <Translation key="name_powup_multiplier">
       <Default>Multiplier</Default>
       <English>Multiplier</English>
-      <Spanish>Multiplicador</Spanish>
+      <Spanish>Powerup Multiplicador</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -133,9 +133,9 @@
       <German />
     </Translation>
     <Translation key="name_powup_porkchop">
-      <Default>Pork Chop</Default>
-      <English>Pork Chop</English>
-      <Spanish>Chuleta</Spanish>
+      <Default>Upgrade PorkChop</Default>
+      <English>Upgrade PorkChop</English>
+      <Spanish>Powerup Chuleta</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -153,9 +153,9 @@
       <German />
     </Translation>
     <Translation key="name_upgrade_porkchop">
-      <Default>PorkChop</Default>
-      <English>PorkChop</English>
-      <Spanish>Chuleta</Spanish>
+      <Default>Upgrade PorkChop</Default>
+      <English>Upgrade PorkChop</English>
+      <Spanish>Upgrade Chuleta</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -173,9 +173,9 @@
       <German />
     </Translation>
     <Translation key="name_upgrade_magnet">
-      <Default>Magnet</Default>
-      <English>Magnet</English>
-      <Spanish>Magneto</Spanish>
+      <Default>Upgrade Magnet</Default>
+      <English>Upgrade Magnet</English>
+      <Spanish>Upgrade Magneto</Spanish>
       <Dutch />
       <French />
       <Italian />
@@ -193,9 +193,9 @@
       <German />
     </Translation>
     <Translation key="name_upgrade_multiplier">
-      <Default>Multiplier</Default>
-      <English>Multiplier</English>
-      <Spanish>Multiplicador</Spanish>
+      <Default>Upgrade Multiplier</Default>
+      <English>Upgrade Multiplier</English>
+      <Spanish>Upgrade Multiplicador</Spanish>
       <Dutch />
       <French />
       <Italian />

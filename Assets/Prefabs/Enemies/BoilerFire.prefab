@@ -28,7 +28,7 @@ GameObject:
   - component: {fileID: 114364830282139488}
   m_Layer: 15
   m_Name: BoilerFire
-  m_TagString: Enemy
+  m_TagString: Downfall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,7 +171,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -557977199
-  m_SortingLayer: 7
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300044, guid: fd123f8f83c844def9f98f9f7c7d7cc4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

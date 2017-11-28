@@ -1,0 +1,124 @@
+
+Bengal.png
+size: 1495,1488
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubble
+  rotate: false
+  xy: 1464, 1457
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+ClosedEye
+  rotate: false
+  xy: 290, 47
+  size: 130, 132
+  orig: 130, 132
+  offset: 0, 0
+  index: -1
+Eye
+  rotate: false
+  xy: 422, 47
+  size: 130, 132
+  orig: 130, 132
+  offset: 0, 0
+  index: -1
+FrontForearm
+  rotate: false
+  xy: 1051, 266
+  size: 226, 294
+  orig: 226, 294
+  offset: 0, 0
+  index: -1
+FrontPaw
+  rotate: false
+  xy: 2, 18
+  size: 286, 161
+  orig: 286, 161
+  offset: 0, 0
+  index: -1
+FrontShoulder
+  rotate: false
+  xy: 895, 562
+  size: 277, 448
+  orig: 277, 448
+  offset: 0, 0
+  index: -1
+FrontWrist
+  rotate: false
+  xy: 758, 285
+  size: 291, 275
+  orig: 291, 275
+  offset: 0, 0
+  index: -1
+HalfEye
+  rotate: false
+  xy: 554, 47
+  size: 130, 132
+  orig: 130, 132
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 2, 594
+  size: 891, 892
+  orig: 891, 892
+  offset: 0, 0
+  index: -1
+RearAnkle
+  rotate: false
+  xy: 1276, 1033
+  size: 160, 200
+  orig: 160, 200
+  offset: 0, 0
+  index: -1
+RearFemur
+  rotate: false
+  xy: 895, 1012
+  size: 379, 474
+  orig: 379, 474
+  offset: 0, 0
+  index: -1
+RearLeg
+  rotate: false
+  xy: 1037, 2
+  size: 256, 262
+  orig: 256, 262
+  offset: 0, 0
+  index: -1
+RearPaw
+  rotate: true
+  xy: 1276, 1235
+  size: 251, 186
+  orig: 251, 186
+  offset: 0, 0
+  index: -1
+Star
+  rotate: false
+  xy: 758, 17
+  size: 277, 266
+  orig: 277, 266
+  offset: 0, 0
+  index: -1
+Tail
+  rotate: true
+  xy: 2, 181
+  size: 411, 754
+  orig: 411, 754
+  offset: 0, 0
+  index: -1
+
+Bengal2.png
+size: 1021,737
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Torso
+  rotate: false
+  xy: 2, 2
+  size: 1017, 733
+  orig: 1017, 733
+  offset: 0, 0
+  index: -1

@@ -23,12 +23,8 @@ public class World {
 
 public class LevelsManager : MonoBehaviour {
 
-    #region Class members
-    [Header("Game Mode")]
-    public GameItemsManager.GameMode gameMode = GameItemsManager.GameMode.RELEASE;
-    public ProgressWorldLevel.WorldsNames CurrentWoldDebug;
-    [Header("Panel Setting")]
-    public GameObject panelWorldUSA;
+	#region Class members
+	public GameObject panelWorldUSA;
 	public GameObject panelWorldMexico;
 	public GameObject panelWorldAfrica;
 	public GameObject panelWorldChina;
@@ -38,6 +34,11 @@ public class LevelsManager : MonoBehaviour {
 	private GameObject currentPanel;
 	private Button btnBack;
 	private Text txtHeaderWorld;
+
+
+	public float slideTime;
+	public float slideDelay;
+	private ScrollRect scrollRect;
 	#endregion
 
 
@@ -49,32 +50,29 @@ public class LevelsManager : MonoBehaviour {
 
 	#region MonoBehaviour overrides
 	void Awake () {
-        if(gameMode == GameItemsManager.GameMode.RELEASE)
-        {
-            currentWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName);
-        }
-        else
-        {
-            currentWorld = CurrentWoldDebug.ToString();
-        }
-		
+        
+		currentWorld = GameItemsManager.GetValueStringById (GameItemsManager.Item.WorldName);
 
-        maxLevels = ProgressWorldLevel.GetLevelWorl( ProgressWorldLevel.GetWorldsEnum(currentWorld));
+		char[] split = { '/', '-' };
+		string[] progresslevels = GameItemsManager.GetValueStringById (GameItemsManager.Item.GameProgressLevel).Split (split);
 
-		switch (ProgressWorldLevel.GetWorldsEnum(currentWorld)) {
-			case ProgressWorldLevel.WorldsNames.Circus:
-				currentPanel = panelWorldUSA;
-				break;
-			case ProgressWorldLevel.WorldsNames.Train:
-				currentPanel = panelWorldMexico;
-				break;
-			case ProgressWorldLevel.WorldsNames.Zoo:
-				currentPanel = panelWorldAfrica;
-				break;
-			case ProgressWorldLevel.WorldsNames.Manssion:
-				currentPanel = panelWorldChina;
-				break;
-		}
+        maxLevels = ProgressWorldLevel.GetLevelWorl(ProgressWorldLevel.GetWorldsEnum(currentWorld));
+
+        switch (ProgressWorldLevel.GetWorldsEnum(currentWorld))
+        {
+            case ProgressWorldLevel.WorldsNames.Circus:
+                currentPanel = panelWorldUSA;
+                break;
+            case ProgressWorldLevel.WorldsNames.Train:
+                currentPanel = panelWorldMexico;
+                break;
+            case ProgressWorldLevel.WorldsNames.Zoo:
+                currentPanel = panelWorldAfrica;
+                break;
+            case ProgressWorldLevel.WorldsNames.Mansion:
+                currentPanel = panelWorldChina;
+                break;
+        }
 
 		currentPanel.SetActive (true);
 		btnsLevels = currentPanel.GetComponentsInChildren<LevelItem> ();
@@ -84,16 +82,19 @@ public class LevelsManager : MonoBehaviour {
 			btnBack = btnTrsform.gameObject.GetComponent<Button> ();
 			btnBack.onClick.AddListener (GoWorldScene);
 		}
-		
+
 
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
+
+		scrollRect = currentPanel.GetComponentInChildren<ScrollRect> ();
 	}
 
 	void Start () {
 		PopulateLevels ();
 		StartCoroutine (AnimMoveInBnts ());
+		StartCoroutine (MoveToStartPosition ());
 	}
 	#endregion
 
@@ -114,30 +115,12 @@ public class LevelsManager : MonoBehaviour {
 							level.btnGoLevel.image.overrideSprite = lb.imgLevel;
 							level.nameLevel.text = lb.idLevel.ToString ();
 							level.nameScene = lb.nameScene;
-                            if (gameMode == GameItemsManager.GameMode.RELEASE)
-                            {
-                                if (maxLevels >= level.id)
-                                {
-                                    level.btnGoLevel.interactable = true;
-                                }
-                                else
-                                {
-                                    level.btnGoLevel.interactable = false;
-                                }
-                            }
-                            else
-                            {
-                                Debug.Log(level.id + " " + lb.isLocked);
-                                if (lb.isLocked)
-                                {
-                                    level.btnGoLevel.interactable = false;
-                                }
-                                else
-                                {
-                                    level.btnGoLevel.interactable = true;
-                                }
-                            }
-							
+							if (maxLevels >= level.id) {
+								level.btnGoLevel.interactable = true;
+							}
+							else {
+								level.btnGoLevel.interactable = false;
+							}
 						}
 					}
 				}
@@ -165,9 +148,16 @@ public class LevelsManager : MonoBehaviour {
 
 
 	void GoWorldScene () {
-		
+
 		Debug.Log ("Cargando WorldScene!...");
 		SceneManager.LoadScene ("WorldScene");
+	}
+
+	private IEnumerator MoveToStartPosition () {
+		yield return new WaitForSeconds (slideDelay);
+		Tween.FloatTween (gameObject, "MovePanelLevels", 0, 1, slideTime, (tween) => {
+			scrollRect.verticalNormalizedPosition = Mathf.Lerp (1, 0, tween.Progress);
+		}, false);
 	}
 	#endregion
 

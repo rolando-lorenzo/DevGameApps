@@ -53,7 +53,14 @@ public class ProductUpgradeItem : ProductItem {
 		
 	public void UpdatePriceAndProgress(){
         int currentVal = GameItemsManager.GetPowerUpgradeLevel(idProductPower);
-        float val = valCurrency*(currentVal);
+        Debug.Log("PowerUpgradeLevel "+currentVal);
+        float val = 0;
+        if(currentVal == 1){
+            val = 9; //valor en tienda del primer upgrade
+        } else {
+            val = 19; //valor en tienda del segundo upgrade
+        } 
+        //float val = valCurrency*(currentVal);
 		priceProduct.text = MenuUtils.FormatPriceProducts (val);
         storeUpProg.ChangeImgsColor();
 	}

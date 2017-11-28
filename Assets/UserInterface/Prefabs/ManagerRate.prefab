@@ -51,10 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1f750e6c37a38419ba1f0f69928c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  appIdApple: 1185855724
+  appIdApple: 1310994915
   appurlRateApple: https://itunes.apple.com/app/id/
-  appIdAndroid: com.BJWT.maze.thing
-  appurlRateAndroid: markert://details?id=
+  appIdAndroid: com.EstacionPi.BJWTFoundation
+  appurlRateAndroid: market://details?id=
   internetConnection: 1
   LimitRandom: 3
   minSessionCount: 15

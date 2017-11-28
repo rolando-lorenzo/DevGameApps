@@ -59,7 +59,7 @@ public class StoreUpgradeProgress : MonoBehaviour {
 	/// </summary>
 	public void ChangeImgsColor(){
         int progress = GameItemsManager.GetPowerUpgradeLevel(idUpgrade)-1;
-        Debug.Log(GameItemsManager.GetPowerUpgradeLevel(idUpgrade));
+        //Debug.Log(GameItemsManager.GetPowerUpgradeLevel(idUpgrade));
         for (int i = 0; i < progress; i++) {
 			Image currImg = imgsProgress [i];
 			currImg.color = Color.blue;
