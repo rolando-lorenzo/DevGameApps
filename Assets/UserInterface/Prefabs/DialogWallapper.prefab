@@ -797,8 +797,7 @@ MonoBehaviour:
   gameObjectDialogWallpaper: {fileID: 1535215094458102}
   panelWallpaper: {fileID: 1137450648929888}
   animDialogWallpaper: {fileID: 114267118275467028}
-  pathImage: 
-  fileName: 
+  objWallpaperItem: {fileID: 0}
 --- !u!114 &114920882132588600
 MonoBehaviour:
   m_ObjectHideFlags: 1

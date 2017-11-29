@@ -18,14 +18,11 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
     public Button buttonBuyWallpaper;
 	public Text nameCharacter;
 	public GameObject imageUnlock;
-    //public WallpaperItem wallpaperobj = new WallpaperItem();
 
     [HideInInspector]
 	public string descCharacter;
 	public delegate void ItemPurchasedAction (CharacterItem itemPurchased);
 	public event ItemPurchasedAction OnItemPurchased;
-    public delegate void ItemPurchasedActionWallpaper(WallpaperItem itemPurchased);
-    public event ItemPurchasedActionWallpaper OnItemPurchasedWallpaper;
     #endregion
 
     #region Class accesors
@@ -39,15 +36,6 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
     #endregion
 
     #region MonoBehaviour overrides
-    private void OnEnable()
-    {
-        wallpaperItem.OnWallpaperBuy += HandlerWallpaperBuy;
-    }
-
-    private void OnDisable()
-    {
-        wallpaperItem.OnWallpaperBuy += HandlerWallpaperBuy;
-    }
     private void Awake () {
         btnBuyProduct.onClick.AddListener (() => BuyCharacter (this));
         buttonBuyWallpaper.onClick.AddListener(() => BuyWallpaper());
@@ -118,16 +106,7 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
     {
         wallpaperItem.ShowDilogWallpaper();
     }
-
-    private void HandlerWallpaperBuy(WallpaperItem itemWallpaper)
-    {
-       Debug.Log("Estas Aqui");
-        Debug.Log(itemWallpaper.idWallpaper.ToString());
-        Debug.Log(itemWallpaper.idStoreGooglePlay);
-        if (OnItemPurchasedWallpaper != null)
-            OnItemPurchasedWallpaper(itemWallpaper);
-    }
-
+    
     #endregion
 
 }

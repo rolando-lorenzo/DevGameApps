@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class ControllerWallpaper : MonoBehaviour {
 
     #region Class members
     //Event rate
-    public delegate void EventWallpaperBuy(ControllerWallpaper itemWallpaper, bool isError);
+    public delegate void EventWallpaperBuy(WallpaperItem itemWallpaper);
     public event EventWallpaperBuy OnWallpaperBuy;
    
 
@@ -23,10 +24,9 @@ public class ControllerWallpaper : MonoBehaviour {
     public GameObject panelWallpaper;
     public GUIAnim animDialogWallpaper;
     [HideInInspector]
-    public string pathImage;
-    HideInInspector]
-    public string fileName;
+    public WallpaperItem objWallpaperItem { get; set; }
     //public GUIAnim animWallpaper;
+    public static ControllerWallpaper instance;
     #endregion
 
     #region Class accesors
@@ -36,13 +36,17 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Start()
     {
-        buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy(this));
-        buttonWallpaperBuy.onClick.AddListener(() => BuyWallpaper(this));
+        gameObjectDialogWallpaper.SetActive(false);
+        buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
+        buttonWallpaperBuy.onClick.AddListener(() => BuyWallpaper());
     }
 
     private void Awake()
     {
-
+        if (instance == null)
+        {
+            instance = this;
+        }
     }
     #endregion
 
@@ -51,23 +55,30 @@ public class ControllerWallpaper : MonoBehaviour {
 
     #region Class implementation
     public void ShowWallpaper()
-    { 
-        panelWallpaper.SetActive(true);
+    {
+        if (objWallpaperItem != null)
+        {
+            imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
+            if(objWallpaperItem.islocked == false)
+                VerifyWallpaperItemLock();
+        }
+
+
+        gameObjectDialogWallpaper.SetActive(true);
         StartCoroutine(ShowPanelWallpaperEnumerator());
     }
 
     private IEnumerator ShowPanelWallpaperEnumerator()
     {
-        
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(.5f);
+        panelWallpaper.SetActive(true);
+        yield return new WaitForSeconds(.5f);
         animDialogWallpaper.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
     }
 
-    private void CloseWallpaperBuy(ControllerWallpaper wallpaperItem)
+    private void CloseWallpaperBuy()
     {
         animDialogWallpaper.MoveOut(GUIAnimSystem.eGUIMove.SelfAndChildren);
-        if (OnWallpaperBuy != null)
-            OnWallpaperBuy(wallpaperItem, false);
         StartCoroutine(ClosePanelWallpaper());
     }
 
@@ -76,19 +87,24 @@ public class ControllerWallpaper : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (panelWallpaper != null)
         {
+            gameObjectDialogWallpaper.SetActive(false);
             panelWallpaper.SetActive(false);
-            
-            GameObject.Destroy(gameObjectDialogWallpaper);
+            //GameObject.Destroy(gameObjectDialogWallpaper);
         }
     }
 
-    private void BuyWallpaper(ControllerWallpaper wallItem)
+    private void BuyWallpaper()
     {
         Debug.Log("estas Aqui");
-        Debug.Log(OnWallpaperBuy);
+        //Debug.Log(OnWallpaperBuy);
         if (OnWallpaperBuy != null)
-            OnWallpaperBuy(wallItem, true);
-        //CloseWallpaperBuy(wallItem);
+            OnWallpaperBuy(objWallpaperItem);
+    }
+
+    public void VerifyWallpaperItemLock()
+    {
+        buttonWallpaperBuy.onClick.AddListener(() => ShareWallpaper());
+        buttonWallpaperBuy.GetComponent<Text>().text = "Share Image";
     }
 
     private void ShareWallpaper()
@@ -96,9 +112,9 @@ public class ControllerWallpaper : MonoBehaviour {
         string folderLocation = "/mnt/sdcard/DCIM/Camera/";
         string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
         //string myScreenshotLocation = myFolderLocation + filename;
-        byte[] imageData = File.ReadAllBytes(pathImage);
+        byte[] imageData = File.ReadAllBytes(objWallpaperItem.pathFileImage);
 
-        string filepath = System.IO.Path.Combine(Application.persistentDataPath, fileName + ".png");
+        string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.nameFileImage + ".png");
         File.WriteAllBytes(filepath, imageData);
 
         if (System.IO.File.Exists(filepath))
@@ -107,7 +123,7 @@ public class ControllerWallpaper : MonoBehaviour {
             System.IO.File.Copy(filepath, folderLocationTwo);
         }
 
-        MobileNativeShare.ShareImage(filepath, "Wallpaper "+fileName+" !!", "BJWT");
+        MobileNativeShare.ShareImage(filepath, "Wallpaper "+objWallpaperItem.nameFileImage+" !!", "BJWT");
 
     }
     #endregion

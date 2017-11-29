@@ -39,6 +39,7 @@ public class WallpaperStore
     public Sprite wallpaperCharacter;
     public string idStoreGooglePlay;
     public bool isAvailableInStore;
+    public string pathImage;
 }
 
 [System.Serializable]
@@ -111,7 +112,7 @@ public class StoreManager : MonoBehaviour {
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
-            ch.OnItemPurchasedWallpaper += HandleWallpaperToWillPurchase;
+            //ch.wallpaperItem.OnWallpaperBuyPurchased += HandleWallpaperToWillPurchase;
 		}
 		foreach (ProductItem pi in btnsSlide) {
 			if (pi is ProductPackagesItem) {
@@ -132,7 +133,9 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPInitialized += HandleIncializationIAP;
 		iapManager.OnIAPMessageProgress += HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;
-	}
+        ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
+
+    }
 
 	void Awake () {
 		instance = this;
@@ -183,10 +186,11 @@ public class StoreManager : MonoBehaviour {
 		if (infiniteScrollCharacters != null) {
 			infiniteScrollCharacters.OnItemChanged -= HandleCurrentCharacter;
 		}
+
 		foreach (CharacterItem ch in charactersTemplate) {
 			if (ch != null)
 				ch.OnItemPurchased -= HandleCharacterToWillPurchase;
-                ch.OnItemPurchasedWallpaper -= HandleWallpaperToWillPurchase;
+                //ch.wallpaperItem.OnWallpaperBuyPurchased -= HandleWallpaperToWillPurchase;
         }
 
 		foreach (ProductItem pi in btnsSlide) {
@@ -208,7 +212,8 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPInitialized -= HandleIncializationIAP;
 		iapManager.OnIAPMessageProgress -= HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;
-	}
+        ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
+    }
 	#endregion
 
 	#region Super class overrides
@@ -310,7 +315,7 @@ public class StoreManager : MonoBehaviour {
                     characterTemplate.wallpaperItem.idWallpaper = character.wallpaper.idWallpaperProduct;
                     characterTemplate.wallpaperItem.spriteWallpaper = character.wallpaper.wallpaperCharacter;
                     characterTemplate.wallpaperItem.idStoreGooglePlay = character.wallpaper.idStoreGooglePlay;
-                    characterTemplate.wallpaperItem.nameFile = character.nameCharacter + ".png";
+                    characterTemplate.wallpaperItem.nameFileImage = character.nameCharacter + ".png";
                     characterTemplate.wallpaperItem.isAvailableInStore = character.wallpaper.isAvailableInStore;
 
 
@@ -532,6 +537,7 @@ public class StoreManager : MonoBehaviour {
     /// <param name="wallItem">WallpaperItem</param>
     private void HandleWallpaperToWillPurchase (WallpaperItem wallItem)
     {
+        Debug.Log("estas Aqui");
         //If character was purchased avoid buy again
         if (!GameItemsManager.isLockedWallpaper(wallItem.idWallpaper))
         {
@@ -754,7 +760,7 @@ public class StoreManager : MonoBehaviour {
             if (!GameItemsManager.isLockedWallpaper(currentWallpaper.idWallpaper))
             {
                 Debug.Log("Se ha desbloqueado a " + currentWallpaper.idWallpaper.ToString());
-                currentWallpaper.VerifyUnlockandLockWallpaper();
+                ControllerWallpaper.instance.VerifyWallpaperItemLock();
             }
             else
             {
