@@ -28,6 +28,7 @@ public class GameItemsManager {
 		WorldName,
 		LevelWorld,
 		GameProgressLevel,
+        GameMode,
 
         //Variables of the Dialog Rate
         postPoneTime,
@@ -58,10 +59,28 @@ public class GameItemsManager {
 
 	}
 
-	/// <summary>
-	/// Store products availables.
-	/// </summary>
-	public enum StoreProduct {
+    public enum Wallpaper
+    {
+        //wallpaper
+        //1 = lock
+        //2 = unlock
+        WallpaperCielo,
+        WallpaperTierra,
+        WallpaperEnzo,
+        WallpaperAchilles,
+        WallpaperDharma,
+        WallpaperKarma,
+        WallpaperHan,
+        WallpaperLove,
+        WallpaperAli,
+        WallpaperMatzo
+
+    }
+
+    /// <summary>
+    /// Store products availables.
+    /// </summary>
+    public enum StoreProduct {
 		Package1,
 		Package2,
 		Package3,
@@ -138,11 +157,44 @@ public class GameItemsManager {
 		else return false;
 	}
 
-	/// <summary>
-	/// Saves the player prefs by identifier.
+    /// <summary>
+	/// Sets the lock Wallpaper.
 	/// </summary>
-	/// <param name="id">Identifier.</param>
-	public static void SetValueById (Item id, int value) {
+	/// <param name="wall">wallpaper.</param>
+	public static void SetLockWallpaper(Wallpaper wall)
+    {
+        PlayerPrefs.SetInt(wall.ToString(), CHARACTER_LOCKED);
+    }
+
+    /// <summary>
+    /// Sets the unlock wallpaper.
+    /// </summary>
+    /// <param name="wall">Wallpaper.</param>
+    public static void SetUnlockWallpaper(Wallpaper wall)
+    {
+        PlayerPrefs.SetInt(wall.ToString(), CHARACTER_UNLOCKED);
+    }
+
+    /// <summary>
+    /// Checks status Wallpaper.
+    /// </summary>
+    /// <returns><c>true</c>, if locked Wallpaper, <c>false</c> otherwise.</returns>
+    /// <param name="wall">wall.</param>
+    public static bool isLockedWallpaper(Wallpaper wall)
+    {
+        int currStatus = PlayerPrefs.GetInt(wall.ToString(), 0);
+        if (currStatus == CHARACTER_LOCKED || currStatus == 0)
+        {
+            return true;
+        }
+        else return false;
+    }
+
+    /// <summary>
+    /// Saves the player prefs by identifier.
+    /// </summary>
+    /// <param name="id">Identifier.</param>
+    public static void SetValueById (Item id, int value) {
 		PlayerPrefs.SetInt (id.ToString (), value);
 	}
 
@@ -203,7 +255,7 @@ public class GameItemsManager {
         Character en = (Character)Enum.Parse(typeof(Character), PlayerPrefs.GetString("LastChooseCharacter","PersonajeCielo"));
         return en;
     }
-	#endregion
+    #endregion
 
 
 }

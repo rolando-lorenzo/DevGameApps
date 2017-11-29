@@ -15,28 +15,46 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 	public string skinName;
 	public GameObject character;
 	public Button btnBuyProduct;
+    public Button buttonBuyWallpaper;
 	public Text nameCharacter;
 	public GameObject imageUnlock;
+    //public WallpaperItem wallpaperobj = new WallpaperItem();
 
-	[HideInInspector]
+    [HideInInspector]
 	public string descCharacter;
 	public delegate void ItemPurchasedAction (CharacterItem itemPurchased);
 	public event ItemPurchasedAction OnItemPurchased;
-	#endregion
+    public delegate void ItemPurchasedActionWallpaper(WallpaperItem itemPurchased);
+    public event ItemPurchasedActionWallpaper OnItemPurchasedWallpaper;
+    #endregion
 
-	#region Class accesors
-	public bool isPurchased { set; get; }
+    #region Class accesors
+    public bool isPurchased { set; get; }
 	public string idStoreGooglePlay { get; set; }
 	public bool isAvailableInStore { get; set; }
-	#endregion
 
-	#region MonoBehaviour overrides
-	private void Awake () {
-      
-		btnBuyProduct.onClick.AddListener (() => BuyCharacter (this));
-	}
 
-	private void Start () {
+    //wallpaper
+    public WallpaperItem wallpaperItem;
+    #endregion
+
+    #region MonoBehaviour overrides
+    private void OnEnable()
+    {
+        wallpaperItem.OnWallpaperBuy += HandlerWallpaperBuy;
+    }
+
+    private void OnDisable()
+    {
+        wallpaperItem.OnWallpaperBuy += HandlerWallpaperBuy;
+    }
+    private void Awake () {
+        btnBuyProduct.onClick.AddListener (() => BuyCharacter (this));
+        buttonBuyWallpaper.onClick.AddListener(() => BuyWallpaper());
+    }
+
+
+    private void Start () {
         if (skeletonDataAsset != null){
             skeletonRenderer.skeletonDataAsset = skeletonDataAsset;
             skeletonRenderer.initialSkinName = skinName;
@@ -96,6 +114,20 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 
 	}
 
-	#endregion
+    private void BuyWallpaper()
+    {
+        wallpaperItem.ShowDilogWallpaper();
+    }
+
+    private void HandlerWallpaperBuy(WallpaperItem itemWallpaper)
+    {
+       Debug.Log("Estas Aqui");
+        Debug.Log(itemWallpaper.idWallpaper.ToString());
+        Debug.Log(itemWallpaper.idStoreGooglePlay);
+        if (OnItemPurchasedWallpaper != null)
+            OnItemPurchasedWallpaper(itemWallpaper);
+    }
+
+    #endregion
 
 }

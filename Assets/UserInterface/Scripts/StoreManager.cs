@@ -33,6 +33,15 @@ public class UpgradesStore : ProductStore {
 }
 
 [System.Serializable]
+public class WallpaperStore
+{
+    public GameItemsManager.Wallpaper idWallpaperProduct;
+    public Sprite wallpaperCharacter;
+    public string idStoreGooglePlay;
+    public bool isAvailableInStore;
+}
+
+[System.Serializable]
 public class CharacterStore {
     public GameItemsManager.Character idCharacter;
 	public SkeletonDataAsset skeletonDataAsset;
@@ -43,6 +52,8 @@ public class CharacterStore {
 	public string idInStoreGooglePlay;
 	public bool isAvailableInStore;
     public bool isLockedCharacter;
+    public WallpaperStore wallpaper;
+    
 }
 
 public class StoreManager : MonoBehaviour {
@@ -100,6 +111,7 @@ public class StoreManager : MonoBehaviour {
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
+            ch.OnItemPurchasedWallpaper += HandleWallpaperToWillPurchase;
 		}
 		foreach (ProductItem pi in btnsSlide) {
 			if (pi is ProductPackagesItem) {
@@ -174,7 +186,8 @@ public class StoreManager : MonoBehaviour {
 		foreach (CharacterItem ch in charactersTemplate) {
 			if (ch != null)
 				ch.OnItemPurchased -= HandleCharacterToWillPurchase;
-		}
+                ch.OnItemPurchasedWallpaper -= HandleWallpaperToWillPurchase;
+        }
 
 		foreach (ProductItem pi in btnsSlide) {
 			if (pi is ProductPackagesItem) {
@@ -287,6 +300,13 @@ public class StoreManager : MonoBehaviour {
 						// it could be purchased only with items like Hulleas, yinyangs ....
 						itemsNotAvailableStore.Add (characterTemplate);
 					}
+
+                    characterTemplate.wallpaperItem.idWallpaper = character.wallpaper.idWallpaperProduct;
+                    characterTemplate.wallpaperItem.spriteWallpaper = character.wallpaper.wallpaperCharacter;
+                    characterTemplate.wallpaperItem.idStoreGooglePlay = character.wallpaper.idStoreGooglePlay;
+                    characterTemplate.wallpaperItem.nameFile = character.nameCharacter + ".png";
+                    characterTemplate.wallpaperItem.isAvailableInStore = character.wallpaper.isAvailableInStore;
+
 					characterTemplate.UpdateTextTranslation ();       //update current translations of character's elements  
 					characterTemplate.VerifyUnlockandLockCharacter (); //To image locked and unlocked
 				}
@@ -486,14 +506,43 @@ public class StoreManager : MonoBehaviour {
 			
 		}
 	}
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="wallItem">WallpaperItem</param>
+    private void HandleWallpaperToWillPurchase (WallpaperItem wallItem)
+    {
+        //If character was purchased avoid buy again
+        if (!GameItemsManager.isLockedWallpaper(wallItem.idWallpaper))
+        {
+            BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR);
+            return;
+        }
 
-	/// <summary>
-	/// Checks the num items available to play.
-	/// </summary>
-	/// <returns><c>true</c>, if items available to play was checked, <c>false</c> otherwise.</returns>
-	/// <param name="numHuellas">Number huellas.</param>
-	/// <param name="numYingYangs">Number ying yangs.</param>
-	private bool checkItemsAvailableToPlay (int numHuellas, int numYingYangs) {
+        //proceeds to buy on store online
+        if (wallItem.isAvailableInStore)
+        {
+            Debug.Log("Comprando en IAP...");
+
+            if (gameMode == GameItemsManager.GameMode.RELEASE)
+            {
+                iapManager.BuyInStore(wallItem);
+            }
+            else
+            { //Simulates success purchase, DEBUG mode
+                Debug.Log("Modo debug activado, se simula compra exitosa online.");
+                HandleSuccessPurchasedInStore("msg_info_success_purchased", wallItem);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Checks the num items available to play.
+    /// </summary>
+    /// <returns><c>true</c>, if items available to play was checked, <c>false</c> otherwise.</returns>
+    /// <param name="numHuellas">Number huellas.</param>
+    /// <param name="numYingYangs">Number ying yangs.</param>
+    private bool checkItemsAvailableToPlay (int numHuellas, int numYingYangs) {
 		if (numHuellas <= GameItemsManager.GetValueById (GameItemsManager.Item.NumPawprints)
 			&& numYingYangs <= GameItemsManager.GetValueById (GameItemsManager.Item.NumYinYangs)) {
 			return true;
@@ -675,8 +724,29 @@ public class StoreManager : MonoBehaviour {
 			BuildPopupPurchasedCharacter (currentCharacter);
 		}
 
+        //If was successful purchased a wallpaper from IAP
+        if (ite is WallpaperItem)
+        {
+            WallpaperItem currentWallpaper = ((WallpaperItem)ite);
 
-	}
+            //Unlock character
+            GameItemsManager.SetUnlockWallpaper(currentWallpaper.idWallpaper);
+            if (!GameItemsManager.isLockedWallpaper(currentWallpaper.idWallpaper))
+            {
+                Debug.Log("Se ha desbloqueado a " + currentWallpaper.idWallpaper.ToString());
+                currentWallpaper.VerifyUnlockandLockWallpaper();
+            }
+            else
+            {
+                //cambiar textos
+                BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR);
+                Debug.Log("No se pudo desbloquear a " + currentWallpaper.idWallpaper.ToString());
+            }
+            BuildPopupPurchasedWallpaper(currentWallpaper);
+        }
+
+
+    }
 
 	/// <summary>
 	/// Handles the product limit buy reached.
@@ -865,6 +935,23 @@ public class StoreManager : MonoBehaviour {
 		mostrarMsg.transform.SetParent (mainContainer, false);
 		popupMsg.OpenPupup ();
 	}
-	#endregion
+
+    /// <summary>
+	/// Builds the popup purchased CharacterItem.
+	/// </summary>
+	/// <param name="pi">ProductItem</param>
+	private void BuildPopupPurchasedWallpaper(WallpaperItem pi)
+    {
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        GameObject mostrarMsg = Instantiate(popupBuy) as GameObject;
+        PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct>();
+        popupMsg.message.text = string.Format(lm.GetString("msg_info_success_store_purchased"), pi.idWallpaper.ToString());
+
+        popupMsg.imgProductPurchased.gameObject.SetActive(false);
+
+        mostrarMsg.transform.SetParent(mainContainer, false);
+        popupMsg.OpenPupup();
+    }
+    #endregion
 
 }

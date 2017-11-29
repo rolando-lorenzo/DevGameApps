@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ProgressWorldLevel {
 
+    GameItemsManager.GameMode gameMode;
+
     public enum WorldsNames
     {
         Circus = 1,
@@ -14,6 +16,21 @@ public class ProgressWorldLevel {
     }
 
     #region Class implementation
+    public static GameItemsManager.GameMode GetGameModeEnum(string gamemode)
+    {
+        return (GameItemsManager.GameMode)Enum.Parse(typeof(WorldsNames), gamemode);
+    }
+
+    public static void SetGameMode(GameItemsManager.GameMode gameMode)
+    {
+        GameItemsManager.SetValueStringById(GameItemsManager.Item.GameMode, gameMode.ToString());
+    }
+
+    public static GameItemsManager.GameMode GetGameMode()
+    {
+        return GetGameModeEnum(GameItemsManager.GetValueStringById(GameItemsManager.Item.GameMode, "RELEASE"));
+    }
+
     public static WorldsNames GetWorldsEnum(string nameWorld)
     {
         return (WorldsNames) Enum.Parse(typeof(WorldsNames), nameWorld);
@@ -27,7 +44,8 @@ public class ProgressWorldLevel {
     public static int GetLevelWorl(WorldsNames nameWorld)
     {
         char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, GetLevelWorlBase()).Split(split);
+
+        string[] progresslevels = ProgressString().Split(split);
 
         int maxlevel = 0;
 
@@ -58,6 +76,11 @@ public class ProgressWorldLevel {
         CompleteWorldsLevel(GetWorldsEnum(nameWorld).ToString(), levelOfWorl);
     }
 
+    public static string ProgressString()
+    {
+        return GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, GetLevelWorlBase());
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -66,7 +89,7 @@ public class ProgressWorldLevel {
     private static void CompleteWorldsLevel(string nameWorld, int levelOfWorl)
     {
         char[] split = { '/', '-' };
-        string[] progresslevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel).Split(split);
+        string[] progresslevels = ProgressString().Split(split);
 
         int maxlevel = 0;
 

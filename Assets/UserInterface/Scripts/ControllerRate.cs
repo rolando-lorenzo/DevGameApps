@@ -48,7 +48,6 @@ public class ControllerRate : MonoBehaviour {
     #endregion
 
     #region Class implementation
-
     public void RateAppShow()
     {
         panelRate.SetActive(true);
