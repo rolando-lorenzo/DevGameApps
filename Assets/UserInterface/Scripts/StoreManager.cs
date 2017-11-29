@@ -285,7 +285,13 @@ public class StoreManager : MonoBehaviour {
                     characterTemplate.idStoreGooglePlay = character.idInStoreGooglePlay;
                     #endif
 
-					characterTemplate.isAvailableInStore = character.isAvailableInStore;
+                    #if UNITY_IOS
+                    characterTemplate.wallpaperItem.idStoreGooglePlay = "com.EstacionPi.BJWTFoundation."+character.wallpaper.idStoreGooglePlay;;
+                    #else
+                    characterTemplate.wallpaperItem.idStoreGooglePlay = character.wallpaper.idStoreGooglePlay;
+                    #endif
+
+                    characterTemplate.isAvailableInStore = character.isAvailableInStore;
 
 					if (character.skeletonDataAsset != null)
 						characterTemplate.skeletonDataAsset = character.skeletonDataAsset;
@@ -306,6 +312,20 @@ public class StoreManager : MonoBehaviour {
                     characterTemplate.wallpaperItem.idStoreGooglePlay = character.wallpaper.idStoreGooglePlay;
                     characterTemplate.wallpaperItem.nameFile = character.nameCharacter + ".png";
                     characterTemplate.wallpaperItem.isAvailableInStore = character.wallpaper.isAvailableInStore;
+
+
+                    if (character.wallpaper.isAvailableInStore)
+                    {
+                        // it could be purchased only in Online Store
+                        itemsAvailableInStore.Add(characterTemplate.wallpaperItem);
+                    }
+                    else
+                    {
+                        // it could be purchased only with items like Hulleas, yinyangs ....
+                        itemsNotAvailableStore.Add(characterTemplate.wallpaperItem);
+                    }
+
+                    characterTemplate.wallpaperItem.VerifyUnlockandLockWallpaper();
 
 					characterTemplate.UpdateTextTranslation ();       //update current translations of character's elements  
 					characterTemplate.VerifyUnlockandLockCharacter (); //To image locked and unlocked

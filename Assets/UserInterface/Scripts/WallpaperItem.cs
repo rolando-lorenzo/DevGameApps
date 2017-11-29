@@ -75,6 +75,7 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
 
     public void VerifyUnlockandLockWallpaper()
     {
+        Debug.Log("estas aqui");
         LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
         if (!GameItemsManager.isLockedWallpaper(idWallpaper))
         {

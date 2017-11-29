@@ -95,7 +95,14 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 				Debug.Log ("Agregando item(CharacterItem) para el store: "+currentProduct.idStoreGooglePlay);
 				builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
 			}
-		}
+
+            if (item is WallpaperItem)
+            {
+                WallpaperItem currentProduct = ((WallpaperItem) item);
+                Debug.Log("Agregando item(WallpaperItem) para el store: " + currentProduct.idStoreGooglePlay);
+                builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+            }
+        }
 
 		// Continue adding the non-consumable product.
 		//builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
@@ -140,7 +147,13 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			} else if (productItem is CharacterItem) {
 				CharacterItem currentCharacter = ((CharacterItem)productItem);
 				product = storeController.products.WithID (id: currentCharacter.idStoreGooglePlay);
-			} else {
+			}
+            else if (productItem is WallpaperItem)
+            {
+                WallpaperItem currentCharacter = ((WallpaperItem)productItem);
+                product = storeController.products.WithID(id: currentCharacter.idStoreGooglePlay);
+            }
+            else {
 				if (OnIAPMessageProgress != null)
                     OnIAPMessageProgress("msg_err_produc_not_avaliable", true);
 			}
@@ -261,7 +274,13 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 				nameItemPurchased = currentCharacter.nameCharacter.text;
 			}
 
-			string msj = "Compra exitosa !! Has adquirido "+nameItemPurchased+". Felicidades !!";
+            if (productItemBuy is WallpaperItem)
+            {
+                WallpaperItem currentWallpaper = ((WallpaperItem)productItemBuy);
+                nameItemPurchased = currentWallpaper.name;
+            }
+
+            string msj = "Compra exitosa !! Has adquirido "+nameItemPurchased+". Felicidades !!";
             Debug.Log(msj);
 			if (OnIAPSuccessPurchasedInStore != null)
                 OnIAPSuccessPurchasedInStore("msg_info_success_purchased", productItemBuy);
