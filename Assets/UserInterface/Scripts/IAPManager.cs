@@ -86,8 +86,6 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 					Debug.Log ("Agregando item(ProductItem) para el store: "+currentProduct.idStoreGooglePlay);
 					builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
 				}
-
-
 			}
 
 			if (item is CharacterItem) {
