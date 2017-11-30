@@ -39,7 +39,6 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Start()
     {
-        PlayerPrefs.DeleteAll();
         buttonWallpaperShare.SetActive(false);
         gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
@@ -145,7 +144,7 @@ public class ControllerWallpaper : MonoBehaviour {
             //string folderLocation = "/mnt/sdcard/DCIM/Camera/";
             //string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
             Debug.Log("Obteniendo img de carpeta Resources...");
-            var texture = Resources.Load<Texture2D>(objWallpaperItem.idStoreGooglePlay+"4644");
+            var texture = Resources.Load<Texture2D>(objWallpaperItem.idStoreGooglePlay);
             string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.idStoreGooglePlay+".png");
             File.WriteAllBytes(filepath,texture.EncodeToPNG());
             Debug.Log("Img de logro1 Guardada exitosamente !!");
