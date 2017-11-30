@@ -11,7 +11,10 @@ public class ControllerWallpaper : MonoBehaviour {
     #region Class members
     public delegate void EventWallpaperBuy(WallpaperItem itemWallpaper);
     public event EventWallpaperBuy OnWallpaperBuy;
-   
+
+    public delegate void EventWallpaperMenssage(string title, string message, DialogMessage.typeMessage typeMessage);
+    public event EventWallpaperMenssage OnWallpaperMessage;
+
 
     //Setting Rate
     [Header("Setting")]
@@ -74,13 +77,15 @@ public class ControllerWallpaper : MonoBehaviour {
             }
             else
             {
-                Debug.Log("No disponible");
+                if (OnWallpaperMessage != null)
+                    OnWallpaperMessage("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
             }
                 
         }
         else
         {
-            Debug.Log("No dispoble");
+            if (OnWallpaperMessage != null)
+                OnWallpaperMessage("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
         }
 
         
@@ -92,6 +97,7 @@ public class ControllerWallpaper : MonoBehaviour {
         panelWallpaper.SetActive(true);
         yield return new WaitForSeconds(.5f);
         animDialogWallpaper.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
+        MenuUtils.CanvasSortingOrder();
     }
 
     private void CloseWallpaperBuy()
@@ -107,6 +113,7 @@ public class ControllerWallpaper : MonoBehaviour {
         {
             gameObjectDialogWallpaper.SetActive(false);
             panelWallpaper.SetActive(false);
+            MenuUtils.CanvasSortingOrder();
             //GameObject.Destroy(gameObjectDialogWallpaper);
         }
     }
@@ -154,6 +161,9 @@ public class ControllerWallpaper : MonoBehaviour {
         }
         catch(Exception e)
         {
+            if (OnWallpaperMessage != null)
+                OnWallpaperMessage("msg_store_title_popup", "msg_err_fails_share_wallpaper", DialogMessage.typeMessage.ERROR);
+            CloseWallpaperBuy();
             Debug.Log(e);
         }
     }

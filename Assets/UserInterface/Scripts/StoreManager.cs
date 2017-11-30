@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using PankioAssets;
 using UnityEngine.SceneManagement;
 using Spine.Unity;
+using System;
 
 public class ProductStore {
 
@@ -111,7 +112,6 @@ public class StoreManager : MonoBehaviour {
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
-            //ch.wallpaperItem.OnWallpaperBuyPurchased += HandleWallpaperToWillPurchase;
 		}
 		foreach (ProductItem pi in btnsSlide) {
 			if (pi is ProductPackagesItem) {
@@ -133,6 +133,7 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPMessageProgress += HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;
         ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
+        ControllerWallpaper.instance.OnWallpaperMessage += HandleWallpaperToMessage;
     }
 
 	void Awake () {
@@ -188,7 +189,6 @@ public class StoreManager : MonoBehaviour {
 		foreach (CharacterItem ch in charactersTemplate) {
 			if (ch != null)
 				ch.OnItemPurchased -= HandleCharacterToWillPurchase;
-                //ch.wallpaperItem.OnWallpaperBuyPurchased -= HandleWallpaperToWillPurchase;
         }
 
 		foreach (ProductItem pi in btnsSlide) {
@@ -211,19 +211,20 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPMessageProgress -= HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;
         ControllerWallpaper.instance.OnWallpaperBuy -= HandleWallpaperToWillPurchase;
+        ControllerWallpaper.instance.OnWallpaperMessage -= HandleWallpaperToMessage;
     }
-	#endregion
+    #endregion
 
-	#region Super class overrides
-	#endregion
+    #region Super class overrides
+    #endregion
 
-	#region Class implementation
+    #region Class implementation
 
-	/// <summary>
-	/// Populates the packages panel.
-	/// </summary>
-	/// <param name="products">Products.</param>
-	private void PopulatePackages (List<PackagesStore> products) {
+    /// <summary>
+    /// Populates the packages panel.
+    /// </summary>
+    /// <param name="products">Products.</param>
+    private void PopulatePackages (List<PackagesStore> products) {
 
 		LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation ();
 
@@ -765,7 +766,7 @@ public class StoreManager : MonoBehaviour {
             else
             {
                 //cambiar textos
-                BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR);
+                BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_wallpaper", DialogMessage.typeMessage.ERROR);
                 Debug.Log("No se pudo desbloquear a " + currentWallpaper.idWallpaper.ToString());
             }
             BuildPopupPurchasedWallpaper(currentWallpaper);
@@ -900,13 +901,18 @@ public class StoreManager : MonoBehaviour {
 		
 	}
 
-	/// <summary>
-	/// Builds the dialog message.
-	/// </summary>
-	/// <param name="title">Title.</param>
-	/// <param name="msg">Message.</param>
-	/// <param name="type">Type.(ERROR, INFO, WARN)</param>
-	private void BuildDialogMessage (string title, string msg, DialogMessage.typeMessage type) {
+    private void HandleWallpaperToMessage(string title, string message, DialogMessage.typeMessage typeMessage)
+    {
+        BuildDialogMessage(title, message, typeMessage);
+    }
+
+    /// <summary>
+    /// Builds the dialog message.
+    /// </summary>
+    /// <param name="title">Title.</param>
+    /// <param name="msg">Message.</param>
+    /// <param name="type">Type.(ERROR, INFO, WARN)</param>
+    private void BuildDialogMessage (string title, string msg, DialogMessage.typeMessage type) {
 		GameObject mostrarMsg = Instantiate (dialogMessage) as GameObject;
 		DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage> ();
 		popupMsg.txtMessage.text = msg;

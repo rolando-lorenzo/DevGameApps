@@ -40,6 +40,7 @@ public class PupUpBuyProduct : MonoBehaviour {
 		if (popupSelfBuy != null) {
 			popupSelfBuy.SetActive (true);
 		}
+        MenuUtils.CanvasSortingOrder();
 		animPopup.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
 	}
 
@@ -51,6 +52,7 @@ public class PupUpBuyProduct : MonoBehaviour {
 	private IEnumerator InactivePopup()
 	{
 		Debug.Log("Desactivando StorePopup..");
+        MenuUtils.CanvasSortingOrder();
 		yield return new WaitForSeconds(2.0f);
 		if (popupSelfBuy != null) {
 			popupSelfBuy.SetActive (false);

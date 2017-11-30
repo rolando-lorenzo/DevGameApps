@@ -33,12 +33,12 @@ public class ProgressWorldLevel {
 
     public static WorldsNames GetWorldsEnum(string nameWorld)
     {
-        return (WorldsNames) Enum.Parse(typeof(WorldsNames), nameWorld);
+        return (WorldsNames)Enum.Parse(typeof(WorldsNames), nameWorld);
     }
 
     public static WorldsNames GetWorldsEnum(int nameWorld)
     {
-        return (WorldsNames) nameWorld;
+        return (WorldsNames)nameWorld;
     }
 
     public static int GetLevelWorl(WorldsNames nameWorld)

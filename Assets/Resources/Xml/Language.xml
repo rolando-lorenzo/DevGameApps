@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="us-ascii"?>
+<?xml version="1.0" encoding="Windows-1252"?>
 <LanguagesManager xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <CurrentLanguage>Spanish</CurrentLanguage>
+  <CurrentLanguage>English</CurrentLanguage>
   <Translations>
     <Translation key="name_pack01">
       <Default>Pack 1 </Default>
@@ -766,6 +766,36 @@
       <Default>Welcome {0}</Default>
       <English>Welcome {0}</English>
       <Spanish>Bienvenido {0}</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="msg_err_fails_unlock_wallpaper">
+      <Default>An error occurred on unlock this wallpaper.</Default>
+      <English>An error occurred on unlock this wallpaper.</English>
+      <Spanish>Se produjo un error al desbloquear este fondo.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="msg_err_fails_share_wallpaper">
+      <Default>Error to trying to share wallpaper.</Default>
+      <English>Error to trying to share wallpaper.</English>
+      <Spanish>Error al intentar compartir el fondo de pantalla.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="msg_err_avalible_wallpaper">
+      <Default>The wallpaper is not available in the store.</Default>
+      <English>The wallpaper is not available in the store.</English>
+      <Spanish>El fondo de pantalla no está disponible en la tienda.</Spanish>
       <Dutch />
       <French />
       <Italian />
