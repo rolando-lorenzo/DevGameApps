@@ -93,9 +93,8 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private IEnumerator ShowPanelWallpaperEnumerator()
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.0f);
         panelWallpaper.SetActive(true);
-        yield return new WaitForSeconds(.5f);
         animDialogWallpaper.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
         MenuUtils.CanvasSortingOrder();
     }
@@ -142,28 +141,27 @@ public class ControllerWallpaper : MonoBehaviour {
     {
         try
         {
-            string folderLocation = "/mnt/sdcard/DCIM/Camera/";
+            //string folderLocation = "/mnt/sdcard/DCIM/Camera/";
             //string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
             Debug.Log("Obteniendo img de carpeta Resources...");
             var texture = Resources.Load<Texture2D>(objWallpaperItem.idStoreGooglePlay);
-
-            string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.nameFileImage + ".png");
-            File.WriteAllBytes(filepath, texture.EncodeToPNG());
+            string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.idStoreGooglePlay+".png");
+            File.WriteAllBytes(filepath,texture.EncodeToPNG());
             Debug.Log("Img de logro1 Guardada exitosamente !!");
 
             MobileNativeShare.ShareImage(filepath, "Wallpaper " + objWallpaperItem.nameFileImage + " !!", "BJWT");
 
-            if (System.IO.File.Exists(filepath))
+            /*if (System.IO.File.Exists(filepath))
             {
                 System.IO.File.Move(filepath, folderLocation);
                 //System.IO.File.Copy(filepath, folderLocationTwo);
-            }
+            }*/
         }
         catch(Exception e)
         {
             if (OnWallpaperMessage != null)
                 OnWallpaperMessage("msg_store_title_popup", "msg_err_fails_share_wallpaper", DialogMessage.typeMessage.ERROR);
-            CloseWallpaperBuy();
+           // CloseWallpaperBuy();
             Debug.Log(e);
         }
     }
