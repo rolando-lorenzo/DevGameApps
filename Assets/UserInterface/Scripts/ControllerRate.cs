@@ -56,7 +56,7 @@ public class ControllerRate : MonoBehaviour {
 
     private IEnumerator ShowDialogRate()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         // MoveIn all buttons
         dialogRate.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
     }
@@ -69,7 +69,7 @@ public class ControllerRate : MonoBehaviour {
 
     private IEnumerator ClosePanel()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         // MoveIn all buttons
         if (panelRate != null)
         {

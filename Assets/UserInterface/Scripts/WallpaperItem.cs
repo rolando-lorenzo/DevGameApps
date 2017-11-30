@@ -16,7 +16,6 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
     public GameItemsManager.Wallpaper idWallpaper;
     [HideInInspector]
     public string nameFileImage { get; set; }
-    public string pathFileImage { get; set; }
     public string idStoreGooglePlay { get; set; }
     public bool isAvailableInStore { get; set; }
     public bool islocked { get; set; }
@@ -39,19 +38,19 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
 
     #region Class implementation
 
-    public void ShowDilogWallpaper()
+    public void ShowDilogWallpaper(WallpaperItem item)
     {
         /*Canvas main = GameObject.FindObjectOfType<Canvas>();
         Transform mainCointener = main.GetComponent<Transform>();*/
         Debug.Log("open Modal");
-        ControllerWallpaper.instance.objWallpaperItem = this;
+        Debug.Log(idWallpaper);
+        ControllerWallpaper.instance.objWallpaperItem = item;
         ControllerWallpaper.instance.ShowWallpaper();
     }
 
     public void VerifyUnlockandLockWallpaper()
     {
-        Debug.Log("estas aqui");
-        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
+        Debug.Log("VerifyUnlockandLockWallpaper");
         if (!GameItemsManager.isLockedWallpaper(idWallpaper))
         {
             islocked = false;

@@ -39,7 +39,6 @@ public class WallpaperStore
     public Sprite wallpaperCharacter;
     public string idStoreGooglePlay;
     public bool isAvailableInStore;
-    public string pathImage;
 }
 
 [System.Serializable]
@@ -134,7 +133,6 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPMessageProgress += HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;
         ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
-
     }
 
 	void Awake () {
@@ -212,7 +210,7 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPInitialized -= HandleIncializationIAP;
 		iapManager.OnIAPMessageProgress -= HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;
-        ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
+        ControllerWallpaper.instance.OnWallpaperBuy -= HandleWallpaperToWillPurchase;
     }
 	#endregion
 
@@ -537,7 +535,8 @@ public class StoreManager : MonoBehaviour {
     /// <param name="wallItem">WallpaperItem</param>
     private void HandleWallpaperToWillPurchase (WallpaperItem wallItem)
     {
-        Debug.Log("estas Aqui");
+        Debug.Log(wallItem.idWallpaper.ToString());
+
         //If character was purchased avoid buy again
         if (!GameItemsManager.isLockedWallpaper(wallItem.idWallpaper))
         {
@@ -760,6 +759,7 @@ public class StoreManager : MonoBehaviour {
             if (!GameItemsManager.isLockedWallpaper(currentWallpaper.idWallpaper))
             {
                 Debug.Log("Se ha desbloqueado a " + currentWallpaper.idWallpaper.ToString());
+                currentWallpaper.VerifyUnlockandLockWallpaper();
                 ControllerWallpaper.instance.VerifyWallpaperItemLock();
             }
             else

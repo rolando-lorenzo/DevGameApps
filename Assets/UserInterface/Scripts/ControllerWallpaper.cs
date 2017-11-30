@@ -9,7 +9,6 @@ using System;
 public class ControllerWallpaper : MonoBehaviour {
 
     #region Class members
-    //Event rate
     public delegate void EventWallpaperBuy(WallpaperItem itemWallpaper);
     public event EventWallpaperBuy OnWallpaperBuy;
    
@@ -17,7 +16,8 @@ public class ControllerWallpaper : MonoBehaviour {
     //Setting Rate
     [Header("Setting")]
     public Image imageWallpaper;
-    public Button buttonWallpaperBuy;
+    public GameObject buttonWallpaperBuy;
+    public GameObject buttonWallpaperShare;
     public Button buttonCloseWallpaperBuy;
     [Header("Setting Anim")]
     public GameObject gameObjectDialogWallpaper;
@@ -36,9 +36,11 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Start()
     {
+        buttonWallpaperShare.SetActive(false);
         gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
-        buttonWallpaperBuy.onClick.AddListener(() => BuyWallpaper());
+        buttonWallpaperBuy.GetComponent<Button>().onClick.AddListener(() => BuyWallpaper());
+        buttonWallpaperShare.GetComponent<Button>().onClick.AddListener(() => ShareWallpaper());
     }
 
     private void Awake()
@@ -56,16 +58,32 @@ public class ControllerWallpaper : MonoBehaviour {
     #region Class implementation
     public void ShowWallpaper()
     {
-        if (objWallpaperItem != null)
+        Debug.Log(objWallpaperItem.idWallpaper.ToString());
+        if (objWallpaperItem != null && objWallpaperItem.spriteWallpaper !=null)
         {
-            imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
-            if(objWallpaperItem.islocked == false)
-                VerifyWallpaperItemLock();
+            if (objWallpaperItem.isAvailableInStore)
+            {
+                imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
+                if (objWallpaperItem.islocked == false)
+                    VerifyWallpaperItemLock();
+                else
+                    VerifyWallpaperItemUnLock();
+
+                gameObjectDialogWallpaper.SetActive(true);
+                StartCoroutine(ShowPanelWallpaperEnumerator());
+            }
+            else
+            {
+                Debug.Log("No disponible");
+            }
+                
+        }
+        else
+        {
+            Debug.Log("No dispoble");
         }
 
-
-        gameObjectDialogWallpaper.SetActive(true);
-        StartCoroutine(ShowPanelWallpaperEnumerator());
+        
     }
 
     private IEnumerator ShowPanelWallpaperEnumerator()
@@ -103,28 +121,41 @@ public class ControllerWallpaper : MonoBehaviour {
 
     public void VerifyWallpaperItemLock()
     {
-        buttonWallpaperBuy.onClick.AddListener(() => ShareWallpaper());
-        buttonWallpaperBuy.GetComponent<Text>().text = "Share Image";
+        buttonWallpaperShare.SetActive(true);
+        buttonWallpaperBuy.SetActive(false);
+    }
+
+    public void VerifyWallpaperItemUnLock()
+    {
+        buttonWallpaperShare.SetActive(false);
+        buttonWallpaperBuy.SetActive(true);
     }
 
     private void ShareWallpaper()
     {
-        string folderLocation = "/mnt/sdcard/DCIM/Camera/";
-        string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
-        //string myScreenshotLocation = myFolderLocation + filename;
-        byte[] imageData = File.ReadAllBytes(objWallpaperItem.pathFileImage);
-
-        string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.nameFileImage + ".png");
-        File.WriteAllBytes(filepath, imageData);
-
-        if (System.IO.File.Exists(filepath))
+        try
         {
-            System.IO.File.Copy(filepath, folderLocation);
-            System.IO.File.Copy(filepath, folderLocationTwo);
+            string folderLocation = "/mnt/sdcard/DCIM/Camera/";
+            //string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
+            Debug.Log("Obteniendo img de carpeta Resources...");
+            var texture = Resources.Load<Texture2D>(objWallpaperItem.idStoreGooglePlay);
+
+            string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.nameFileImage + ".png");
+            File.WriteAllBytes(filepath, texture.EncodeToPNG());
+            Debug.Log("Img de logro1 Guardada exitosamente !!");
+
+            MobileNativeShare.ShareImage(filepath, "Wallpaper " + objWallpaperItem.nameFileImage + " !!", "BJWT");
+
+            if (System.IO.File.Exists(filepath))
+            {
+                System.IO.File.Move(filepath, folderLocation);
+                //System.IO.File.Copy(filepath, folderLocationTwo);
+            }
         }
-
-        MobileNativeShare.ShareImage(filepath, "Wallpaper "+objWallpaperItem.nameFileImage+" !!", "BJWT");
-
+        catch(Exception e)
+        {
+            Debug.Log(e);
+        }
     }
     #endregion
 

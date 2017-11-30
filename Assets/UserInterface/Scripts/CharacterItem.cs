@@ -38,7 +38,7 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
     #region MonoBehaviour overrides
     private void Awake () {
         btnBuyProduct.onClick.AddListener (() => BuyCharacter (this));
-        buttonBuyWallpaper.onClick.AddListener(() => BuyWallpaper());
+        buttonBuyWallpaper.onClick.AddListener(() => BuyWallpaper(wallpaperItem));
     }
 
 
@@ -102,9 +102,9 @@ public class CharacterItem : MonoBehaviour, IStorePurchase {
 
 	}
 
-    private void BuyWallpaper()
+    private void BuyWallpaper(WallpaperItem item)
     {
-        wallpaperItem.ShowDilogWallpaper();
+        wallpaperItem.ShowDilogWallpaper(item);
     }
     
     #endregion
