@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogMessage : MonoBehaviour {
+public class DialogMessageWallpaper : MonoBehaviour {
 
     #region Class members
     //Consifguracion boton 
@@ -14,14 +14,14 @@ public class DialogMessage : MonoBehaviour {
     public Text txtTitle;
     public Image imgDialog;
     public Button btnCloseDialog;
-	public Image imgStatus;
-	public enum typeMessage
-	{
-		ERROR,
-		WARNING,
-		INFO
-	}
+    public Image imgStatus;
     public GUIAnim gUIAnimDialog;
+    public enum typeMessage
+    {
+        ERROR,
+        WARNING,
+        INFO
+    }
 
     #endregion
 
@@ -34,13 +34,7 @@ public class DialogMessage : MonoBehaviour {
 
     private void Start()
     {
-       /// StartCoroutine(DebugOpenDilog());
-    }
-
-    private IEnumerator DebugOpenDilog()
-    {
-        yield return new WaitForSeconds(1.0f);
-        OpenDialogmessage();
+     
     }
     #endregion
 
@@ -52,15 +46,9 @@ public class DialogMessage : MonoBehaviour {
         {
             panelPrefabsDialog.SetActive(true);
         }
+        //MenuUtils.CanvasSortingOrder();
         gUIAnimDialog.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
-        StartCoroutine(WaitCanvas());
-        
-    }
 
-    private IEnumerator WaitCanvas()
-    {
-        yield return new WaitForSeconds(.5f);
-        MenuUtils.CanvasSortingOrder();
     }
 
     private void CloseDialogMessage()
@@ -71,14 +59,12 @@ public class DialogMessage : MonoBehaviour {
 
     private IEnumerator InactivePanel()
     {
-        
-        yield return new WaitForSeconds(1.0f);
-        MenuUtils.CanvasSortingOrder();
+        yield return new WaitForSeconds(2.0f);
         if (panelPrefabsDialog != null)
         {
             panelPrefabsDialog.SetActive(false);
-			GameObject.Destroy (panelDialog);
-            
+           // MenuUtils.CanvasSortingOrder();
+            GameObject.Destroy(panelDialog);
         }
     }
 
@@ -95,5 +81,4 @@ public class DialogMessage : MonoBehaviour {
         }
     }
     #endregion
-
 }

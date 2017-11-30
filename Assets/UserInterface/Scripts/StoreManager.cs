@@ -76,7 +76,8 @@ public class StoreManager : MonoBehaviour {
 	public Transform containerPaquetes;
 	public GameObject popupBuy;
 	public GameObject dialogMessage;
-	public Sprite imgDialogMessageINFO;
+    public GameObject dialogMessageWallpaper;
+    public Sprite imgDialogMessageINFO;
 	public Sprite imgDialogMessageWARN;
 	public Sprite imgDialogMessageERR;
 	public Transform mainContainer;
@@ -766,7 +767,7 @@ public class StoreManager : MonoBehaviour {
             else
             {
                 //cambiar textos
-                BuildDialogMessage("msg_store_title_popup", "msg_err_fails_unlock_wallpaper", DialogMessage.typeMessage.ERROR);
+                BuildDialogMessageWallpaper("msg_store_title_popup", "msg_err_fails_unlock_wallpaper", DialogMessage.typeMessage.ERROR);
                 Debug.Log("No se pudo desbloquear a " + currentWallpaper.idWallpaper.ToString());
             }
             BuildPopupPurchasedWallpaper(currentWallpaper);
@@ -903,7 +904,14 @@ public class StoreManager : MonoBehaviour {
 
     private void HandleWallpaperToMessage(string title, string message, DialogMessage.typeMessage typeMessage)
     {
-        BuildDialogMessage(title, message, typeMessage);
+        if (typeMessage == DialogMessage.typeMessage.ERROR)
+        {
+            BuildDialogMessageWallpaper(title, message, typeMessage);
+        }
+        else
+        {
+            BuildDialogMessage(title, message, typeMessage);
+        }
     }
 
     /// <summary>
@@ -958,14 +966,14 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="pi">ProductItem</param>
 	private void BuildPopupPurchasedCharacter (CharacterItem pi) {
 		LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation ();
-		GameObject mostrarMsg = Instantiate (popupBuy) as GameObject;
-		PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct> ();
-		popupMsg.message.text = string.Format (lm.GetString ("msg_info_success_store_purchased"), pi.nameCharacter.text);
-	
-        popupMsg.imgProductPurchased.gameObject.SetActive(false);
+		GameObject mostrarMsg = Instantiate (dialogMessage) as GameObject;
+		DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage> ();
+		popupMsg.txtMessage.text = string.Format (lm.GetString ("msg_info_success_store_purchased"), pi.nameCharacter.text);
 
-		mostrarMsg.transform.SetParent (mainContainer, false);
-		popupMsg.OpenPupup ();
+        popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
+
+        mostrarMsg.transform.SetParent (mainContainer, false);
+		popupMsg.OpenDialogmessage ();
 	}
 
     /// <summary>
@@ -975,14 +983,42 @@ public class StoreManager : MonoBehaviour {
 	private void BuildPopupPurchasedWallpaper(WallpaperItem pi)
     {
         LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
-        GameObject mostrarMsg = Instantiate(popupBuy) as GameObject;
-        PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct>();
-        popupMsg.message.text = string.Format(lm.GetString("msg_info_success_store_purchased"), pi.idWallpaper.ToString());
+        GameObject mostrarMsg = Instantiate(dialogMessageWallpaper) as GameObject;
+        DialogMessageWallpaper popupMsg = mostrarMsg.GetComponent<DialogMessageWallpaper>();
+        popupMsg.txtMessage.text = string.Format(lm.GetString("msg_info_success_store_purchased"), pi.idWallpaper.ToString());
 
-        popupMsg.imgProductPurchased.gameObject.SetActive(false);
-
+        popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
         mostrarMsg.transform.SetParent(mainContainer, false);
-        popupMsg.OpenPupup();
+        popupMsg.OpenDialogmessage();
+    }
+
+    /// <summary>
+    /// Builds the dialog message.
+    /// </summary>
+    /// <param name="title">Title.</param>
+    /// <param name="msg">Message.</param>
+    /// <param name="type">Type.(ERROR, INFO, WARN)</param>
+    private void BuildDialogMessageWallpaper(string title, string msg, DialogMessage.typeMessage type)
+    {
+        GameObject mostrarMsg = Instantiate(dialogMessageWallpaper) as GameObject;
+        DialogMessageWallpaper popupMsg = mostrarMsg.GetComponent<DialogMessageWallpaper>();
+        popupMsg.txtMessage.text = msg;
+        popupMsg.txtTitle.text = title;
+        switch (type)
+        {
+            case DialogMessage.typeMessage.ERROR:
+                popupMsg.imgStatus.overrideSprite = imgDialogMessageERR;
+                break;
+            case DialogMessage.typeMessage.INFO:
+                popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
+                break;
+            case DialogMessage.typeMessage.WARNING:
+                popupMsg.imgStatus.overrideSprite = imgDialogMessageWARN;
+                break;
+        }
+        mostrarMsg.transform.SetParent(mainContainer, false);
+        popupMsg.UpdateTextTranslation();
+        popupMsg.OpenDialogmessage();
     }
     #endregion
 

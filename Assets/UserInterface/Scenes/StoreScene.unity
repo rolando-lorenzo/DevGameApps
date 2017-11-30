@@ -1831,7 +1831,9 @@ MonoBehaviour:
     type: 2}
   containerPaquetes: {fileID: 1836033255}
   popupBuy: {fileID: 1000995072970542, guid: c40dbaa27168343c0aad47c69c6d228b, type: 2}
-  dialogMessage: {fileID: 1242504538257936, guid: 383afa9cdcfc1ff47815c5495ebaa107,
+  dialogMessage: {fileID: 1108764343789292, guid: a487246a55778374c8fdecc0e8e66e6b,
+    type: 2}
+  dialogMessageWallpaper: {fileID: 1842161525232082, guid: 369e60f6734cba54d858d97b1dc5130b,
     type: 2}
   imgDialogMessageINFO: {fileID: 21300000, guid: ea12512506de08747a752e3290142446,
     type: 3}
@@ -1972,7 +1974,7 @@ MonoBehaviour:
       wallpaperCharacter: {fileID: 21300000, guid: b5b655d1c3d3c024e8136161042d5e70,
         type: 3}
       idStoreGooglePlay: wall_han
-      isAvailableInStore: 1
+      isAvailableInStore: 0
   - idCharacter: 3
     skeletonDataAsset: {fileID: 0}
     skinName: 
