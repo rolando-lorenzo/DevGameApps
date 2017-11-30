@@ -40,7 +40,6 @@ public class DialogMessage : MonoBehaviour {
     #region Class implementation
     public void OpenDialogmessage()
     {
-        MenuUtils.CanvasSortingOrder();
         if (panelPrefabsDialog != null)
         {
             panelPrefabsDialog.SetActive(true);
@@ -60,7 +59,6 @@ public class DialogMessage : MonoBehaviour {
         yield return new WaitForSeconds(2.0f);
         if (panelPrefabsDialog != null)
         {
-            MenuUtils.CanvasSortingOrder();
             panelPrefabsDialog.SetActive(false);
 			GameObject.Destroy (panelPrefabsDialog);
         }
