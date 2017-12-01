@@ -101,19 +101,24 @@ public class StoreManager : MonoBehaviour {
 
 	private GUIAnim backgroundCharactersAnim;
 	private GUIAnim backgroundPackagesAnim;
-	#endregion
 
-	#region Class accesors
-	#endregion
+    //event wallpaper 
+    public delegate void EventStoreWallpaperUnlockButton();
+    public static event EventStoreWallpaperUnlockButton OnStoreWallpaperUnlockButton;
+    #endregion
 
-	#region MonoBehaviour overrides
-	void OnEnable () {
+    #region Class accesors
+    #endregion
+
+    #region MonoBehaviour overrides
+    void OnEnable () {
 		//Eventos internos
 		infiniteScrollCharacters = charactersPanel.GetComponentInChildren<InfiniteScroll> ();
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
-		}
+            ch.wallpaperItem.OnWallpaperMessageCharacter += HandleWallpaperToMessage;
+        }
 		foreach (ProductItem pi in btnsSlide) {
 			if (pi is ProductPackagesItem) {
 				((ProductPackagesItem) pi).OnProductPackageItemPurchased += HandleProductToWillPurchased;
@@ -133,8 +138,8 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPInitialized += HandleIncializationIAP;
 		iapManager.OnIAPMessageProgress += HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;
-        ControllerWallpaper.instance.OnWallpaperBuy += HandleWallpaperToWillPurchase;
-        ControllerWallpaper.instance.OnWallpaperMessage += HandleWallpaperToMessage;
+        ControllerWallpaper.OnWallpaperBuy += HandleWallpaperToWillPurchase;
+        ControllerWallpaper.OnWallpaperMessage += HandleWallpaperToMessage;
     }
 
 	void Awake () {
@@ -190,6 +195,7 @@ public class StoreManager : MonoBehaviour {
 		foreach (CharacterItem ch in charactersTemplate) {
 			if (ch != null)
 				ch.OnItemPurchased -= HandleCharacterToWillPurchase;
+                ch.wallpaperItem.OnWallpaperMessageCharacter += HandleWallpaperToMessage;
         }
 
 		foreach (ProductItem pi in btnsSlide) {
@@ -211,8 +217,8 @@ public class StoreManager : MonoBehaviour {
 		iapManager.OnIAPInitialized -= HandleIncializationIAP;
 		iapManager.OnIAPMessageProgress -= HandleIAPEvents;
 		iapManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;
-        ControllerWallpaper.instance.OnWallpaperBuy -= HandleWallpaperToWillPurchase;
-        ControllerWallpaper.instance.OnWallpaperMessage -= HandleWallpaperToMessage;
+        ControllerWallpaper.OnWallpaperBuy -= HandleWallpaperToWillPurchase;
+        ControllerWallpaper.OnWallpaperMessage -= HandleWallpaperToMessage;
     }
     #endregion
 
@@ -762,7 +768,8 @@ public class StoreManager : MonoBehaviour {
             {
                 Debug.Log("Se ha desbloqueado a " + currentWallpaper.idWallpaper.ToString());
                 currentWallpaper.VerifyUnlockandLockWallpaper();
-                ControllerWallpaper.instance.VerifyWallpaperItemLock();
+                if (OnStoreWallpaperUnlockButton != null)
+                    OnStoreWallpaperUnlockButton();
             }
             else
             {

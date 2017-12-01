@@ -11,6 +11,8 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
     //Event rate
     public delegate void EventWallpaperBuyPurchased(WallpaperItem itemWallpaper);
     public event EventWallpaperBuyPurchased OnWallpaperBuyPurchased;
+    public delegate void EventWallpaperMessage(string title, string message, DialogMessage.typeMessage typeMessage);
+    public event EventWallpaperMessage OnWallpaperMessageCharacter;
 
     [HideInInspector]
     public GameItemsManager.Wallpaper idWallpaper;
@@ -21,6 +23,7 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
     public bool islocked { get; set; }
     [HideInInspector]
     public Sprite spriteWallpaper;
+    public GameObject dialogWallpaper;
 
     #endregion
 
@@ -40,12 +43,39 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
 
     public void ShowDilogWallpaper(WallpaperItem item)
     {
-        /*Canvas main = GameObject.FindObjectOfType<Canvas>();
-        Transform mainCointener = main.GetComponent<Transform>();*/
-        Debug.Log("open Modal");
-        Debug.Log(idWallpaper);
-        ControllerWallpaper.instance.objWallpaperItem = item;
-        ControllerWallpaper.instance.ShowWallpaper();
+
+        Debug.Log(idWallpaper.ToString());
+        if (spriteWallpaper != null)
+        {
+            
+            if (isAvailableInStore)
+            {
+                Debug.Log("dentro show");
+                Canvas main = GameObject.FindObjectOfType<Canvas>();
+                Transform mainCointener = main.GetComponent<Transform>();
+                //Debug.Log("open Modal");
+                //Debug.Log(idWallpaper);
+                GameObject Parent = Instantiate(dialogWallpaper) as GameObject;
+                ControllerWallpaper cwall = Parent.GetComponent<ControllerWallpaper>();
+                cwall.objWallpaperItem = item;
+                Parent.transform.SetParent(mainCointener, false);
+                cwall.ShowWallpaper();
+            }
+            else
+            {
+                Debug.Log("dentro if4");
+                if (OnWallpaperMessageCharacter != null)
+                    OnWallpaperMessageCharacter("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
+            }
+
+        }
+        else
+        {
+            Debug.Log("dentro if 5");
+            if (OnWallpaperMessageCharacter != null)
+                OnWallpaperMessageCharacter("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
+        }
+        
     }
 
     public void VerifyUnlockandLockWallpaper()

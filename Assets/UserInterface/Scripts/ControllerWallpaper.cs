@@ -10,10 +10,10 @@ public class ControllerWallpaper : MonoBehaviour {
 
     #region Class members
     public delegate void EventWallpaperBuy(WallpaperItem itemWallpaper);
-    public event EventWallpaperBuy OnWallpaperBuy;
+    public static event EventWallpaperBuy OnWallpaperBuy;
 
     public delegate void EventWallpaperMenssage(string title, string message, DialogMessage.typeMessage typeMessage);
-    public event EventWallpaperMenssage OnWallpaperMessage;
+    public static event EventWallpaperMenssage OnWallpaperMessage;
 
 
     //Setting Rate
@@ -29,18 +29,21 @@ public class ControllerWallpaper : MonoBehaviour {
     [HideInInspector]
     public WallpaperItem objWallpaperItem { get; set; }
     //public GUIAnim animWallpaper;
-    public static ControllerWallpaper instance;
     #endregion
 
     #region Class accesors
     #endregion
 
     #region MonoBehaviour overrides
+    private void OnEnable()
+    {
+        StoreManager.OnStoreWallpaperUnlockButton += HandlerStoreWallpaperUnlockButton;
+    }
 
     private void Start()
     {
-        buttonWallpaperShare.SetActive(false);
-        gameObjectDialogWallpaper.SetActive(false);
+        //buttonWallpaperShare.SetActive(false);
+       // gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
         buttonWallpaperBuy.GetComponent<Button>().onClick.AddListener(() => BuyWallpaper());
         buttonWallpaperShare.GetComponent<Button>().onClick.AddListener(() => ShareWallpaper());
@@ -48,10 +51,11 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-        }
+    }
+
+    private void OnDisable()
+    {
+        StoreManager.OnStoreWallpaperUnlockButton += HandlerStoreWallpaperUnlockButton;
     }
     #endregion
 
@@ -61,34 +65,18 @@ public class ControllerWallpaper : MonoBehaviour {
     #region Class implementation
     public void ShowWallpaper()
     {
-        Debug.Log(objWallpaperItem.idWallpaper.ToString());
-        if (objWallpaperItem != null && objWallpaperItem.spriteWallpaper !=null)
+        imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
+        if (objWallpaperItem.islocked == false)
         {
-            if (objWallpaperItem.isAvailableInStore)
-            {
-                imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
-                if (objWallpaperItem.islocked == false)
-                    VerifyWallpaperItemLock();
-                else
-                    VerifyWallpaperItemUnLock();
-
-                gameObjectDialogWallpaper.SetActive(true);
-                StartCoroutine(ShowPanelWallpaperEnumerator());
-            }
-            else
-            {
-                if (OnWallpaperMessage != null)
-                    OnWallpaperMessage("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
-            }
-                
+            VerifyWallpaperItemLock();
         }
         else
         {
-            if (OnWallpaperMessage != null)
-                OnWallpaperMessage("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
+            VerifyWallpaperItemUnLock();
         }
 
-        
+        //gameObjectDialogWallpaper.SetActive(true);
+        StartCoroutine(ShowPanelWallpaperEnumerator());        
     }
 
     private IEnumerator ShowPanelWallpaperEnumerator()
@@ -110,10 +98,10 @@ public class ControllerWallpaper : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (panelWallpaper != null)
         {
-            gameObjectDialogWallpaper.SetActive(false);
+            //gameObjectDialogWallpaper.SetActive(false);
             panelWallpaper.SetActive(false);
             MenuUtils.CanvasSortingOrder();
-            //GameObject.Destroy(gameObjectDialogWallpaper);
+            GameObject.Destroy(gameObjectDialogWallpaper);
         }
     }
 
@@ -164,6 +152,11 @@ public class ControllerWallpaper : MonoBehaviour {
            // CloseWallpaperBuy();
             Debug.Log(e);
         }
+    }
+
+    private void HandlerStoreWallpaperUnlockButton()
+    {
+        VerifyWallpaperItemLock();
     }
     #endregion
 
