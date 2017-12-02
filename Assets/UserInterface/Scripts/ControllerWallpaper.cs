@@ -38,24 +38,30 @@ public class ControllerWallpaper : MonoBehaviour {
     private void OnEnable()
     {
         StoreManager.OnStoreWallpaperUnlockButton += HandlerStoreWallpaperUnlockButton;
+        StoreManager.OnWallpaperIsSelected += HandlerWallpaperIsSelected;
     }
 
     private void Start()
     {
+        PlayerPrefs.DeleteAll();
         //buttonWallpaperShare.SetActive(false);
-       // gameObjectDialogWallpaper.SetActive(false);
+        gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
         buttonWallpaperBuy.GetComponent<Button>().onClick.AddListener(() => BuyWallpaper());
         buttonWallpaperShare.GetComponent<Button>().onClick.AddListener(() => ShareWallpaper());
+
+
     }
 
     private void Awake()
     {
+       
     }
 
     private void OnDisable()
     {
-        StoreManager.OnStoreWallpaperUnlockButton += HandlerStoreWallpaperUnlockButton;
+        StoreManager.OnStoreWallpaperUnlockButton -= HandlerStoreWallpaperUnlockButton;
+        StoreManager.OnWallpaperIsSelected -= HandlerWallpaperIsSelected;
     }
     #endregion
 
@@ -63,8 +69,10 @@ public class ControllerWallpaper : MonoBehaviour {
     #endregion
 
     #region Class implementation
-    public void ShowWallpaper()
+    private void HandlerWallpaperIsSelected(WallpaperItem itemWallpaper)
     {
+        Debug.Log("am here");
+        objWallpaperItem = itemWallpaper;
         imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
         if (objWallpaperItem.islocked == false)
         {
@@ -74,8 +82,12 @@ public class ControllerWallpaper : MonoBehaviour {
         {
             VerifyWallpaperItemUnLock();
         }
+        ShowWallpaper();
+    }
 
-        //gameObjectDialogWallpaper.SetActive(true);
+    public void ShowWallpaper()
+    {        
+        gameObjectDialogWallpaper.SetActive(true);
         StartCoroutine(ShowPanelWallpaperEnumerator());        
     }
 
@@ -84,7 +96,7 @@ public class ControllerWallpaper : MonoBehaviour {
         yield return new WaitForSeconds(.0f);
         panelWallpaper.SetActive(true);
         animDialogWallpaper.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
-        MenuUtils.CanvasSortingOrder();
+        MenuUtils.CanvasSortingOrderShow();
     }
 
     private void CloseWallpaperBuy()
@@ -98,10 +110,10 @@ public class ControllerWallpaper : MonoBehaviour {
         yield return new WaitForSeconds(1f);
         if (panelWallpaper != null)
         {
-            //gameObjectDialogWallpaper.SetActive(false);
+            gameObjectDialogWallpaper.SetActive(false);
             panelWallpaper.SetActive(false);
-            MenuUtils.CanvasSortingOrder();
-            GameObject.Destroy(gameObjectDialogWallpaper);
+            MenuUtils.CanvasSortingOrderHiden();
+            //GameObject.Destroy(gameObjectDialogWallpaper);
         }
     }
 
@@ -131,11 +143,14 @@ public class ControllerWallpaper : MonoBehaviour {
         {
             //string folderLocation = "/mnt/sdcard/DCIM/Camera/";
             //string folderLocationTwo = "/mnt/sdcard/DCIM/Camera/BJWT";
-            Debug.Log("Obteniendo img de carpeta Resources...");
-            var texture = Resources.Load<Texture2D>(objWallpaperItem.idStoreGooglePlay);
-            string filepath = System.IO.Path.Combine(Application.persistentDataPath, objWallpaperItem.idStoreGooglePlay+".png");
+
+            String nameImg = objWallpaperItem.idStoreGooglePlay.Replace("com.EstacionPi.BJWTFoundation", "");
+            Debug.Log("Obteniendo img de carpeta Resources...ID:"+nameImg);
+            var texture = Resources.Load<Texture2D>(nameImg);
+            Debug.Log("Guardando en dispoitivo Ruta:"+Application.persistentDataPath+" Imagen:"+nameImg + ".png");
+            string filepath = System.IO.Path.Combine(Application.persistentDataPath, nameImg+".png");
             File.WriteAllBytes(filepath,texture.EncodeToPNG());
-            Debug.Log("Img de logro1 Guardada exitosamente !!");
+            Debug.Log("Guardando exitosamente!!" );
 
             MobileNativeShare.ShareImage(filepath, "Wallpaper " + objWallpaperItem.nameFileImage + " !!", "BJWT");
 

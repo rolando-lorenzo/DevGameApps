@@ -60,7 +60,7 @@ public class DialogMessage : MonoBehaviour {
     private IEnumerator WaitCanvas()
     {
         yield return new WaitForSeconds(.5f);
-        MenuUtils.CanvasSortingOrder();
+        MenuUtils.CanvasSortingOrderShow();
     }
 
     private void CloseDialogMessage()
@@ -73,7 +73,7 @@ public class DialogMessage : MonoBehaviour {
     {
         
         yield return new WaitForSeconds(1.0f);
-        MenuUtils.CanvasSortingOrder();
+        MenuUtils.CanvasSortingOrderHiden();
         if (panelPrefabsDialog != null)
         {
             panelPrefabsDialog.SetActive(false);

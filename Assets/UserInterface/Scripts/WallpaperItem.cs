@@ -15,15 +15,14 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
     public event EventWallpaperMessage OnWallpaperMessageCharacter;
 
     [HideInInspector]
-    public GameItemsManager.Wallpaper idWallpaper;
+    public GameItemsManager.Wallpaper idWallpaper { get; set; }
     [HideInInspector]
     public string nameFileImage { get; set; }
     public string idStoreGooglePlay { get; set; }
     public bool isAvailableInStore { get; set; }
     public bool islocked { get; set; }
     [HideInInspector]
-    public Sprite spriteWallpaper;
-    public GameObject dialogWallpaper;
+    public Sprite spriteWallpaper { get; set; }
 
     #endregion
 
@@ -35,37 +34,41 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
 
     private void Start()
     {
-        
+        StartCoroutine(VerifyEvents());
     }
+
+    
     #endregion
 
     #region Class implementation
+    private IEnumerator VerifyEvents()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("wall verify events");
+        Debug.Log(OnWallpaperBuyPurchased);
+        Debug.Log(OnWallpaperMessageCharacter);
+    }
 
     public void ShowDilogWallpaper(WallpaperItem item)
     {
-
+         
         Debug.Log(idWallpaper.ToString());
         if (spriteWallpaper != null)
         {
             
             if (isAvailableInStore)
             {
-                Debug.Log("dentro show");
-                Canvas main = GameObject.FindObjectOfType<Canvas>();
-                Transform mainCointener = main.GetComponent<Transform>();
-                //Debug.Log("open Modal");
-                //Debug.Log(idWallpaper);
-                GameObject Parent = Instantiate(dialogWallpaper) as GameObject;
-                ControllerWallpaper cwall = Parent.GetComponent<ControllerWallpaper>();
-                cwall.objWallpaperItem = item;
-                Parent.transform.SetParent(mainCointener, false);
-                cwall.ShowWallpaper();
+                Debug.Log("this is a event");
+                Debug.Log(OnWallpaperBuyPurchased);
+                if (OnWallpaperBuyPurchased != null)
+                    OnWallpaperBuyPurchased(this);
             }
             else
             {
                 Debug.Log("dentro if4");
                 if (OnWallpaperMessageCharacter != null)
                     OnWallpaperMessageCharacter("msg_store_title_popup", "msg_err_avalible_wallpaper", DialogMessage.typeMessage.WARNING);
+                   
             }
 
         }

@@ -105,6 +105,8 @@ public class StoreManager : MonoBehaviour {
     //event wallpaper 
     public delegate void EventStoreWallpaperUnlockButton();
     public static event EventStoreWallpaperUnlockButton OnStoreWallpaperUnlockButton;
+    public delegate void EventWallpaperIsSelected(WallpaperItem wallpaperItem);
+    public static event EventWallpaperIsSelected OnWallpaperIsSelected;
     #endregion
 
     #region Class accesors
@@ -117,6 +119,7 @@ public class StoreManager : MonoBehaviour {
 		infiniteScrollCharacters.OnItemChanged += HandleCurrentCharacter;
 		foreach (CharacterItem ch in charactersTemplate) {
 			ch.OnItemPurchased += HandleCharacterToWillPurchase;
+            ch.wallpaperItem.OnWallpaperBuyPurchased += HandleWallpaperPurchase;
             ch.wallpaperItem.OnWallpaperMessageCharacter += HandleWallpaperToMessage;
         }
 		foreach (ProductItem pi in btnsSlide) {
@@ -196,6 +199,7 @@ public class StoreManager : MonoBehaviour {
 			if (ch != null)
 				ch.OnItemPurchased -= HandleCharacterToWillPurchase;
                 ch.wallpaperItem.OnWallpaperMessageCharacter += HandleWallpaperToMessage;
+                ch.wallpaperItem.OnWallpaperBuyPurchased += HandleWallpaperPurchase;
         }
 
 		foreach (ProductItem pi in btnsSlide) {
@@ -470,20 +474,35 @@ public class StoreManager : MonoBehaviour {
 	/// Shows the characters panel.
 	/// </summary>
 	public void ShowCharactersPanel () {
-        
 		float xposition = backgroundCharactersAnim.transform.localPosition.x;
-        AnimPanelOut (backgroundPackagesAnim, btnCharacters.gameObject);
+        AnimPanelOut(backgroundPackagesAnim, btnCharacters.gameObject);
         StartCoroutine (WaitForIn (backgroundCharactersAnim, buttonPowerups.gameObject));
+        StartCoroutine(WaitCharacterShow());
 	}
 
-	/// <summary>
-	/// Shows the powerups panel.
-	/// </summary>
-	public void ShowPowerupsPanel () {
+    /// <summary>
+    /// Shows the powerups panel.
+    /// </summary>
+    public void ShowPowerupsPanel () {
 		float xposition = backgroundPackagesAnim.transform.localPosition.x;
         AnimPanelOut (backgroundCharactersAnim, buttonPowerups.gameObject);
         StartCoroutine (WaitForIn (backgroundPackagesAnim,btnCharacters.gameObject));
-	}
+        StartCoroutine(WaitCharacterHiden());
+    }
+
+    private IEnumerator WaitCharacterHiden()
+    {
+        yield return new WaitForSeconds(.5f);
+        Debug.Log("fhide Character");
+        MenuUtils.CanvasSortingOrderShow();
+    }
+
+    private IEnumerator WaitCharacterShow()
+    {
+        yield return new WaitForSeconds(1f);
+        Debug.Log("show Character");
+        MenuUtils.CanvasSortingOrderHiden();
+    }
 
 	public void GoMainMenu () {
 		SceneManager.LoadScene ("MainScene");
@@ -492,8 +511,6 @@ public class StoreManager : MonoBehaviour {
 	public void InviteFriends () {
 		Debug.Log ("Inivitando Amigos !!");
 	}
-
-	
 
 	/// <summary>
 	/// Handles OnChangeCharcater event  on infinite-scroll.
@@ -508,9 +525,7 @@ public class StoreManager : MonoBehaviour {
 			charcaterName.text = c.nameCharacter.text;
 		}
 	}
-
-
-
+    
 	/// <summary>
 	/// Handles the character success purchased.
 	/// </summary>
@@ -543,6 +558,7 @@ public class StoreManager : MonoBehaviour {
     /// <param name="wallItem">WallpaperItem</param>
     private void HandleWallpaperToWillPurchase (WallpaperItem wallItem)
     {
+        Debug.Log("dentro Wallhandler");
         Debug.Log(wallItem.idWallpaper.ToString());
 
         //If character was purchased avoid buy again
@@ -1026,6 +1042,15 @@ public class StoreManager : MonoBehaviour {
         mostrarMsg.transform.SetParent(mainContainer, false);
         popupMsg.UpdateTextTranslation();
         popupMsg.OpenDialogmessage();
+    }
+
+    private void HandleWallpaperPurchase(WallpaperItem itemWallpaper)
+    {
+        Debug.Log("Iam Here");
+        Debug.Log(OnWallpaperIsSelected);
+        Debug.Log(OnStoreWallpaperUnlockButton);
+        if (OnWallpaperIsSelected != null)
+            OnWallpaperIsSelected(itemWallpaper);
     }
     #endregion
 

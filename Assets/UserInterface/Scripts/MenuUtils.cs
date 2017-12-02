@@ -58,18 +58,16 @@ public class MenuUtils  {
             ManagerRate.instance.ShowAPIRaterRandom();
     }
 
-    public static void CanvasSortingOrder()
+    public static void CanvasSortingOrderShow()
     {
         Canvas main = GameObject.FindObjectOfType<Canvas>();
-        int order = main.sortingOrder;
-        if (order == 0)
-        {
-            main.sortingOrder = 2;
-        }
-        else
-        {
-            main.sortingOrder = 0;
-        }
+        main.sortingOrder = 2;
+    }
+
+    public static void CanvasSortingOrderHiden()
+    {
+        Canvas main = GameObject.FindObjectOfType<Canvas>();
+        main.sortingOrder = 0;
     }
 
     #endregion
