@@ -16,20 +16,20 @@ public class ProgressWorldLevel {
     }
 
     #region Class implementation
-    public static GameItemsManager.GameMode GetGameModeEnum(string gamemode)
+    /*public static GameItemsManager.GameMode GetGameModeEnum(string gamemode)
     {
         return (GameItemsManager.GameMode)Enum.Parse(typeof(WorldsNames), gamemode);
     }
 
     public static void SetGameMode(GameItemsManager.GameMode gameMode)
     {
-        GameItemsManager.SetValueStringById(GameItemsManager.Item.GameMode, gameMode.ToString());
+        //GameItemsManager.SetValueStringById(GameItemsManager.Item.GameMode, gameMode.ToString());
     }
 
     public static GameItemsManager.GameMode GetGameMode()
     {
-        return GetGameModeEnum(GameItemsManager.GetValueStringById(GameItemsManager.Item.GameMode, "RELEASE"));
-    }
+        //return GetGameModeEnum(GameItemsManager.GetValueStringById(GameItemsManager.Item.GameMode, "RELEASE"));
+    }*/
 
     public static WorldsNames GetWorldsEnum(string nameWorld)
     {

@@ -43,7 +43,7 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Start()
     {
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
         //buttonWallpaperShare.SetActive(false);
         gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
