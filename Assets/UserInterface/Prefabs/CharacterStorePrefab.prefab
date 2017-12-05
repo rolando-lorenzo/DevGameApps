@@ -448,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0995444b47e1b4dcf92ad24acaa1d74b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idCharacter: 0
+  idCharacter: 9
   skeletonAnimation: {fileID: 114842347890364600}
   skeletonRenderer: {fileID: 114842347890364600}
   skeletonDataAsset: {fileID: 0}
@@ -533,8 +533,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   idWallpaper: 0
   spriteWallpaper: {fileID: 0}
-  dialogWallpaper: {fileID: 1535215094458102, guid: c9284fa032299a840bcfcf62db49f01b,
-    type: 2}
 --- !u!114 &114779897821942172
 MonoBehaviour:
   m_ObjectHideFlags: 1

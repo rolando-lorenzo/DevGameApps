@@ -970,16 +970,18 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="pi">ProductItem</param>
 	private void BuildPopupPurchasedProduct (ProductItem pi) {
 		LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation ();
-		GameObject mostrarMsg = Instantiate (popupBuy) as GameObject;
-		PupUpBuyProduct popupMsg = mostrarMsg.GetComponent<PupUpBuyProduct> ();
-		popupMsg.message.text = string.Format (lm.GetString ("msg_info_success_store_purchased"), pi.nameProduct.text);
-        popupMsg.imgProductPurchased.gameObject.SetActive(true);
+		GameObject mostrarMsg = Instantiate (dialogMessage) as GameObject;
+		DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage> ();
+		popupMsg.txtMessage.text = string.Format (lm.GetString ("msg_info_success_store_purchased"), pi.nameProduct.text);
+        popupMsg.imgStatus.gameObject.SetActive(true);
         if (SearchImgProduct (pi) != null) {
-			popupMsg.imgProductPurchased.overrideSprite = SearchImgProduct (pi).imgProducto;
-		}
+			popupMsg.imgStatus.overrideSprite = SearchImgProduct (pi).imgProducto;
+            var imgStatusTransform = popupMsg.imgStatus.transform as RectTransform;
+            imgStatusTransform.sizeDelta = new Vector2(450f, 450f);
+        }
 
 		mostrarMsg.transform.SetParent (mainContainer, false);
-		popupMsg.OpenPupup ();
+		popupMsg.OpenDialogmessage();
 	}
 
 

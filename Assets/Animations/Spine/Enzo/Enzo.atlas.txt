@@ -1,0 +1,131 @@
+
+Enzo.png
+size: 1498,1500
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubble
+  rotate: false
+  xy: 978, 863
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+ClosedEye
+  rotate: false
+  xy: 388, 267
+  size: 117, 120
+  orig: 117, 120
+  offset: 0, 0
+  index: -1
+Eye
+  rotate: false
+  xy: 388, 145
+  size: 117, 120
+  orig: 117, 120
+  offset: 0, 0
+  index: -1
+FrontForearm
+  rotate: false
+  xy: 1237, 198
+  size: 239, 341
+  orig: 239, 341
+  offset: 0, 0
+  index: -1
+FrontPaw
+  rotate: false
+  xy: 1237, 11
+  size: 259, 185
+  orig: 259, 185
+  offset: 0, 0
+  index: -1
+FrontShoulder
+  rotate: false
+  xy: 1177, 820
+  size: 280, 370
+  orig: 280, 370
+  offset: 0, 0
+  index: -1
+FrontWrist
+  rotate: false
+  xy: 978, 138
+  size: 257, 401
+  orig: 257, 401
+  offset: 0, 0
+  index: -1
+HalfEye
+  rotate: false
+  xy: 388, 23
+  size: 117, 120
+  orig: 117, 120
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 2, 389
+  size: 503, 522
+  orig: 503, 522
+  offset: 0, 0
+  index: -1
+RearFemur
+  rotate: true
+  xy: 2, 22
+  size: 365, 384
+  orig: 365, 384
+  offset: 0, 0
+  index: -1
+RearLeg
+  rotate: true
+  xy: 1177, 1192
+  size: 306, 287
+  orig: 306, 287
+  offset: 0, 0
+  index: -1
+RearPaw
+  rotate: false
+  xy: 507, 2
+  size: 255, 183
+  orig: 255, 183
+  offset: 0, 0
+  index: -1
+Star
+  rotate: true
+  xy: 978, 541
+  size: 277, 266
+  orig: 277, 266
+  offset: 0, 0
+  index: -1
+Tail
+  rotate: false
+  xy: 526, 187
+  size: 450, 705
+  orig: 450, 705
+  offset: 0, 0
+  index: -1
+Torso
+  rotate: false
+  xy: 2, 894
+  size: 1173, 604
+  orig: 1173, 604
+  offset: 0, 0
+  index: -1
+Whiskers
+  rotate: true
+  xy: 1246, 589
+  size: 229, 202
+  orig: 229, 202
+  offset: 0, 0
+  index: -1
+
+Enzo2.png
+size: 196,225
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+RearAnkle
+  rotate: false
+  xy: 2, 2
+  size: 192, 221
+  orig: 192, 221
+  offset: 0, 0
+  index: -1

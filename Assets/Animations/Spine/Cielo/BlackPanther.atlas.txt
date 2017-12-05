@@ -1,0 +1,124 @@
+
+BlackPanther.png
+size: 1490,1485
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubble
+  rotate: false
+  xy: 1452, 1006
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+ClosedEye
+  rotate: false
+  xy: 1378, 154
+  size: 110, 116
+  orig: 110, 116
+  offset: 0, 0
+  index: -1
+Eye
+  rotate: false
+  xy: 1378, 36
+  size: 110, 116
+  orig: 110, 116
+  offset: 0, 0
+  index: -1
+FrontForearm
+  rotate: true
+  xy: 264, 87
+  size: 224, 292
+  orig: 224, 292
+  offset: 0, 0
+  index: -1
+FrontShoulder
+  rotate: false
+  xy: 1177, 1037
+  size: 275, 446
+  orig: 275, 446
+  offset: 0, 0
+  index: -1
+FrontWrist
+  rotate: true
+  xy: 1177, 746
+  size: 289, 273
+  orig: 289, 273
+  offset: 0, 0
+  index: -1
+HalfEye
+  rotate: false
+  xy: 558, 195
+  size: 110, 116
+  orig: 110, 116
+  offset: 0, 0
+  index: -1
+Head
+  rotate: false
+  xy: 2, 313
+  size: 678, 564
+  orig: 678, 564
+  offset: 0, 0
+  index: -1
+RearAnkle
+  rotate: false
+  xy: 921, 2
+  size: 158, 198
+  orig: 158, 198
+  offset: 0, 0
+  index: -1
+RearFemur
+  rotate: false
+  xy: 1099, 272
+  size: 377, 472
+  orig: 377, 472
+  offset: 0, 0
+  index: -1
+RearLeg
+  rotate: true
+  xy: 2, 57
+  size: 254, 260
+  orig: 254, 260
+  offset: 0, 0
+  index: -1
+RearPaw
+  rotate: false
+  xy: 670, 13
+  size: 249, 187
+  orig: 249, 187
+  offset: 0, 0
+  index: -1
+Star
+  rotate: false
+  xy: 1099, 4
+  size: 277, 266
+  orig: 277, 266
+  offset: 0, 0
+  index: -1
+Tail
+  rotate: false
+  xy: 682, 202
+  size: 415, 675
+  orig: 415, 675
+  offset: 0, 0
+  index: -1
+Torso
+  rotate: false
+  xy: 2, 879
+  size: 1173, 604
+  orig: 1173, 604
+  offset: 0, 0
+  index: -1
+
+BlackPanther2.png
+size: 288,163
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+FrontPaw
+  rotate: false
+  xy: 2, 2
+  size: 284, 159
+  orig: 284, 159
+  offset: 0, 0
+  index: -1

@@ -272,17 +272,17 @@
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="name_character04">
-      <Default>Achilles</Default>
-      <English>Achilles</English>
-      <Spanish>Achilles</Spanish>
+    <Translation key="name_character_dharma">
+      <Default>Dharma</Default>
+      <English>Dharma</English>
+      <Spanish>Dharma</Spanish>
       <Dutch />
       <French />
       <Italian />
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="desc_character04">
+    <Translation key="desc_character_dharma">
       <Default>Feline</Default>
       <English>Feline</English>
       <Spanish>Felino</Spanish>
@@ -292,7 +292,87 @@
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="name_character05">
+    <Translation key="name_character_enzo">
+      <Default>Enzo</Default>
+      <English>Enzo</English>
+      <Spanish>Enzo</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="desc_character_enzo">
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="name_character_love">
+      <Default>Love</Default>
+      <English>Love</English>
+      <Spanish>Love</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="desc_character_love">
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="name_character_ali">
+      <Default>Ali</Default>
+      <English>Ali</English>
+      <Spanish>Ali</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="desc_character_ali">
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="name_character_achilles">
+      <Default>Achilles</Default>
+      <English>Achilles</English>
+      <Spanish>Achilles</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="desc_character_achilles">
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="name_character_matzo">
       <Default>Matzo</Default>
       <English>Matzo</English>
       <Spanish>Matzo</Spanish>
@@ -302,7 +382,27 @@
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="desc_character05">
+    <Translation key="desc_character_matzo">
+      <Default>Feline</Default>
+      <English>Feline</English>
+      <Spanish>Felino</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="name_character_karma">
+      <Default>Karma</Default>
+      <English>Karma</English>
+      <Spanish>Karma</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="desc_character_karma">
       <Default>Feline</Default>
       <English>Feline</English>
       <Spanish>Felino</Spanish>
@@ -795,7 +895,7 @@
     <Translation key="msg_err_avalible_wallpaper">
       <Default>The wallpaper is not available in the store.</Default>
       <English>The wallpaper is not available in the store.</English>
-      <Spanish>El fondo de pantalla no está disponible en la tienda.</Spanish>
+      <Spanish>El fondo de pantalla no esta disponible en la tienda.</Spanish>
       <Dutch />
       <French />
       <Italian />

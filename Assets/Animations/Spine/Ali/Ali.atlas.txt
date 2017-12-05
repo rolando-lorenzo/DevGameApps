@@ -1,0 +1,131 @@
+
+Ali.png
+size: 1488,1500
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bubble
+  rotate: false
+  xy: 494, 358
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+ClosedEye
+  rotate: false
+  xy: 388, 269
+  size: 104, 118
+  orig: 104, 118
+  offset: 0, 0
+  index: -1
+Eye
+  rotate: false
+  xy: 388, 149
+  size: 104, 118
+  orig: 104, 118
+  offset: 0, 0
+  index: -1
+FrontForearm
+  rotate: false
+  xy: 1247, 198
+  size: 239, 341
+  orig: 239, 341
+  offset: 0, 0
+  index: -1
+FrontPaw
+  rotate: true
+  xy: 1256, 559
+  size: 259, 185
+  orig: 259, 185
+  offset: 0, 0
+  index: -1
+FrontShoulder
+  rotate: false
+  xy: 1177, 820
+  size: 280, 370
+  orig: 280, 370
+  offset: 0, 0
+  index: -1
+FrontWrist
+  rotate: false
+  xy: 988, 138
+  size: 257, 401
+  orig: 257, 401
+  offset: 0, 0
+  index: -1
+HalfEye
+  rotate: false
+  xy: 388, 29
+  size: 104, 118
+  orig: 104, 118
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 2, 389
+  size: 503, 532
+  orig: 503, 532
+  offset: 0, 0
+  index: -1
+RearAnkle
+  rotate: true
+  xy: 1247, 4
+  size: 192, 221
+  orig: 192, 221
+  offset: 0, 0
+  index: -1
+RearFemur
+  rotate: true
+  xy: 2, 22
+  size: 365, 384
+  orig: 365, 384
+  offset: 0, 0
+  index: -1
+RearLeg
+  rotate: true
+  xy: 1177, 1192
+  size: 306, 287
+  orig: 306, 287
+  offset: 0, 0
+  index: -1
+RearPaw
+  rotate: false
+  xy: 494, 2
+  size: 255, 183
+  orig: 255, 183
+  offset: 0, 0
+  index: -1
+Star
+  rotate: true
+  xy: 988, 541
+  size: 277, 266
+  orig: 277, 266
+  offset: 0, 0
+  index: -1
+Tail
+  rotate: false
+  xy: 536, 187
+  size: 450, 705
+  orig: 450, 705
+  offset: 0, 0
+  index: -1
+Torso
+  rotate: false
+  xy: 2, 894
+  size: 1173, 604
+  orig: 1173, 604
+  offset: 0, 0
+  index: -1
+
+Ali2.png
+size: 233,206
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Whiskers
+  rotate: false
+  xy: 2, 2
+  size: 229, 202
+  orig: 229, 202
+  offset: 0, 0
+  index: -1

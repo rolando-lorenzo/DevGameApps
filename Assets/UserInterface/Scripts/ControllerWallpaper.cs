@@ -43,8 +43,6 @@ public class ControllerWallpaper : MonoBehaviour {
 
     private void Start()
     {
-        //PlayerPrefs.DeleteAll();
-        //buttonWallpaperShare.SetActive(false);
         gameObjectDialogWallpaper.SetActive(false);
         buttonCloseWallpaperBuy.onClick.AddListener(() => CloseWallpaperBuy());
         buttonWallpaperBuy.GetComponent<Button>().onClick.AddListener(() => BuyWallpaper());
@@ -150,9 +148,9 @@ public class ControllerWallpaper : MonoBehaviour {
             Debug.Log("Guardando en dispoitivo Ruta:"+Application.persistentDataPath+" Imagen:"+nameImg + ".png");
             string filepath = System.IO.Path.Combine(Application.persistentDataPath, nameImg+".png");
             File.WriteAllBytes(filepath,texture.EncodeToPNG());
-            Debug.Log("Guardando exitosamente!!" );
+            Debug.Log("Wallpaper " + nameImg + " !!");
 
-            MobileNativeShare.ShareImage(filepath, "Wallpaper " + objWallpaperItem.nameFileImage + " !!", "BJWT");
+            MobileNativeShare.ShareImage(filepath, "Wallpaper " + nameImg + " !!", "BJWT");
 
             /*if (System.IO.File.Exists(filepath))
             {
