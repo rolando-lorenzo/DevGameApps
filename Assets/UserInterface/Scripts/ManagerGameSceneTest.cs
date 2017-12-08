@@ -33,6 +33,7 @@ public class ManagerGameSceneTest : MonoBehaviour {
         AdsManagement.OnCoinLive += HandleCoinLive;
         AdsManagement.OnMessageAds += HandleMessageAds;
         AdsManagement.OnNewLevelUnlocked += HandleNewLevelUnlocek;
+        ProgressWorldLevel.OnProgressCompleteWorld += HandlerProgressCompleteWorld;
     }
 
     private void Awake()
@@ -46,9 +47,8 @@ public class ManagerGameSceneTest : MonoBehaviour {
         coinOrLive.text = "" + coinLive;
         VerifyCoin();
 
-        nameWorld = PlayerPrefs.GetString(constant.worldName, "Mexico");
-        nameLevel = PlayerPrefs.GetInt(constant.levelWorld, 1);
-
+        nameWorld = GameItemsManager.GetValueStringById(GameItemsManager.Item.WorldName); ;
+        nameLevel = GameItemsManager.GetValueById(GameItemsManager.Item.LevelWorld);
         nameWorldLevel.text = nameWorld + " " + nameLevel;         
     }
 
@@ -75,6 +75,12 @@ public class ManagerGameSceneTest : MonoBehaviour {
         AdsManagement.OnCoinLive -= HandleCoinLive;
         AdsManagement.OnMessageAds -= HandleMessageAds;
         AdsManagement.OnNewLevelUnlocked -= HandleNewLevelUnlocek;
+        ProgressWorldLevel.OnProgressCompleteWorld -= HandlerProgressCompleteWorld;
+    }
+
+    private void HandlerProgressCompleteWorld(string infoMessage, bool isUnlock)
+    {
+        Debug.Log(isUnlock + ": " + infoMessage);
     }
     #endregion
 
@@ -96,7 +102,8 @@ public class ManagerGameSceneTest : MonoBehaviour {
 
     private void CompleteLevel()
     {
-        AdsManagement.Instance.CompleteLevel(nameWorld, nameLevel);
+        ProgressWorldLevel.CompleteLevel(nameWorld, nameLevel);
+       // ProgressWorldLevel.CompleteLevel(4,5);
     }
 
 

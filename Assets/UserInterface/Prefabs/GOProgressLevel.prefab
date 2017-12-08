@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1226332787921672}
+  m_IsPrefabParent: 1
+--- !u!1 &1226332787921672
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 224607627169183996}
+  - component: {fileID: 114603434571475562}
+  m_Layer: 5
+  m_Name: GOProgressLevel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &114603434571475562
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226332787921672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20b49a17035d31f438c6a4c99d7f76e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogMessagePop: {fileID: 1108764343789292, guid: a487246a55778374c8fdecc0e8e66e6b,
+    type: 2}
+  spriteAlert: {fileID: 21300002, guid: ea12512506de08747a752e3290142446, type: 3}
+  spriteWorlds:
+  - {fileID: 21300000, guid: aef814342d2fc2d4aa1ab6fd832f5eef, type: 3}
+  - {fileID: 21300000, guid: 26aa00e1b238a9b418240b84ae07c57e, type: 3}
+  - {fileID: 21300000, guid: 59f30a29ad65a654c86f0d5a95cf4199, type: 3}
+--- !u!224 &224607627169183996
+RectTransform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226332787921672}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}

@@ -902,5 +902,65 @@
       <Mandarin />
       <German />
     </Translation>
+    <Translation key="progress_info_error_world">
+      <Default>The world don't exist</Default>
+      <English>The world don't exist</English>
+      <Spanish>El mundo no existe</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="progress_info_error_nextworld">
+      <Default>The next world was unlocked previously</Default>
+      <English>The next world was unlocked previously</English>
+      <Spanish>El pr?ximo mundo fue desbloqueado previamente</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="progress_info_error_yinyangs">
+      <Default>For to continue to the next world you will require {0} yin yang more.</Default>
+      <English>For to continue to the next world you will require {0} yin yang more.</English>
+      <Spanish>Para continuar al siguiente mundo necesitaras {0} yin yang mas.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="progress_info_error_newlevel">
+      <Default>The next level was unlocked previously</Default>
+      <English>The next level was unlocked previously</English>
+      <Spanish>El nivel fue desbloqueado previemente</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="progress_info_success_newlevel">
+      <Default>Level unlocked.</Default>
+      <English>Level unlocked.</English>
+      <Spanish>Nivel desbloqueado.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
+    <Translation key="progress_info_success_newworld">
+      <Default>{0} unlocked.</Default>
+      <English>{0} unlocked.</English>
+      <Spanish>{0} desbloqueado.</Spanish>
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
   </Translations>
 </LanguagesManager>

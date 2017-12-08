@@ -43,7 +43,7 @@ public class WorldManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
-		GameItemsManager.SetValueStringById (GameItemsManager.Item.GameProgressLevel, "Circus-5/Train-5/Zoo-5/Mansion-5");
+		//GameItemsManager.SetValueStringById (GameItemsManager.Item.GameProgressLevel, "Circus-5/Train-0/Zoo-0/Mansion-0");
         progressLevels = GameItemsManager.GetValueStringById(GameItemsManager.Item.GameProgressLevel, ProgressWorldLevel.GetLevelWorlBase());
         Debug.Log(progressLevels);
 	}

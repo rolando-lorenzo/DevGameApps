@@ -39,7 +39,8 @@ public class LevelItem : MonoBehaviour, ILevelButton {
 	public void GoToLevel (string level) {
         GameItemsManager.SetValueById(GameItemsManager.Item.LevelWorld, id);
         Debug.Log ("Cargando escena..." + level);
-		SceneManager.LoadScene (level);
+		//SceneManager.LoadScene (level);
+        SceneManager.LoadScene("GameSceneTest");
 
 	}
 

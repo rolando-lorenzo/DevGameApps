@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ProgressWorldLevel {
 
+    public delegate void EventProgressCompleteWorld(string infoMessage, bool isUnlock);
+    public static event EventProgressCompleteWorld OnProgressCompleteWorld;
     GameItemsManager.GameMode gameMode;
 
     public enum WorldsNames
@@ -88,8 +90,12 @@ public class ProgressWorldLevel {
     /// <param name="levelOfWorl">the level that the gamer to be playing in this moment</param>
     private static void CompleteWorldsLevel(string nameWorld, int levelOfWorl)
     {
+        bool state = false;
+        string message = "";
         char[] split = { '/', '-' };
+        Debug.Log(ProgressString());
         string[] progresslevels = ProgressString().Split(split);
+        LanguagesManager lm = MenuUtils.BuildLeanguageManagerTraslation();
 
         int maxlevel = 0;
 
@@ -103,26 +109,120 @@ public class ProgressWorldLevel {
                 if (levelOfWorl + 1 <= 5)
                 {
                     int newlevel = levelOfWorl + 1;
-                    if (newlevel >= maxlevel)
+                    //Debug.Log(newlevel + " - " + levelOfWorl + "-" + nameWorld);
+                    if (newlevel > maxlevel)
                     {
                         progresslevels[i + 1] = "" + newlevel;
+                        state = true;
+                        message = lm.GetString("progress_info_success_newlevel");
+                        break;
+                    }else if (newlevel == maxlevel)
+                    {
+                        state = false;
+                        message = lm.GetString("progress_info_error_newlevel");
+                        break;
+                    }
+                    else
+                    {
+                        state = false;
+                        message = lm.GetString("progress_info_error_newlevel");
+                        break;
                     }
                 }
                 else
                 {
                     progresslevels[i + 1] = "5";
-                    int baselevel = Int32.Parse(progresslevels[i + 3]);
-                    if (baselevel == 0)
+                    int limitAux = i + 3;
+                    if (limitAux >= progresslevels.Length)
                     {
-                        progresslevels[i + 3] = "1";
+                        state = false;
+                        message = "Limit Array";
+                        break;
+                    }
+                    else
+                    {
+                        int baselevel = Int32.Parse(progresslevels[i + 3]);
+                        if (baselevel == 0)
+                        {
+                            int yiyangs = GameItemsManager.GetValueById(GameItemsManager.Item.NumYinYangs);
+                            if (nameWorld == WorldsNames.Circus.ToString() && yiyangs >= 2)//unlocked Train
+                            {
+                                progresslevels[i + 3] = "1";
+                                state = true;
+                                message = string.Format(lm.GetString("progress_info_success_newworld"), WorldsNames.Train.ToString());
+                            }
+                            else if (nameWorld == WorldsNames.Train.ToString() && yiyangs >= 5)//unlocked Zoo
+                            {
+                                progresslevels[i + 3] = "1";
+                                state = true;
+                                message = string.Format(lm.GetString("progress_info_success_newworld"), WorldsNames.Zoo.ToString());
+                            }
+                            else if (nameWorld == WorldsNames.Zoo.ToString() && yiyangs >= 8)//unlocked Mansion
+                            {
+                                progresslevels[i + 3] = "1";
+                                state = true;
+                                message = string.Format(lm.GetString("progress_info_success_newworld"), WorldsNames.Mansion.ToString());
+                            }
+                            else
+                            {
+                                Debug.Log(yiyangs);
+                                int restYangs = 0;
+                                if (nameWorld == WorldsNames.Circus.ToString()) //Train will require yinyangs
+                                {
+                                    restYangs = 2 - yiyangs;
+
+                                }
+                                else if (nameWorld == WorldsNames.Train.ToString())//Zoo will require yinyangs
+                                {
+                                    restYangs = 5 - yiyangs;
+                                }
+                                else if (nameWorld == WorldsNames.Zoo.ToString())//Mansion will require yinyangs
+                                {
+                                    restYangs = 8 - yiyangs;
+                                }
+                                else
+                                {
+                                    Debug.Log("I have to error in progress file");
+                                }
+
+                                // textDilogAux = "Para entrar al mundo {0} necesita {1} Yin Yang";
+                                message = string.Format(lm.GetString("progress_info_error_yinyangs"), restYangs.ToString());
+                                state = false;
+                                break;
+                            }
+
+                            break;
+                        }
+                        else
+                        {
+                            state = false;
+                            message = lm.GetString("progress_info_error_nextworld");
+                            break;
+                        }
                     }
                 }
 
+            }
+            else
+            {
+                state = false;
+                message = lm.GetString("progress_info_error_world");
             }
             //Debug.Log(progresslevels[i]);
         }
 
         CreateAndSaveLevel(progresslevels);
+
+        if (OnProgressCompleteWorld != null)
+        {
+            Debug.Log("Into Event");
+            OnProgressCompleteWorld(message, state);
+        }
+        else
+        {
+            Debug.LogError("Error");
+            Debug.Log(OnProgressCompleteWorld);
+        }
     }
 
     private static void CreateAndSaveLevel(string[] progresslevels)

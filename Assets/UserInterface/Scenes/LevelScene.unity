@@ -429,7 +429,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -676}
-  m_SizeDelta: {x: 0, y: 1352.727}
+  m_SizeDelta: {x: 0, y: 1354.5099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &52891232
 MonoBehaviour:
@@ -4166,7 +4166,7 @@ Prefab:
     - target: {fileID: 114459710462352046, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224529562338305540, guid: 3c0305752220b4e939a6e842ec9aeb65,
         type: 2}
@@ -6466,6 +6466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3094c7e051db349b99deb88b5a8fe4f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameMode: 1
   panelWorldUSA: {fileID: 696336930}
   panelWorldMexico: {fileID: 2127865674}
   panelWorldAfrica: {fileID: 1887859197}
@@ -6583,8 +6584,6 @@ MonoBehaviour:
       nameLevel: Animales4
       nameScene: Level5-W4
       isLocked: 1
-  slideTime: 0
-  slideDelay: 0
 --- !u!1 &1593136391
 GameObject:
   m_ObjectHideFlags: 0
@@ -9208,7 +9207,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -677}
-  m_SizeDelta: {x: 0, y: 1352.727}
+  m_SizeDelta: {x: 0, y: 1354.5099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018270009
 MonoBehaviour:
