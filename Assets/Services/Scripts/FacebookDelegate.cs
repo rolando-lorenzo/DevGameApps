@@ -330,7 +330,7 @@ public class FacebookDelegate : MonoBehaviour {
 
     }
 
-    public void ShareScoreScreenFacebook()
+    public void ShareScreenFacebook()
     {
         StartCoroutine(CourtineShareScoreScreenFacebook());
     }

@@ -46,7 +46,6 @@ public class DialogMessageWallpaper : MonoBehaviour {
         {
             panelPrefabsDialog.SetActive(true);
         }
-        //MenuUtils.CanvasSortingOrder();
         gUIAnimDialog.MoveIn(GUIAnimSystem.eGUIMove.SelfAndChildren);
 
     }
@@ -63,7 +62,6 @@ public class DialogMessageWallpaper : MonoBehaviour {
         if (panelPrefabsDialog != null)
         {
             panelPrefabsDialog.SetActive(false);
-           // MenuUtils.CanvasSortingOrder();
             GameObject.Destroy(panelDialog);
         }
     }

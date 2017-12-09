@@ -14,8 +14,9 @@ public class DialogMessage : MonoBehaviour {
     public Text txtTitle;
     public Image imgDialog;
     public Button btnCloseDialog;
-	public Image imgStatus;
-	public enum typeMessage
+    public Image imgStatus;
+    public bool isCharacterOrPowerUp { get; set; }
+    public enum typeMessage
 	{
 		ERROR,
 		WARNING,
@@ -73,7 +74,11 @@ public class DialogMessage : MonoBehaviour {
     {
         
         yield return new WaitForSeconds(1.0f);
-        MenuUtils.CanvasSortingOrderHiden();
+        if(isCharacterOrPowerUp == true)
+        {
+            MenuUtils.CanvasSortingOrderHiden();
+        }
+        
         if (panelPrefabsDialog != null)
         {
             panelPrefabsDialog.SetActive(false);

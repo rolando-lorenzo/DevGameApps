@@ -888,7 +888,7 @@ RectTransform:
   m_Children:
   - {fileID: 1237954365}
   m_Father: {fileID: 830340004}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2552,7 +2552,8 @@ MonoBehaviour:
       idStoreGooglePlay: wall_enzo
       isAvailableInStore: 0
   - idCharacter: 5
-    skeletonDataAsset: {fileID: 0}
+    skeletonDataAsset: {fileID: 11400000, guid: f7f2b8c1d41e84f488c107893ac0a945,
+      type: 2}
     skinName: Lion
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
     nameCharacter: name_character_love
@@ -2583,7 +2584,8 @@ MonoBehaviour:
       idStoreGooglePlay: wall_ali
       isAvailableInStore: 0
   - idCharacter: 7
-    skeletonDataAsset: {fileID: 0}
+    skeletonDataAsset: {fileID: 11400000, guid: 979fd9864e68a52478cde99923ad7f72,
+      type: 2}
     skinName: Lion
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
     nameCharacter: name_character_achilles
@@ -2597,7 +2599,8 @@ MonoBehaviour:
       idStoreGooglePlay: wall_love
       isAvailableInStore: 0
   - idCharacter: 8
-    skeletonDataAsset: {fileID: 0}
+    skeletonDataAsset: {fileID: 11400000, guid: cad54f2efa503214fb8a6af783ea57e3,
+      type: 2}
     skinName: Lion
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
     nameCharacter: name_character_matzo
@@ -2611,7 +2614,8 @@ MonoBehaviour:
       idStoreGooglePlay: wall_matzo
       isAvailableInStore: 0
   - idCharacter: 9
-    skeletonDataAsset: {fileID: 0}
+    skeletonDataAsset: {fileID: 11400000, guid: 7f0e0208549650342bbc3f728238905f,
+      type: 2}
     skinName: Lion
     imgBuyCharacter: {fileID: 21300000, guid: ac849d1c51aab4b279f3532e128f9265, type: 3}
     nameCharacter: name_character_karma
@@ -3015,8 +3019,8 @@ RectTransform:
   - {fileID: 1012448328}
   - {fileID: 1322926309}
   - {fileID: 1259534375}
-  - {fileID: 243117540}
   - {fileID: 1194334966}
+  - {fileID: 243117540}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4080,7 +4084,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 830340004}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}

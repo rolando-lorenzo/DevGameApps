@@ -186,11 +186,13 @@ public class StoreManager : MonoBehaviour {
 		backgroundPackagesAnim.m_MoveOut.MoveTo = GUIAnim.ePosMove.LeftScreenEdge;
 	}
 
-	void Start () {
-		AnimPanelIn (backgroundPackagesAnim);
-	}
+    void Start()
+    {
+        AnimPanelIn(backgroundPackagesAnim);
+        MenuUtils.CanvasSortingOrderShow();
+    }
 
-	void OnDisable () {
+    void OnDisable () {
 		if (infiniteScrollCharacters != null) {
 			infiniteScrollCharacters.OnItemChanged -= HandleCurrentCharacter;
 		}
@@ -510,6 +512,7 @@ public class StoreManager : MonoBehaviour {
 
 	public void InviteFriends () {
 		Debug.Log ("Inivitando Amigos !!");
+        FacebookDelegate.Instance.ShareScreenFacebook();
 	}
 
 	/// <summary>
@@ -535,7 +538,7 @@ public class StoreManager : MonoBehaviour {
 		
 		//If character was purchased avoid buy again
         if (!GameItemsManager.isLockedCharacter (chItem.idCharacter)) {
-			BuildDialogMessage ("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR);
+			BuildDialogMessage ("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR, true);
 			return;
 		}
 		//proceeds to buy on store online
@@ -564,7 +567,7 @@ public class StoreManager : MonoBehaviour {
         //If character was purchased avoid buy again
         if (!GameItemsManager.isLockedWallpaper(wallItem.idWallpaper))
         {
-            BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR);
+            BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR, true);
             return;
         }
 
@@ -629,7 +632,7 @@ public class StoreManager : MonoBehaviour {
 		//Utiliza las Huellas disponibles
 		if (pi is ProductPowerupItem) {
 			ProductPowerupItem currentBought = ((ProductPowerupItem) pi);
-			Debug.Log ("[StoreManager] Powerup comprado" + currentBought.idProductPower + " " + currentBought.nameProduct.text);
+			Debug.Log ("[StoreManager] Powerup comprado" + currentBought.idProductPower + " " + currentBought.nameProduct.text +" "+currentBought.numProductsToBuy);
 
 			int globalCostPowerUp = ((int) currentBought.valCurrency * currentBought.numProductsToBuy);
 
@@ -638,16 +641,16 @@ public class StoreManager : MonoBehaviour {
 				//subtracts pawprints
 				substractElements (globalCostPowerUp, 0, 0, 0);
 				Debug.Log ("Compra exitosa !! Ahora ya cuentas con el PowerUp " + currentBought.ToString ());
-
-				//Save new PowerUp
+                //Save new PowerUp
+                Debug.Log(currentBought.idProductPower);
                 GameItemsManager.AddPowerCount (currentBought.idProductPower, currentBought.numProductsToBuy);
                 Debug.Log ("Se ha guardado "+currentBought.numProductsToBuy+" nuevos power ups .. " + currentBought.idProductPower.ToString () + ", Ahora ya cuentas con " + GameItemsManager.GetPowerCount (currentBought.idProductPower));
 
-				BuildDialogMessage ("msg_store_title_popup", "msg_info_success_purchased", DialogMessage.typeMessage.INFO);
+				BuildDialogMessage ("msg_store_title_popup", "msg_info_success_purchased", DialogMessage.typeMessage.INFO, false);
 
 			}
 			else {
-				BuildDialogMessage ("msg_store_title_popup", "msg_err_insuficient_resources", DialogMessage.typeMessage.ERROR);
+				BuildDialogMessage ("msg_store_title_popup", "msg_err_insuficient_resources", DialogMessage.typeMessage.ERROR, false);
 			}
 		}
 
@@ -676,7 +679,7 @@ public class StoreManager : MonoBehaviour {
 	private void HandleIncializationIAP (bool isError) {
 		if (isError) {
 			Debug.Log ("[StoreManager] Ocurrio un error al inicializar api de IAP");
-			BuildDialogMessage ("msg_store_title_popup", "msg_err_init_api_iap", DialogMessage.typeMessage.ERROR);
+			BuildDialogMessage ("msg_store_title_popup", "msg_err_init_api_iap", DialogMessage.typeMessage.ERROR,false);
 		}
 
 	}
@@ -689,10 +692,10 @@ public class StoreManager : MonoBehaviour {
 	private void HandleIAPEvents (string messageResult, bool isError) {
 		string titlePopup = "msg_store_title_popup";
 		if (isError) {
-			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.ERROR);
+			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.ERROR, backgroundCharacters.activeSelf);
 		}
 		else {
-			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.INFO);
+			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.INFO, backgroundCharacters.activeSelf);
 		}
 
 	}
@@ -767,7 +770,7 @@ public class StoreManager : MonoBehaviour {
 				currentCharacter.VerifyUnlockandLockCharacter ();
 			}
 			else {
-				BuildDialogMessage ("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR);
+				BuildDialogMessage ("msg_store_title_popup", "msg_err_fails_unlock_character", DialogMessage.typeMessage.ERROR,true);
                 Debug.Log ("No se pudo desbloquear a " + currentCharacter.idCharacter.ToString ());
 			}
 			BuildPopupPurchasedCharacter (currentCharacter);
@@ -804,7 +807,7 @@ public class StoreManager : MonoBehaviour {
 	/// </summary>
 	/// <param name="msg">Message.</param>
 	private void HandleProductLimitBuyReached (string msg) {
-		BuildDialogMessage ("msg_store_title_popup", msg, DialogMessage.typeMessage.ERROR);
+		BuildDialogMessage ("msg_store_title_popup", msg, DialogMessage.typeMessage.ERROR,false);
 	}
 
     private CharacterStore SearchImgCharacter (GameItemsManager.Character id) {
@@ -894,15 +897,18 @@ public class StoreManager : MonoBehaviour {
 							 int numChuletasPurchased,
 							 int numMagnetosPurchased,
 							 int numYingYangs = 0) {
-
+        Debug.Log("ADDS");
 
 		GameItemsManager.addValueById (GameItemsManager.Item.NumPawprints, numHuellasPurchased);
 		GameItemsManager.addValueById (GameItemsManager.Item.NumMultipliers, numMultiplicadoresPurchased);
+        GameItemsManager.AddPowerCount(GameItemsManager.StorePower.PawPrintMultiplier, numMultiplicadoresPurchased);
 		GameItemsManager.addValueById (GameItemsManager.Item.NumPorkchop, numChuletasPurchased);
+        GameItemsManager.AddPowerCount(GameItemsManager.StorePower.PorkChop, numChuletasPurchased);
 		GameItemsManager.addValueById (GameItemsManager.Item.NumMagnets, numMagnetosPurchased);
+        GameItemsManager.AddPowerCount(GameItemsManager.StorePower.Magnet,numMagnetosPurchased);
 		GameItemsManager.addValueById (GameItemsManager.Item.NumYinYangs, numYingYangs);
-		
-	}
+
+    }
 
 	/// <summary>
 	/// Substracts the elements.
@@ -917,7 +923,9 @@ public class StoreManager : MonoBehaviour {
 		int numMagnetosPurchased,
 		int numYingYangs = 0) {
 
-		GameItemsManager.subtractValueById (GameItemsManager.Item.NumPawprints, numHuellasPurchased);
+        Debug.Log("SUBSTRAct");
+
+        GameItemsManager.subtractValueById (GameItemsManager.Item.NumPawprints, numHuellasPurchased);
 		GameItemsManager.subtractValueById (GameItemsManager.Item.NumMultipliers, numMultiplicadoresPurchased);
 		GameItemsManager.subtractValueById (GameItemsManager.Item.NumPorkchop, numChuletasPurchased);
 		GameItemsManager.subtractValueById (GameItemsManager.Item.NumMagnets, numMagnetosPurchased);
@@ -933,7 +941,7 @@ public class StoreManager : MonoBehaviour {
         }
         else
         {
-            BuildDialogMessage(title, message, typeMessage);
+            BuildDialogMessage(title, message, typeMessage, true);
         }
     }
 
@@ -943,7 +951,7 @@ public class StoreManager : MonoBehaviour {
     /// <param name="title">Title.</param>
     /// <param name="msg">Message.</param>
     /// <param name="type">Type.(ERROR, INFO, WARN)</param>
-    private void BuildDialogMessage (string title, string msg, DialogMessage.typeMessage type) {
+    private void BuildDialogMessage (string title, string msg, DialogMessage.typeMessage type, bool isCharacterOrPowerUp) {
 		GameObject mostrarMsg = Instantiate (dialogMessage) as GameObject;
 		DialogMessage popupMsg = mostrarMsg.GetComponent<DialogMessage> ();
 		popupMsg.txtMessage.text = msg;
@@ -960,6 +968,8 @@ public class StoreManager : MonoBehaviour {
 				break;
 		}
 		mostrarMsg.transform.SetParent (mainContainer, false);
+        //false puwerUp true Character
+        popupMsg.isCharacterOrPowerUp = isCharacterOrPowerUp;
 		popupMsg.UpdateTextTranslation ();
 		popupMsg.OpenDialogmessage ();
 	}
@@ -981,6 +991,7 @@ public class StoreManager : MonoBehaviour {
         }
 
 		mostrarMsg.transform.SetParent (mainContainer, false);
+        popupMsg.isCharacterOrPowerUp = false;
 		popupMsg.OpenDialogmessage();
 	}
 
@@ -998,6 +1009,7 @@ public class StoreManager : MonoBehaviour {
         popupMsg.imgStatus.overrideSprite = imgDialogMessageINFO;
 
         mostrarMsg.transform.SetParent (mainContainer, false);
+        popupMsg.isCharacterOrPowerUp = true;
 		popupMsg.OpenDialogmessage ();
 	}
 
