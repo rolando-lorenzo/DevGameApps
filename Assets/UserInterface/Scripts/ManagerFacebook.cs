@@ -140,7 +140,7 @@ public class ManagerFacebook : MonoBehaviour {
 
     private void ShareScoreScreenFacebook()
     {
-        FacebookDelegate.Instance.ShareScoreScreenFacebook();
+        FacebookDelegate.Instance.ShareScreenFacebook();
     }
 
     private void ShareFacebook()

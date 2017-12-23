@@ -22,6 +22,7 @@ public class ControllerWallpaper : MonoBehaviour {
     public GameObject buttonWallpaperBuy;
     public GameObject buttonWallpaperShare;
     public Button buttonCloseWallpaperBuy;
+    public Text textPriceBuy;
     [Header("Setting Anim")]
     public GameObject gameObjectDialogWallpaper;
     public GameObject panelWallpaper;
@@ -67,11 +68,16 @@ public class ControllerWallpaper : MonoBehaviour {
     #endregion
 
     #region Class implementation
-    private void HandlerWallpaperIsSelected(WallpaperItem itemWallpaper)
+    private void HandlerWallpaperIsSelected(WallpaperItem itemWallpaper, bool isInitializedIAP)
     {
         Debug.Log("am here");
         objWallpaperItem = itemWallpaper;
         imageWallpaper.overrideSprite = objWallpaperItem.spriteWallpaper;
+        if (isInitializedIAP)
+        {
+            textPriceBuy.text = itemWallpaper.priceInStore;
+        }
+        
         if (objWallpaperItem.islocked == false)
         {
             VerifyWallpaperItemLock();

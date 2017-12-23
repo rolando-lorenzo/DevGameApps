@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   appIdApple: 1310994915
-  appurlRateApple: https://itunes.apple.com/app/id/
+  appurlRateApple: http://itunes.apple.com/app/id
   appIdAndroid: com.EstacionPi.BJWTFoundation
   appurlRateAndroid: market://details?id=
   internetConnection: 1

@@ -6,6 +6,7 @@ using PankioAssets;
 using UnityEngine.SceneManagement;
 using Spine.Unity;
 using System;
+using UnityEngine.Purchasing;
 
 public class ProductStore {
 
@@ -57,7 +58,8 @@ public class CharacterStore {
     
 }
 
-public class StoreManager : MonoBehaviour {
+public class StoreManager : MonoBehaviour, IStoreListener
+{
 
     #region Class members
     public GameItemsManager.GameMode gameMode;
@@ -94,7 +96,6 @@ public class StoreManager : MonoBehaviour {
 	private List<IStorePurchase> itemsNotAvailableStore;
 	private CharacterItem[] charactersTemplate;
 	private InfiniteScroll infiniteScrollCharacters;
-	private IAPManager iapManager;
 
 	private const int CHARACTER_LOCK = 1;
 	private const int CHARACTER_UNLOCK = 2;
@@ -102,11 +103,31 @@ public class StoreManager : MonoBehaviour {
 	private GUIAnim backgroundCharactersAnim;
 	private GUIAnim backgroundPackagesAnim;
 
+    //bool of state WallpaperDilalog and Panel
+    private bool stateDialogWallpaper { get; set; }
+    private bool statePanelCharacter { get; set; }
     //event wallpaper 
     public delegate void EventStoreWallpaperUnlockButton();
     public static event EventStoreWallpaperUnlockButton OnStoreWallpaperUnlockButton;
-    public delegate void EventWallpaperIsSelected(WallpaperItem wallpaperItem);
+    public delegate void EventWallpaperIsSelected(WallpaperItem wallpaperItem, bool isInitializedIAP);
     public static event EventWallpaperIsSelected OnWallpaperIsSelected;
+    //IAP Variables
+
+    private IStorePurchase productItemBuy { get; set; }
+
+    private static IStoreController storeController;
+    private static IExtensionProvider storeExtensionProvider;
+
+    public static string kProductIDConsumable = "consumable";
+    public static string kProductIDNonConsumable = "nonconsumable";
+    public static string kProductIDSubscription = "subscription";
+
+    List<Array> listProduct;
+    Product product { set; get; }
+    // Apple App Store-specific product identifier for the subscription product.
+    private static string kProductNameAppleSubscription = "com.unity3d.subscription.new";
+    // Google Play Store-specific product identifier subscription product.
+    private static string kProductNameGooglePlaySubscription = "com.unity3d.subscription.original";
     #endregion
 
     #region Class accesors
@@ -138,14 +159,17 @@ public class StoreManager : MonoBehaviour {
 		}
 
 		//Eventos del Service IAP
-		iapManager.OnIAPInitialized += HandleIncializationIAP;
-		iapManager.OnIAPMessageProgress += HandleIAPEvents;
-		iapManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;
+		/*IAPManager.OnIAPInitialized += HandleIncializationIAP;
+		IAPManager.OnIAPMessageProgress += HandleIAPEvents;
+		IAPManager.OnIAPSuccessPurchasedInStore += HandleSuccessPurchasedInStore;*/
+
         ControllerWallpaper.OnWallpaperBuy += HandleWallpaperToWillPurchase;
         ControllerWallpaper.OnWallpaperMessage += HandleWallpaperToMessage;
     }
 
 	void Awake () {
+        statePanelCharacter = false;
+        stateDialogWallpaper = false;
 		instance = this;
 		btnCharacters.onClick.AddListener (ShowCharactersPanel);
 		btnInviteFriends.onClick.AddListener (InviteFriends);
@@ -157,18 +181,21 @@ public class StoreManager : MonoBehaviour {
 		if (enabled) {
 			GUIAnimSystem.Instance.m_AutoAnimation = false;
 		}
+
 		btnsSlide = new List<ProductItem> ();
 		itemsAvailableInStore = new List<IStorePurchase> ();
 		itemsNotAvailableStore = new List<IStorePurchase> ();
-		PopulatePackages (packagesStore);
-		PopulatePowerUps (powerUpsStore);
-		PopulateUpgrades (upgradesStore);
-		PopulateCharacters ();
+        listProduct = new List<Array>();
+
+        PopulatePackages(packagesStore);
+        PopulatePowerUps(powerUpsStore);
+        PopulateUpgrades(upgradesStore);
+        PopulateCharacters();
+       
 
         //If game mode is equals to DEBUG not initializes IAP api
-        iapManager = IAPManager.Instance;
         if(gameMode == GameItemsManager.GameMode.RELEASE){
-            iapManager.InitializePurchasing(itemsAvailableInStore);
+            InitializePurchasing(itemsAvailableInStore);
         }
 		
 
@@ -220,9 +247,10 @@ public class StoreManager : MonoBehaviour {
 		}
 
 		//Eventos del Service IAP
-		iapManager.OnIAPInitialized -= HandleIncializationIAP;
-		iapManager.OnIAPMessageProgress -= HandleIAPEvents;
-		iapManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;
+		/*IAPManager.OnIAPInitialized -= HandleIncializationIAP;
+		IAPManager.OnIAPMessageProgress -= HandleIAPEvents;
+		IAPManager.OnIAPSuccessPurchasedInStore -= HandleSuccessPurchasedInStore;*/
+
         ControllerWallpaper.OnWallpaperBuy -= HandleWallpaperToWillPurchase;
         ControllerWallpaper.OnWallpaperMessage -= HandleWallpaperToMessage;
     }
@@ -232,6 +260,76 @@ public class StoreManager : MonoBehaviour {
     #endregion
 
     #region Class implementation
+    private string GetPriceProductStore( string idStoreProduct)
+    {
+        string price = "";
+        foreach (string[] item in listProduct)
+        {
+            Debug.Log("IN LIST: " + item[0]+" - "+ idStoreProduct);
+            if (string.Equals(item[0], idStoreProduct, StringComparison.InvariantCulture))
+            {
+                return item[1];
+            }
+        }
+        
+        return price;
+    }
+
+    private List<Array> GetPriceProductUpgradeStore(List<string> idStoreProducts)
+    {
+        List<Array> price = new List<Array>();
+        foreach (string[] item in listProduct)
+        {
+            foreach(string idStoreUpgrade in idStoreProducts)
+            {                
+                if (string.Equals(item[0], idStoreUpgrade, StringComparison.InvariantCulture))
+                {
+                    Debug.Log("IN LIST Upgrade: " + item[0] + " - " + idStoreUpgrade);
+                    price.Add(item);
+                }
+            }            
+        }
+
+        return price;
+    }
+
+    private void ReplacePricePopulatePackages(List<PackagesStore> products)
+    {
+        //replace price
+        Component[] component = GameObject.Find("ContentPanelPaquetes").GetComponentsInChildren<ProductPackagesItem>();
+        foreach(ProductPackagesItem itempack in component)
+        {
+            string id = "";
+            #if UNITY_IOS
+                id = "com.EstacionPi.BJWTFoundation."+itempack.idInStoreGooglePlay;
+            #else
+                id = itempack.idStoreGooglePlay;
+            #endif
+
+            itempack.priceProduct.text = GetPriceProductStore(id);
+        }
+    }
+
+    private void ReplacePricePopulateUpgrades(List<UpgradesStore> products)
+    {
+        Component[] component = GameObject.Find("ContentPanelPaquetes").GetComponentsInChildren<ProductUpgradeItem>();
+        foreach (ProductUpgradeItem itemupgrade in component)
+        {
+            List<string> listUpgrade = new List<string>();
+            #if UNITY_IOS
+                list<string> listAux = new List<string>();
+                foreach(string valIds in itemupgrade.levelsUpgradesIdGooglePlay){
+                    listAux.Add("com.EstacionPi.BJWTFoundation." +valIds);
+                }
+                listUpgrade = listAux;
+            #else
+                listUpgrade = itemupgrade.levelsUpgradesIdGooglePlay;
+            #endif
+
+            itemupgrade.listPrice = GetPriceProductUpgradeStore(listUpgrade);
+            itemupgrade.UpdatePriceAndProgress();
+        }
+    }
 
     /// <summary>
     /// Populates the packages panel.
@@ -262,7 +360,8 @@ public class StoreManager : MonoBehaviour {
             #endif
 
             ProductItem.isAvailableInStore = product.isAvailableInStore;
-			nuevoProducto.transform.SetParent (containerPaquetes, false);
+            nuevoProducto.name = product.idInStoreGooglePlay;
+            nuevoProducto.transform.SetParent (containerPaquetes, false);
 
 			if (product.isAvailableInStore) {
 				// it could be purchased only in Online Store
@@ -303,11 +402,12 @@ public class StoreManager : MonoBehaviour {
                     #endif
 
                     #if UNITY_IOS
-                    characterTemplate.wallpaperItem.idStoreGooglePlay = "com.EstacionPi.BJWTFoundation."+character.wallpaper.idStoreGooglePlay;;
+                    characterTemplate.wallpaperItem.idStoreGooglePlay = "com.EstacionPi.BJWTFoundation."+character.wallpaper.idStoreGooglePlay;
                     #else
                     characterTemplate.wallpaperItem.idStoreGooglePlay = character.wallpaper.idStoreGooglePlay;
                     #endif
 
+                    characterTemplate.name = character.idInStoreGooglePlay;
                     characterTemplate.isAvailableInStore = character.isAvailableInStore;
 
 					if (character.skeletonDataAsset != null)
@@ -350,7 +450,19 @@ public class StoreManager : MonoBehaviour {
 			}
 		}
 		if (characters.Count > 0) {
-			charcaterDescription.text = lm.GetString (characters[0].descriptionCharacter);
+            string idStore = "";
+            #if UNITY_IOS
+               idStore = "com.EstacionPi.BJWTFoundation."+characters[0].idInStoreGooglePlay;
+            #else
+                idStore = characters[0].idInStoreGooglePlay;
+            #endif
+
+            if (IsInitialized())
+            {
+                //charcaterPriceStore.text = GetPriceProductStore(idStore);
+            }
+
+            charcaterDescription.text = lm.GetString (characters[0].descriptionCharacter);
 			charcaterName.text = lm.GetString (characters[0].nameCharacter);
 		}
 
@@ -386,7 +498,9 @@ public class StoreManager : MonoBehaviour {
             #endif
 
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
+            //nuevoProducto.name = product.idInStoreGooglePlay;
 			nuevoProducto.transform.SetParent (containerPaquetes, false);
+
 			if (product.isAvailableInStore) {
 				// it could be purchased only in Online Store
 				itemsAvailableInStore.Add (ProductItem);
@@ -426,18 +540,20 @@ public class StoreManager : MonoBehaviour {
 			ProductItem.isAvailableInStore = product.isAvailableInStore;
 
 
-#if UNITY_IOS
-            List<string> listAux = new List<string>();
-            foreach(string valIds in product.levelsUpgradesIdGooglePlay){
-                listAux.Add("com.EstacionPi.BJWTFoundation." +valIds);
-            }
-            ProductItem.levelsUpgradesIdGooglePlay = listAux;
-#else
-            ProductItem.levelsUpgradesIdGooglePlay = product.levelsUpgradesIdGooglePlay;
-#endif
+            #if UNITY_IOS
+                List<string> listAux = new List<string>();
+                foreach(string valIds in product.levelsUpgradesIdGooglePlay){
+                    listAux.Add("com.EstacionPi.BJWTFoundation." +valIds);
+                }
+                ProductItem.levelsUpgradesIdGooglePlay = listAux;
+            #else
+                ProductItem.levelsUpgradesIdGooglePlay = product.levelsUpgradesIdGooglePlay;
+            #endif
 
 			nuevoProducto.transform.SetParent (containerPaquetes, false);
-			ProductItem.SetChildId (product.idProductPower);
+            ProductItem.name = ProductItem.levelsUpgradesIdGooglePlay[0].Replace("1","");
+
+            ProductItem.SetChildId (product.idProductPower);
 			if (product.isAvailableInStore) {
 				// it could be purchased only in Online Store
 				itemsAvailableInStore.Add (ProductItem);
@@ -476,6 +592,7 @@ public class StoreManager : MonoBehaviour {
 	/// Shows the characters panel.
 	/// </summary>
 	public void ShowCharactersPanel () {
+        statePanelCharacter = true;
 		float xposition = backgroundCharactersAnim.transform.localPosition.x;
         AnimPanelOut(backgroundPackagesAnim, btnCharacters.gameObject);
         StartCoroutine (WaitForIn (backgroundCharactersAnim, buttonPowerups.gameObject));
@@ -486,7 +603,8 @@ public class StoreManager : MonoBehaviour {
     /// Shows the powerups panel.
     /// </summary>
     public void ShowPowerupsPanel () {
-		float xposition = backgroundPackagesAnim.transform.localPosition.x;
+        statePanelCharacter = false;
+        float xposition = backgroundPackagesAnim.transform.localPosition.x;
         AnimPanelOut (backgroundCharactersAnim, buttonPowerups.gameObject);
         StartCoroutine (WaitForIn (backgroundPackagesAnim,btnCharacters.gameObject));
         StartCoroutine(WaitCharacterHiden());
@@ -524,7 +642,18 @@ public class StoreManager : MonoBehaviour {
 	private void HandleCurrentCharacter (ScrollItem previousItem, ScrollItem currentItem, int itemIndex) {
 		if (currentItem != null) {
 			CharacterItem c = currentItem.gameObject.GetComponentInChildren<CharacterItem> ();
-			charcaterDescription.text = c.descCharacter;
+            string idStore = "";
+            #if UNITY_IOS
+               idStore = "com.EstacionPi.BJWTFoundation."+c.idInStoreGooglePlay;
+            #else
+               idStore = c.idStoreGooglePlay;
+            #endif
+
+            if (IsInitialized())
+            {
+                //charcaterPriceStore.text = GetPriceProductStore(idStore);
+            }
+            charcaterDescription.text = c.descCharacter;
 			charcaterName.text = c.nameCharacter.text;
 		}
 	}
@@ -546,7 +675,7 @@ public class StoreManager : MonoBehaviour {
 			Debug.Log ("Comprando en IAP...");
 
             if (gameMode == GameItemsManager.GameMode.RELEASE){
-                iapManager.BuyInStore(chItem);
+                BuyInStore(chItem);
             } 
             else { //Simulates success purchase, DEBUG mode
                 Debug.Log("Modo debug activado, se simula compra exitosa online.");
@@ -564,7 +693,7 @@ public class StoreManager : MonoBehaviour {
         Debug.Log("dentro Wallhandler");
         Debug.Log(wallItem.idWallpaper.ToString());
 
-        //If character was purchased avoid buy again
+        //If wallpaper was purchased avoid buy again
         if (!GameItemsManager.isLockedWallpaper(wallItem.idWallpaper))
         {
             BuildDialogMessage("msg_store_title_popup", "msg_err_purchase_again", DialogMessage.typeMessage.ERROR, true);
@@ -575,10 +704,11 @@ public class StoreManager : MonoBehaviour {
         if (wallItem.isAvailableInStore)
         {
             Debug.Log("Comprando en IAP...");
+            stateDialogWallpaper = true;
 
             if (gameMode == GameItemsManager.GameMode.RELEASE)
             {
-                iapManager.BuyInStore(wallItem);
+                BuyInStore(wallItem);
             }
             else
             { //Simulates success purchase, DEBUG mode
@@ -618,7 +748,7 @@ public class StoreManager : MonoBehaviour {
 
 			if (currentBought.isAvailableInStore) {
                 if(gameMode == GameItemsManager.GameMode.RELEASE){
-                    iapManager.BuyInStore(pi);
+                    BuyInStore(pi);
                 } 
                 else { // If game configured DEBUG mode simulates successul purchase 
                     Debug.Log("Modo debug activado, se simula compra exitosa online.");
@@ -661,7 +791,7 @@ public class StoreManager : MonoBehaviour {
 			if (currentBought.isAvailableInStore) {
                 if (gameMode == GameItemsManager.GameMode.RELEASE)
                 {
-                    iapManager.BuyInStore(pi);
+                    BuyInStore(pi);
                 }
                 else { // If game configured DEBUG mode simulates successul purchase 
                     Debug.Log("Modo debug activado, se simula compra exitosa online.");
@@ -680,8 +810,15 @@ public class StoreManager : MonoBehaviour {
 		if (isError) {
 			Debug.Log ("[StoreManager] Ocurrio un error al inicializar api de IAP");
 			BuildDialogMessage ("msg_store_title_popup", "msg_err_init_api_iap", DialogMessage.typeMessage.ERROR,false);
-		}
+        }
+        else
+        {
+            Debug.Log("Handle IAP Inizialization LIST");
+            ReplacePricePopulatePackages(packagesStore);
+            ReplacePricePopulateUpgrades(upgradesStore);
+        }
 
+        
 	}
 
 	/// <summary>
@@ -691,8 +828,26 @@ public class StoreManager : MonoBehaviour {
 	/// <param name="isError">If set to <c>true</c> is error.</param>
 	private void HandleIAPEvents (string messageResult, bool isError) {
 		string titlePopup = "msg_store_title_popup";
-		if (isError) {
-			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.ERROR, backgroundCharacters.activeSelf);
+        Debug.Log("Handler IAP Info");
+        if (isError) {
+            Debug.Log("stateDialogWallpaper" + stateDialogWallpaper);
+            if(stateDialogWallpaper == true)
+            {
+                BuildDialogMessageWallpaper(titlePopup, messageResult, DialogMessage.typeMessage.ERROR);
+                stateDialogWallpaper = false;
+            }
+            else{
+                Debug.Log("statePanelCharacter"+statePanelCharacter);
+                if (statePanelCharacter == true)
+                {
+                    BuildDialogMessage(titlePopup, messageResult, DialogMessage.typeMessage.ERROR, true);
+                }
+                else
+                {
+                    BuildDialogMessage(titlePopup, messageResult, DialogMessage.typeMessage.ERROR, false);
+                }
+            }
+           
 		}
 		else {
 			BuildDialogMessage (titlePopup, messageResult, DialogMessage.typeMessage.INFO, backgroundCharacters.activeSelf);
@@ -935,6 +1090,7 @@ public class StoreManager : MonoBehaviour {
 
     private void HandleWallpaperToMessage(string title, string message, DialogMessage.typeMessage typeMessage)
     {
+        
         if (typeMessage == DialogMessage.typeMessage.ERROR)
         {
             BuildDialogMessageWallpaper(title, message, typeMessage);
@@ -1063,9 +1219,286 @@ public class StoreManager : MonoBehaviour {
         Debug.Log("Iam Here");
         Debug.Log(OnWallpaperIsSelected);
         Debug.Log(OnStoreWallpaperUnlockButton);
+        string idStore = "";
+        #if UNITY_IOS
+            idStore = "com.EstacionPi.BJWTFoundation."+itemWallpaper.idStoreGooglePlay;
+        #else
+            idStore = itemWallpaper.idStoreGooglePlay;
+        #endif
+
+        itemWallpaper.priceInStore = GetPriceProductStore(idStore);
         if (OnWallpaperIsSelected != null)
-            OnWallpaperIsSelected(itemWallpaper);
+            OnWallpaperIsSelected(itemWallpaper, IsInitialized());
     }
+
     #endregion
 
+    #region IAP Purchase
+
+    public void InitializePurchasing(List<IStorePurchase> listItemProducts)
+    {
+        Debug.Log("[IAPManager] Initing Unity IAP");
+        // If we have already connected to Purchasing ...
+        if (IsInitialized())
+        {
+            // ... we are done here.
+            HandleIncializationIAP(false);
+            return;
+        }
+        Debug.Log("[IAPManager] Inicializando IAP...");
+        // Create a builder, first passing in a suite of Unity provided stores.
+        ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+
+
+
+        foreach (IStorePurchase item in listItemProducts)
+        {
+            if (item is ProductItem)
+            {
+                ProductItem currentProduct = ((ProductItem)item);
+
+
+                if (currentProduct is ProductUpgradeItem)
+                { //If is Upgrade
+                    ProductUpgradeItem currentUp = ((ProductUpgradeItem)currentProduct);
+                    if (currentUp.levelsUpgradesIdGooglePlay != null
+                        && currentUp.levelsUpgradesIdGooglePlay.Count > 0)
+                    {
+                        foreach (string lvs in currentUp.levelsUpgradesIdGooglePlay)
+                        {
+                            Debug.Log("Agregando item(ProductUpgradeItem) para el store: " + lvs);
+                            builder.AddProduct(lvs, ProductType.Consumable);
+                        }
+                    }
+                }
+                else
+                { //If is PowerUp or Package
+                    Debug.Log("Agregando item(ProductItem) para el store: " + currentProduct.idStoreGooglePlay);
+                    builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+                }
+            }
+
+            if (item is CharacterItem)
+            {
+                CharacterItem currentProduct = ((CharacterItem)item);
+                Debug.Log("Agregando item(CharacterItem) para el store: " + currentProduct.idStoreGooglePlay);
+                builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+            }
+
+            if (item is WallpaperItem)
+            {
+                WallpaperItem currentProduct = ((WallpaperItem)item);
+                Debug.Log("Agregando item(WallpaperItem) para el store: " + currentProduct.idStoreGooglePlay);
+                builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
+            }
+        }
+
+        // Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
+        // and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
+        UnityPurchasing.Initialize(this, builder);
+        Debug.Log("[IAPManager] IAP inicializado !!!");
+    }
+
+
+    private bool IsInitialized()
+    {
+        return storeController != null && storeExtensionProvider != null;
+    }
+
+    public void BuyInStore(IStorePurchase productItemObject)
+    {
+        productItemBuy = productItemObject;
+        BuyProductID(productItemObject);
+    }
+
+    private void BuyProductID(IStorePurchase productItem)
+    {
+        // If Purchasing has been initialized ...
+        if (IsInitialized())
+        {
+            // ... look up the Product reference with the general product identifier and the Purchasing 
+            // system's products collection.
+            Product product = null;
+            if (productItem is ProductItem)
+            {
+                ProductItem currentProduct = ((ProductItem)productItem);
+                product = storeController.products.WithID(id: currentProduct.idStoreGooglePlay);
+            }
+            else if (productItem is CharacterItem)
+            {
+                CharacterItem currentCharacter = ((CharacterItem)productItem);
+                product = storeController.products.WithID(id: currentCharacter.idStoreGooglePlay);
+            }
+            else if (productItem is WallpaperItem)
+            {
+                WallpaperItem currentCharacter = ((WallpaperItem)productItem);
+                product = storeController.products.WithID(id: currentCharacter.idStoreGooglePlay);
+            }
+            else
+            {
+                HandleIAPEvents("msg_err_produc_not_avaliable", true);
+            }
+
+            // If the look up found a product for this device's store and that product is ready to be sold ... 
+            if (product != null && product.availableToPurchase)
+            {
+                Debug.Log(string.Format("Purchasing product asychronously: '{0}'", product.definition.id));
+                // ... buy the product. Expect a response either through ProcessPurchase or OnPurchaseFailed 
+                // asynchronously.
+                storeController.InitiatePurchase(product);
+            }
+            // Otherwise ...
+            else
+            {
+                // ... report the product look-up failure situation  
+                HandleIAPEvents("msg_err_produc_not_avaliable", true);
+            }
+        }
+        // Otherwise ...
+        else
+        {
+            // ... report the fact Purchasing has not succeeded initializing yet. Consider waiting longer or 
+            // retrying initiailization.
+            HandleIAPEvents("msg_err_init_api_iap", true);
+        }
+    }
+
+
+    /// <summary>
+    /// This will be called when Unity IAP has finished initialising.
+    /// </summary>
+    public void OnInitialized(IStoreController controller, IExtensionProvider extensions)
+    {
+        // Purchasing has succeeded initializing. Collect our Purchasing references.
+        Debug.Log("OnInitialized: PASS");
+
+        // Overall Purchasing system, configured with products for this application.
+        storeController = controller;
+        // Store specific subsystem, for accessing device-specific store features.
+        storeExtensionProvider = extensions;
+
+        extensions.GetExtension<IAppleExtensions>().RegisterPurchaseDeferredListener(OnDeferred);
+
+        Debug.Log("Available items:");
+        foreach (var item in controller.products.all)
+        {
+            if (item.availableToPurchase)
+            {
+                string[] productStore = {
+                        item.definition.storeSpecificId,
+                        item.metadata.localizedPriceString,
+                        item.definition.id,
+                        item.metadata.localizedPrice.ToString(),
+                        item.metadata.localizedTitle,
+                        item.metadata.localizedDescription,
+                        item.metadata.isoCurrencyCode,
+                        item.transactionID,
+                        item.receipt
+                    };
+
+                listProduct.Add(productStore);
+
+                Debug.Log(string.Join(" - ", productStore));
+            }
+        }
+
+        HandleIncializationIAP(false);
+    }
+
+    /// <summary>
+    /// iOS Specific.
+    /// This is called as part of Apple's 'Ask to buy' functionality,
+    /// when a purchase is requested by a minor and referred to a parent
+    /// for approval.
+    ///
+    /// When the purchase is approved or rejected, the normal purchase events
+    /// will fire.
+    /// </summary>
+    /// <param name="item">Item.</param>
+    private void OnDeferred(Product item)
+    {
+        Debug.Log("Purchase deferred: " + item.definition.id);
+    }
+
+
+    public void OnInitializeFailed(InitializationFailureReason error)
+    {
+        // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
+        Debug.Log("Billing failed to initialize!");
+        switch (error)
+        {
+            case InitializationFailureReason.AppNotKnown:
+                Debug.LogError("Is your App correctly uploaded on the relevant publisher console?");
+                break;
+            case InitializationFailureReason.PurchasingUnavailable:
+                // Ask the user if billing is disabled in device settings.
+                Debug.Log("Billing disabled!");
+                break;
+            case InitializationFailureReason.NoProductsAvailable:
+                // Developer configuration error; check product metadata.
+                Debug.Log("No products available for purchase!");
+                break;
+        }
+
+        string msg = "msg_err_init_api_iap";
+        HandleIAPEvents(msg, true);
+    }
+
+
+
+    public PurchaseProcessingResult ProcessPurchase(PurchaseEventArgs result)
+    {
+        if (String.Equals(result.purchasedProduct.definition.id, productItemBuy.idStoreGooglePlay, StringComparison.Ordinal))
+        {
+            Debug.Log(string.Format("ProcessPurchase: PASS. Product: '{0}'", result.purchasedProduct.definition.id));
+
+            string nameItemPurchased = "";
+            if (productItemBuy is ProductItem)
+            {
+                ProductItem currentProduct = ((ProductItem)productItemBuy);
+                nameItemPurchased = currentProduct.nameProduct.text;
+            }
+
+            if (productItemBuy is CharacterItem)
+            {
+                CharacterItem currentCharacter = ((CharacterItem)productItemBuy);
+                nameItemPurchased = currentCharacter.nameCharacter.text;
+            }
+
+            if (productItemBuy is WallpaperItem)
+            {
+                WallpaperItem currentWallpaper = ((WallpaperItem)productItemBuy);
+                nameItemPurchased = currentWallpaper.name;
+            }
+
+            string msj = "Compra exitosa !! Has adquirido " + nameItemPurchased + ". Felicidades !!";
+            Debug.Log(msj);
+            HandleSuccessPurchasedInStore("msg_info_success_purchased", productItemBuy);
+
+            /*string msj = "msg_err_purchased_error";
+            HandleIAPEvents(msj, true);*/
+        }
+        else
+        {
+            string msj = "msg_err_purchased_error";
+            HandleIAPEvents(msj, true);
+        }
+
+        // Return a flag indicating whether this product has completely been received, or if the application needs 
+        // to be reminded of this purchase at next app launch. Use PurchaseProcessingResult.Pending when still 
+        // saving purchased products to the cloud, and when that save is delayed. 
+        return PurchaseProcessingResult.Complete;
+    }
+
+
+    public void OnPurchaseFailed(Product product, PurchaseFailureReason failureReason)
+    {
+        // A product purchase attempt did not succeed. Check failureReason for more detail. Consider sharing 
+        // this reason with the user to guide their troubleshooting actions.
+        Debug.Log("Purchase failed: " + product.definition.id);
+        Debug.Log(failureReason);
+        string msj = "msg_err_purchased_error";
+        HandleIAPEvents(msj, true);
+    }
+    #endregion
 }

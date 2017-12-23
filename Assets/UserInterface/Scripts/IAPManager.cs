@@ -9,22 +9,26 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 	private static IAPManager _instance;
 
 	public delegate void EventIAPMessageProgress(string messageResult, bool isError);
-	public event EventIAPMessageProgress OnIAPMessageProgress;
+	public static event EventIAPMessageProgress OnIAPMessageProgress;
 
 	public delegate void EventIAPInitialized(bool isError);
-	public event EventIAPInitialized OnIAPInitialized;
+	public static event EventIAPInitialized OnIAPInitialized;
 
 	public delegate void EventIAPSuccessPurchased(string messageResult, IStorePurchase item);
-	public event EventIAPSuccessPurchased OnIAPSuccessPurchasedInStore;
+	public static event EventIAPSuccessPurchased OnIAPSuccessPurchasedInStore;
 
-	private IStorePurchase productItemBuy { get; set; }
+    private IStorePurchase productItemBuy { get; set; }
 
 	private static IStoreController storeController;
-	private static IExtensionProvider storeExtensionProvider;
+    private static IExtensionProvider storeExtensionProvider;
 
-	public static string kProductIDConsumable = "consumable";
+    public static string kProductIDConsumable = "consumable";
 	public static string kProductIDNonConsumable = "nonconsumable";
 	public static string kProductIDSubscription = "subscription";
+
+    List<Array> listProduct = new List<Array>();
+    Product product { set; get; }
+
 
 	public static IAPManager Instance
 	{
@@ -50,7 +54,21 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 		_instance = this;
 	}
 
-	public void InitializePurchasing( List<IStorePurchase> listItemProducts) 
+    private void Start()
+    {
+      // StartCoroutine(VerifyEvents());
+    }
+
+    private IEnumerator VerifyEvents()
+    {
+        yield return new WaitForSeconds(1.5f);
+        Debug.Log("wall verify events");
+        Debug.Log(OnIAPInitialized);
+        Debug.Log(OnIAPMessageProgress);
+        Debug.Log(OnIAPSuccessPurchasedInStore);
+    }
+
+    public void InitializePurchasing( List<IStorePurchase> listItemProducts) 
 	{
 		Debug.Log( "[IAPManager] Initing Unity IAP" );
 		// If we have already connected to Purchasing ...
@@ -62,8 +80,8 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 			return;
 		}
 		Debug.Log( "[IAPManager] Inicializando IAP..." );
-		// Create a builder, first passing in a suite of Unity provided stores.
-		var builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
+        // Create a builder, first passing in a suite of Unity provided stores.
+        ConfigurationBuilder builder = ConfigurationBuilder.Instance(StandardPurchasingModule.Instance());
 
 
 
@@ -101,17 +119,6 @@ public class IAPManager : MonoBehaviour, IStoreListener {
                 builder.AddProduct(currentProduct.idStoreGooglePlay, ProductType.Consumable);
             }
         }
-
-		// Continue adding the non-consumable product.
-		//builder.AddProduct(kProductIDNonConsumable, ProductType.NonConsumable);
-		// And finish adding the subscription product. Notice this uses store-specific IDs, illustrating
-		// if the Product ID was configured differently between Apple and Google stores. Also note that
-		// one uses the general kProductIDSubscription handle inside the game - the store-specific IDs 
-		// must only be referenced here. 
-		/*builder.AddProduct(kProductIDSubscription, ProductType.Subscription, new IDs(){
-			{ kProductNameAppleSubscription, AppleAppStore.Name },
-			{ kProductNameGooglePlaySubscription, GooglePlay.Name },
-		});*/
 
 		// Kick off the remainder of the set-up with an asynchrounous call, passing the configuration 
 		// and this class' instance. Expect a response either in OnInitialized or OnInitializeFailed.
@@ -234,21 +241,76 @@ public class IAPManager : MonoBehaviour, IStoreListener {
 	{
 		// Purchasing has succeeded initializing. Collect our Purchasing references.
 		Debug.Log("OnInitialized: PASS");
-
-		// Overall Purchasing system, configured with products for this application.
-		storeController = controller;
+        
+        // Overall Purchasing system, configured with products for this application.
+        storeController = controller;
 		// Store specific subsystem, for accessing device-specific store features.
 		storeExtensionProvider = extensions;
 
-		if (OnIAPInitialized != null)
+        extensions.GetExtension<IAppleExtensions>().RegisterPurchaseDeferredListener(OnDeferred);
+
+        Debug.Log("Available items:");
+        foreach (var item in controller.products.all)
+        {
+            if (item.availableToPurchase)
+            {
+                string[] productStore = {
+                        item.definition.storeSpecificId,
+                        item.definition.id,
+                        item.metadata.localizedPrice.ToString(),
+                        item.metadata.localizedPriceString,
+                        item.metadata.localizedTitle,
+                        item.metadata.localizedDescription,
+                        item.metadata.isoCurrencyCode,
+                        item.transactionID,
+                        item.receipt
+                    };
+
+                listProduct.Add(productStore);
+                
+                Debug.Log(string.Join(" - ",productStore));
+            }
+        }
+
+        if (OnIAPInitialized != null)
 			OnIAPInitialized(false);
 	}
 
+    /// <summary>
+    /// iOS Specific.
+    /// This is called as part of Apple's 'Ask to buy' functionality,
+    /// when a purchase is requested by a minor and referred to a parent
+    /// for approval.
+    ///
+    /// When the purchase is approved or rejected, the normal purchase events
+    /// will fire.
+    /// </summary>
+    /// <param name="item">Item.</param>
+    private void OnDeferred(Product item)
+    {
+        Debug.Log("Purchase deferred: " + item.definition.id);
+    }
 
-	public void OnInitializeFailed(InitializationFailureReason error)
+
+    public void OnInitializeFailed(InitializationFailureReason error)
 	{
-		// Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
-		Debug.Log("OnInitializeFailed InitializationFailureReason:" + error);
+        // Purchasing set-up has not succeeded. Check error for reason. Consider sharing this reason with the user.
+        Debug.Log("Billing failed to initialize!");
+        switch (error)
+        {
+            case InitializationFailureReason.AppNotKnown:
+                Debug.LogError("Is your App correctly uploaded on the relevant publisher console?");
+                break;
+            case InitializationFailureReason.PurchasingUnavailable:
+                // Ask the user if billing is disabled in device settings.
+                Debug.Log("Billing disabled!");
+                break;
+            case InitializationFailureReason.NoProductsAvailable:
+                // Developer configuration error; check product metadata.
+                Debug.Log("No products available for purchase!");
+                break;
+        }
+
         string msg = "msg_err_init_api_iap";
 		if (OnIAPMessageProgress != null)
 			OnIAPMessageProgress(msg, true);
@@ -282,7 +344,11 @@ public class IAPManager : MonoBehaviour, IStoreListener {
             Debug.Log(msj);
 			if (OnIAPSuccessPurchasedInStore != null)
                 OnIAPSuccessPurchasedInStore("msg_info_success_purchased", productItemBuy);
-		}
+
+            /*string msj = "msg_err_purchased_error";
+            if (OnIAPMessageProgress != null)
+                OnIAPMessageProgress(msj, true);*/
+        }
 		else 
 		{
             string msj = "msg_err_purchased_error";

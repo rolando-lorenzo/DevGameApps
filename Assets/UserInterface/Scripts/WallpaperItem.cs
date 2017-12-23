@@ -21,6 +21,7 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
     public string idStoreGooglePlay { get; set; }
     public bool isAvailableInStore { get; set; }
     public bool islocked { get; set; }
+    public string priceInStore { get; set; }
     [HideInInspector]
     public Sprite spriteWallpaper { get; set; }
 
@@ -34,7 +35,7 @@ public class WallpaperItem : MonoBehaviour, IStorePurchase
 
     private void Start()
     {
-        StartCoroutine(VerifyEvents());
+       // StartCoroutine(VerifyEvents());
     }
 
     

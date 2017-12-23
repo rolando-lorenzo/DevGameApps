@@ -962,5 +962,15 @@
       <Mandarin />
       <German />
     </Translation>
+    <Translation key="price_pack01">
+      <Default />
+      <English />
+      <Spanish />
+      <Dutch />
+      <French />
+      <Italian />
+      <Mandarin />
+      <German />
+    </Translation>
   </Translations>
 </LanguagesManager>

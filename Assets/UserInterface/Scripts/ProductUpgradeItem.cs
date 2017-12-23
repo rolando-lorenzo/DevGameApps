@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ProductUpgradeItem : ProductItem {
@@ -15,6 +17,7 @@ public class ProductUpgradeItem : ProductItem {
 
 
 	public List<string> levelsUpgradesIdGooglePlay { get; set; }
+    public List<Array> listPrice { get; set; }
 	#endregion
 
 	#region MonoBehaviour overrides
@@ -53,17 +56,34 @@ public class ProductUpgradeItem : ProductItem {
 		
 	public void UpdatePriceAndProgress(){
         int currentVal = GameItemsManager.GetPowerUpgradeLevel(idProductPower);
-        Debug.Log("PowerUpgradeLevel "+currentVal);
-        float val = 0;
-        if(currentVal == 1){
-            val = 9; //valor en tienda del primer upgrade
-        } else {
-            val = 19; //valor en tienda del segundo upgrade
-        } 
+        Debug.Log("PowerUpgradeLevel "+currentVal + " id" + idProductPower);
         //float val = valCurrency*(currentVal);
-		priceProduct.text = MenuUtils.FormatPriceProducts (val);
+        priceProduct.text = GetPriceUpgrade(currentVal);
         storeUpProg.ChangeImgsColor();
 	}
+
+    private string GetPriceUpgrade(int idStatePowerUpgrade)
+    {
+        string price = "";
+        foreach(string[] itemproduct in listPrice)
+        {
+            if (itemproduct[0].Contains(idStatePowerUpgrade.ToString()))
+            {
+                Debug.Log("Cotains Id in UpgradeStore: " + itemproduct[0] + " - id: " + idStatePowerUpgrade);
+                price = itemproduct[1];
+                return price;
+            }
+        }
+
+        if (string.IsNullOrEmpty(price))
+        {
+            Array last = listPrice.Last();
+            price = last.GetValue(1).ToString();
+            Debug.Log("Cotains Id in UpgradeStoreLAST: " + last.GetValue(1).ToString() + " - id: " + idStatePowerUpgrade);
+        }
+
+        return price;
+    }
 
     public void SetChildId(GameItemsManager.StorePower id){
 		storeUpProg.idUpgrade = id;
