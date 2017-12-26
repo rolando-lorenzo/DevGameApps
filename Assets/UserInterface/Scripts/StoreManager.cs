@@ -814,6 +814,27 @@ public class StoreManager : MonoBehaviour, IStoreListener
         else
         {
             Debug.Log("Handle IAP Inizialization LIST");
+            foreach (var item in storeController.products.all)
+            {
+                if (item.availableToPurchase)
+                {
+                    string[] productStore = {
+                        item.definition.storeSpecificId,
+                        item.metadata.localizedPriceString,
+                        item.definition.id,
+                        item.metadata.localizedPrice.ToString(),
+                        item.metadata.localizedTitle,
+                        item.metadata.localizedDescription,
+                        item.metadata.isoCurrencyCode,
+                        item.transactionID,
+                        item.receipt
+                    };
+
+                    listProduct.Add(productStore);
+
+                    //Debug.Log(string.Join(" - ", productStore));
+                }
+            }
             ReplacePricePopulatePackages(packagesStore);
             ReplacePricePopulateUpgrades(upgradesStore);
         }
@@ -1242,6 +1263,7 @@ public class StoreManager : MonoBehaviour, IStoreListener
         if (IsInitialized())
         {
             // ... we are done here.
+            Debug.Log("[IAPManager] Inicializado IAP...");
             HandleIncializationIAP(false);
             return;
         }
@@ -1379,29 +1401,7 @@ public class StoreManager : MonoBehaviour, IStoreListener
 
         extensions.GetExtension<IAppleExtensions>().RegisterPurchaseDeferredListener(OnDeferred);
 
-        Debug.Log("Available items:");
-        foreach (var item in controller.products.all)
-        {
-            if (item.availableToPurchase)
-            {
-                string[] productStore = {
-                        item.definition.storeSpecificId,
-                        item.metadata.localizedPriceString,
-                        item.definition.id,
-                        item.metadata.localizedPrice.ToString(),
-                        item.metadata.localizedTitle,
-                        item.metadata.localizedDescription,
-                        item.metadata.isoCurrencyCode,
-                        item.transactionID,
-                        item.receipt
-                    };
-
-                listProduct.Add(productStore);
-
-                Debug.Log(string.Join(" - ", productStore));
-            }
-        }
-
+        //Debug.Log("Available items:");
         HandleIncializationIAP(false);
     }
 

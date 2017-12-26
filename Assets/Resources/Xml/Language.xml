@@ -962,10 +962,10 @@
       <Mandarin />
       <German />
     </Translation>
-    <Translation key="price_pack01">
-      <Default />
-      <English />
-      <Spanish />
+    <Translation key="msg_err_purchased_info">
+      <Default>At the moment your request can't be processed, try it at another time.</Default>
+      <English>At the moment your request can't be processed, try it at another time.</English>
+      <Spanish>En este momento no se puede procesar su solicitud, pruébelo en otro momento.</Spanish>
       <Dutch />
       <French />
       <Italian />
