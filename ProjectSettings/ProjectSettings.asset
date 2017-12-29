@@ -505,7 +505,7 @@ PlayerSettings:
   scriptingDefineSymbols:
     1: EASY_MOBILE_LITE
     2: 
-    4: 
+    4: EASY_MOBILE_LITE
     7: EASY_MOBILE_LITE
     13: 
     14: 

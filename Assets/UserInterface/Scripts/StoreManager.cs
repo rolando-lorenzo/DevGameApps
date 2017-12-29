@@ -299,12 +299,7 @@ public class StoreManager : MonoBehaviour, IStoreListener
         Component[] component = GameObject.Find("ContentPanelPaquetes").GetComponentsInChildren<ProductPackagesItem>();
         foreach(ProductPackagesItem itempack in component)
         {
-            string id = "";
-            #if UNITY_IOS
-                id = "com.EstacionPi.BJWTFoundation."+itempack.idInStoreGooglePlay;
-            #else
-                id = itempack.idStoreGooglePlay;
-            #endif
+              string id = itempack.idStoreGooglePlay;
 
             itempack.priceProduct.text = GetPriceProductStore(id);
         }
@@ -316,16 +311,7 @@ public class StoreManager : MonoBehaviour, IStoreListener
         foreach (ProductUpgradeItem itemupgrade in component)
         {
             List<string> listUpgrade = new List<string>();
-            #if UNITY_IOS
-                list<string> listAux = new List<string>();
-                foreach(string valIds in itemupgrade.levelsUpgradesIdGooglePlay){
-                    listAux.Add("com.EstacionPi.BJWTFoundation." +valIds);
-                }
-                listUpgrade = listAux;
-            #else
-                listUpgrade = itemupgrade.levelsUpgradesIdGooglePlay;
-            #endif
-
+            listUpgrade = itemupgrade.levelsUpgradesIdGooglePlay;
             itemupgrade.listPrice = GetPriceProductUpgradeStore(listUpgrade);
             itemupgrade.UpdatePriceAndProgress();
         }
@@ -643,12 +629,7 @@ public class StoreManager : MonoBehaviour, IStoreListener
 		if (currentItem != null) {
 			CharacterItem c = currentItem.gameObject.GetComponentInChildren<CharacterItem> ();
             string idStore = "";
-            #if UNITY_IOS
-               idStore = "com.EstacionPi.BJWTFoundation."+c.idInStoreGooglePlay;
-            #else
-               idStore = c.idStoreGooglePlay;
-            #endif
-
+            idStore = c.idStoreGooglePlay;
             if (IsInitialized())
             {
                 //charcaterPriceStore.text = GetPriceProductStore(idStore);
