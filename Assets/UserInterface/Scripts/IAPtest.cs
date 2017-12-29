@@ -48,14 +48,17 @@ public class IAPtest : MonoBehaviour, IStoreListener {
         {
             case InitializationFailureReason.AppNotKnown:
                 Debug.LogError("Is your App correctly uploaded on the relevant publisher console?");
+                textTitle.text = "IAP Published";
                 break;
             case InitializationFailureReason.PurchasingUnavailable:
                 // Ask the user if billing is disabled in device settings.
                 Debug.Log("Billing disabled!");
+                textTitle.text = "IAP disabled";
                 break;
             case InitializationFailureReason.NoProductsAvailable:
                 // Developer configuration error; check product metadata.
                 Debug.Log("No products available for purchase!");
+                textTitle.text = "IAP Available";
                 break;
         }
     }
